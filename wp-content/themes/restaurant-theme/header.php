@@ -41,4 +41,37 @@ wp_body_open();
         'fallback_cb'    => false,  // Ne rien afficher si aucun menu assigné
     ] );
     ?>
+    <?php
+    /*
+     * Sélecteur de langue — affiché uniquement si Polylang est actif.
+     *
+     * pll_the_languages() est la fonction de Polylang qui génère les liens
+     * vers les versions dans chaque langue de la page courante.
+     *
+     * Parallèle Symfony : équivalent au LocaleSwitcher de Symfony UX
+     * ou à un menu construit avec $router->generate('route', ['_locale' => 'it']).
+     *
+     * Le paramètre 'raw' => 1 retourne un tableau PHP au lieu du HTML,
+     * ce qui nous permet de personnaliser complètement le rendu.
+     */
+    if ( function_exists( 'pll_the_languages' ) ) :
+        $languages = pll_the_languages( [ 'raw' => 1 ] );
+        if ( ! empty( $languages ) ) :
+            ?>
+            <nav class="language-switcher" aria-label="<?php esc_attr_e( 'Sélecteur de langue', 'restaurant-theme' ); ?>">
+                <?php foreach ( $languages as $lang ) :
+                    $classes  = 'lang-item';
+                    $classes .= $lang['current_lang'] ? ' lang-item--active' : '';
+                    ?>
+                    <a href="<?php echo esc_url( $lang['url'] ); ?>"
+                       class="<?php echo esc_attr( $classes ); ?>"
+                       lang="<?php echo esc_attr( $lang['locale'] ); ?>"
+                       hreflang="<?php echo esc_attr( $lang['locale'] ); ?>"
+                       <?php echo $lang['current_lang'] ? 'aria-current="true"' : ''; ?>>
+                        <?php echo esc_html( strtoupper( $lang['slug'] ) ); ?>
+                    </a>
+                <?php endforeach; ?>
+            </nav>
+        <?php endif;
+    endif; ?>
 </header>

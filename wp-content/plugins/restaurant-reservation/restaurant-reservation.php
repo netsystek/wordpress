@@ -170,4 +170,22 @@ register_deactivation_hook( RESTAURANT_RES_FILE, function () {
  *
  * Parallèle Symfony : équivalent à l'appel de $kernel->boot() dans index.php.
  */
+/**
+ * Charge le text domain du plugin.
+ *
+ * Doit être appelé sur 'plugins_loaded' AVANT l'instanciation du plugin,
+ * car les chaînes sont évaluées à l'instanciation.
+ *
+ * Le fichier chargé : languages/restaurant-reservation-{locale}.mo
+ * Parallèle Symfony : équivalent à $translator->setLocale('it_IT')
+ * et au chargement des fichiers translations/messages.it.yaml.
+ */
+add_action( 'plugins_loaded', function() {
+    load_plugin_textdomain(
+        'restaurant-reservation',
+        false,
+        dirname( plugin_basename( RESTAURANT_RES_FILE ) ) . '/languages'
+    );
+}, 1 );  // Priorité 1 = chargé avant l'instanciation (priorité 10 par défaut)
+
 add_action( 'plugins_loaded', [ Restaurant_Reservation::class, 'get_instance' ] );

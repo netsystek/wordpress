@@ -83,6 +83,15 @@ $status_cfg = $status_config[ $reservation['status'] ] ?? [ 'label' => $reservat
                         <td><em><?php echo nl2br( esc_html( $reservation['message'] ) ); ?></em></td>
                     </tr>
                     <?php endif; ?>
+                    <tr>
+                        <th><?php esc_html_e( 'Langue de la réservation', 'restaurant-reservation' ); ?></th>
+                        <td>
+                            <?php
+                            $lang_flags = [ 'it' => '🇮🇹 Italiano', 'en' => '🇬🇧 English', 'fr' => '🇫🇷 Français' ];
+                            echo esc_html( $lang_flags[ $reservation['lang'] ] ?? strtoupper( $reservation['lang'] ) );
+                            ?>
+                        </td>
+                    </tr>
                 </table>
             </div>
         </div>

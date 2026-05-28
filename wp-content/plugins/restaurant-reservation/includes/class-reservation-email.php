@@ -76,14 +76,29 @@ class Reservation_Email {
             return;
         }
 
-        $settings = get_option( 'restaurant_res_settings', [] );
+        $settings    = get_option( 'restaurant_res_settings', [] );
         $is_accepted = $new_status === Reservation_CPT::STATUS_ACCEPTED;
 
-        $subject_key  = $is_accepted ? 'subject_accepted' : 'subject_rejected';
-        $template_key = $is_accepted ? 'email_accepted'   : 'email_rejected';
+        /*
+         * Sélectionne le template selon la langue de la réservation.
+         *
+         * Les clés de settings sont préfixées par la langue :
+         *   subject_accepted_it, subject_accepted_en, subject_accepted_fr
+         *   email_accepted_it, email_accepted_en, email_accepted_fr
+         *
+         * Fallback : si le template de la langue n'est pas configuré,
+         * on tombe sur la langue par défaut (it).
+         *
+         * Parallèle Symfony : équivalent à $translator->trans('email.subject', [], null, $locale)
+         */
+        $lang         = $reservation['lang'] ?? 'it';
+        $action_key   = $is_accepted ? 'accepted' : 'rejected';
+        $subject_key  = "subject_{$action_key}_{$lang}";
+        $template_key = "email_{$action_key}_{$lang}";
 
-        $subject  = $settings[ $subject_key ] ?? '';
-        $template = $settings[ $template_key ] ?? '';
+        // Fallback vers 'it' si la langue de la réservation n'a pas de template configuré
+        $subject  = $settings[ $subject_key ]  ?? $settings[ "subject_{$action_key}_it" ]  ?? '';
+        $template = $settings[ $template_key ] ?? $settings[ "email_{$action_key}_it" ]   ?? '';
 
         if ( empty( $subject ) || empty( $template ) ) {
             return;

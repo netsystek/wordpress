@@ -1,0 +1,342 @@
+# Italian translation — Restaurant Reservation Plugin
+# Copyright (C) 2024
+msgid ""
+msgstr ""
+"Project-Id-Version: Restaurant Reservation 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-01 00:00+0000\n"
+"PO-Revision-Date: 2024-01-01 00:00+0000\n"
+"Language: it_IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Manual\n"
+"X-Domain: restaurant-reservation\n"
+
+# CPT Labels
+msgid "Réservations"
+msgstr "Prenotazioni"
+
+msgid "Réservation"
+msgstr "Prenotazione"
+
+msgid "Toutes les réservations"
+msgstr "Tutte le prenotazioni"
+
+msgid "Voir la réservation"
+msgstr "Visualizza la prenotazione"
+
+msgid "Rechercher"
+msgstr "Cerca"
+
+msgid "Aucune réservation"
+msgstr "Nessuna prenotazione"
+
+msgid "Aucune réservation dans la corbeille"
+msgstr "Nessuna prenotazione nel cestino"
+
+# Post statuses
+msgid "En attente"
+msgstr "In attesa"
+
+msgid "En attente <span class=\"count\">(%s)</span>"
+msgstr "In attesa <span class=\"count\">(%s)</span>"
+
+msgid "Acceptée"
+msgstr "Accettata"
+
+msgid "Acceptée <span class=\"count\">(%s)</span>"
+msgstr "Accettata <span class=\"count\">(%s)</span>"
+
+msgid "Acceptées <span class=\"count\">(%s)</span>"
+msgstr "Accettate <span class=\"count\">(%s)</span>"
+
+msgid "Refusée"
+msgstr "Rifiutata"
+
+msgid "Refusée <span class=\"count\">(%s)</span>"
+msgstr "Rifiutata <span class=\"count\">(%s)</span>"
+
+msgid "Refusées <span class=\"count\">(%s)</span>"
+msgstr "Rifiutate <span class=\"count\">(%s)</span>"
+
+# Email variable descriptions
+msgid "Prénom du client"
+msgstr "Nome del cliente"
+
+msgid "Nom du client"
+msgstr "Cognome del cliente"
+
+msgid "Email du client"
+msgstr "Email del cliente"
+
+msgid "Téléphone du client"
+msgstr "Telefono del cliente"
+
+msgid "Date de la réservation"
+msgstr "Data della prenotazione"
+
+msgid "Heure de la réservation"
+msgstr "Ora della prenotazione"
+
+msgid "Nombre de personnes"
+msgstr "Numero di persone"
+
+msgid "Message du client"
+msgstr "Messaggio del cliente"
+
+msgid "Nom du restaurant"
+msgstr "Nome del ristorante"
+
+# Reservation form (frontend)
+msgid "Envoi en cours…"
+msgstr "Invio in corso…"
+
+msgid "Votre demande de réservation a bien été envoyée ! Vous recevrez une confirmation par email."
+msgstr "La tua richiesta di prenotazione è stata inviata! Riceverai una conferma via email."
+
+msgid "Une erreur est survenue. Veuillez réessayer."
+msgstr "Si è verificato un errore. Riprova."
+
+msgid "Le champ \"%s\" est obligatoire."
+msgstr "Il campo \"%s\" è obbligatorio."
+
+msgid "L'adresse email n'est pas valide."
+msgstr "L'indirizzo email non è valido."
+
+msgid "La date de réservation doit être dans le futur."
+msgstr "La data di prenotazione deve essere futura."
+
+msgid "Le nombre de personnes doit être entre 1 et 50."
+msgstr "Il numero di persone deve essere tra 1 e 50."
+
+msgid "Impossible d'enregistrer la réservation. Veuillez réessayer."
+msgstr "Impossibile salvare la prenotazione. Riprova."
+
+# Form HTML
+msgid "Prénom"
+msgstr "Nome"
+
+msgid "Nom"
+msgstr "Cognome"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Téléphone"
+msgstr "Telefono"
+
+msgid "Date"
+msgstr "Data"
+
+msgid "Heure"
+msgstr "Ora"
+
+msgid "-- Choisir --"
+msgstr "-- Scegli --"
+
+msgid "Couverts"
+msgstr "Coperti"
+
+msgid "-- Nombre --"
+msgstr "-- Numero --"
+
+msgid "personne"
+msgstr "persona"
+
+msgid "personnes"
+msgstr "persone"
+
+msgid "Message (optionnel)"
+msgstr "Messaggio (opzionale)"
+
+msgid "Allergies, occasion spéciale, demandes particulières…"
+msgstr "Allergie, occasione speciale, richieste particolari…"
+
+msgid "Champs obligatoires"
+msgstr "Campi obbligatori"
+
+msgid "Demander une réservation"
+msgstr "Richiedi una prenotazione"
+
+# Admin menu
+msgid "Réservations"
+msgstr "Prenotazioni"
+
+msgid "Toutes les réservations"
+msgstr "Tutte le prenotazioni"
+
+msgid "Configuration"
+msgstr "Configurazione"
+
+# List table
+msgid "Client"
+msgstr "Cliente"
+
+msgid "Contact"
+msgstr "Contatto"
+
+msgid "Date & Heure"
+msgstr "Data & Ora"
+
+msgid "Couverts"
+msgstr "Coperti"
+
+msgid "Statut"
+msgstr "Stato"
+
+msgid "Demande reçue"
+msgstr "Richiesta ricevuta"
+
+msgid "Actions"
+msgstr "Azioni"
+
+msgid "Toutes"
+msgstr "Tutte"
+
+msgid "Accepter"
+msgstr "Accetta"
+
+msgid "Refuser"
+msgstr "Rifiuta"
+
+msgid "Mettre à la corbeille"
+msgstr "Sposta nel cestino"
+
+msgid "Aucune réservation trouvée."
+msgstr "Nessuna prenotazione trovata."
+
+msgid "%d réservation(s) %s."
+msgstr "%d prenotazione/i %s."
+
+# Detail page
+msgid "Retour à la liste"
+msgstr "Torna all'elenco"
+
+msgid "Détail de la réservation"
+msgstr "Dettaglio della prenotazione"
+
+msgid "Informations client"
+msgstr "Informazioni cliente"
+
+msgid "Détails de la réservation"
+msgstr "Dettagli della prenotazione"
+
+msgid "Demande reçue le"
+msgstr "Richiesta ricevuta il"
+
+msgid "Message du client"
+msgstr "Messaggio del cliente"
+
+msgid "Nombre de couverts"
+msgstr "Numero di coperti"
+
+msgid "Traiter cette réservation"
+msgstr "Gestisci questa prenotazione"
+
+msgid "Un email sera automatiquement envoyé au client avec le template configuré."
+msgstr "Un'email verrà inviata automaticamente al cliente con il template configurato."
+
+msgid "Accepter la réservation"
+msgstr "Accetta la prenotazione"
+
+msgid "Refuser la réservation"
+msgstr "Rifiuta la prenotazione"
+
+msgid "Cette réservation a été acceptée. Un email de confirmation a été envoyé au client."
+msgstr "Questa prenotazione è stata accettata. Un'email di conferma è stata inviata al cliente."
+
+msgid "Cette réservation a été refusée. Un email d'information a été envoyé au client."
+msgstr "Questa prenotazione è stata rifiutata. Un'email informativa è stata inviata al cliente."
+
+# Settings page
+msgid "Configuration — Restaurant Reservation"
+msgstr "Configurazione — Restaurant Reservation"
+
+msgid "Expéditeur des emails"
+msgstr "Mittente delle email"
+
+msgid "Nom et adresse email utilisés comme expéditeur des emails automatiques."
+msgstr "Nome e indirizzo email usati come mittente delle email automatiche."
+
+msgid "Nom de l'expéditeur"
+msgstr "Nome del mittente"
+
+msgid "Email de l'expéditeur"
+msgstr "Email del mittente"
+
+msgid "Email de confirmation (réservation acceptée)"
+msgstr "Email di conferma (prenotazione accettata)"
+
+msgid "Email de refus (réservation refusée)"
+msgstr "Email di rifiuto (prenotazione rifiutata)"
+
+msgid "Objet de l'email"
+msgstr "Oggetto dell'email"
+
+msgid "Corps de l'email"
+msgstr "Corpo dell'email"
+
+msgid "Variables disponibles :"
+msgstr "Variabili disponibili:"
+
+msgid "Enregistrer les modifications"
+msgstr "Salva modifiche"
+
+msgid "Test d'envoi d'email"
+msgstr "Test di invio email"
+
+msgid "Envoyez un email de test pour vérifier la configuration SMTP."
+msgstr "Invia un'email di test per verificare la configurazione SMTP."
+
+msgid "En développement, les emails sont capturés par Mailpit : %s"
+msgstr "In fase di sviluppo, le email sono catturate da Mailpit: %s"
+
+msgid "Envoyer un email de test"
+msgstr "Invia un'email di test"
+
+msgid "[%s] Test email — Restaurant Reservation"
+msgstr "[%s] Email di test — Restaurant Reservation"
+
+msgid "Email de test envoyé à %s !"
+msgstr "Email di test inviata a %s!"
+
+msgid "Échec de l'envoi. Vérifiez la configuration SMTP."
+msgstr "Invio fallito. Verifica la configurazione SMTP."
+
+# AJAX responses
+msgid "Droits insuffisants."
+msgstr "Permessi insufficienti."
+
+msgid "Paramètres manquants."
+msgstr "Parametri mancanti."
+
+msgid "Impossible de mettre à jour le statut."
+msgstr "Impossibile aggiornare lo stato."
+
+msgid "Statut mis à jour avec succès."
+msgstr "Stato aggiornato con successo."
+
+msgid "Accès refusé."
+msgstr "Accesso negato."
+
+msgid "Réservation introuvable."
+msgstr "Prenotazione non trovata."
+
+# JS i18n
+msgid "Confirmer l'acceptation de cette réservation ?"
+msgstr "Confermare l'accettazione di questa prenotazione?"
+
+msgid "Confirmer le refus de cette réservation ?"
+msgstr "Confermare il rifiuto di questa prenotazione?"
+
+msgid "Mise à jour…"
+msgstr "Aggiornamento…"
+
+# Default email templates
+msgid "Votre réservation est confirmée — {{restaurant_nom}}"
+msgstr "La tua prenotazione è confermata — {{restaurant_nom}}"
+
+msgid "Votre réservation — {{restaurant_nom}}"
+msgstr "La tua prenotazione — {{restaurant_nom}}"

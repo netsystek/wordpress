@@ -1,0 +1,291 @@
+# Italian translation — Restaurant Theme
+# Copyright (C) 2024 Restaurant Theme
+msgid ""
+msgstr ""
+"Project-Id-Version: Restaurant Theme 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-01 00:00+0000\n"
+"PO-Revision-Date: 2024-01-01 00:00+0000\n"
+"Language: it_IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Manual\n"
+"X-Domain: restaurant-theme\n"
+
+#: functions.php
+msgid "Menu principal"
+msgstr "Menu principale"
+
+#: functions.php
+msgid "Menu footer"
+msgstr "Menu footer"
+
+#: functions.php
+msgid "Carte du restaurant"
+msgstr "Menu del ristorante"
+
+#: functions.php
+msgid "Plat"
+msgstr "Piatto"
+
+#: functions.php
+msgid "Ajouter un plat"
+msgstr "Aggiungi un piatto"
+
+#: functions.php
+msgid "Modifier le plat"
+msgstr "Modifica il piatto"
+
+#: functions.php
+msgid "Nouveau plat"
+msgstr "Nuovo piatto"
+
+#: functions.php
+msgid "Voir le plat"
+msgstr "Visualizza il piatto"
+
+#: functions.php
+msgid "Rechercher un plat"
+msgstr "Cerca un piatto"
+
+#: functions.php
+msgid "Aucun plat trouvé"
+msgstr "Nessun piatto trovato"
+
+#: functions.php
+msgid "Carte"
+msgstr "Menu"
+
+#: functions.php
+msgid "Catégories"
+msgstr "Categorie"
+
+#: functions.php
+msgid "Catégorie"
+msgstr "Categoria"
+
+#: functions.php
+msgid "Ajouter une catégorie"
+msgstr "Aggiungi una categoria"
+
+#: functions.php
+msgid "Prix du plat"
+msgstr "Prezzo del piatto"
+
+#: functions.php
+msgid "Prix (€)"
+msgstr "Prezzo (€)"
+
+#: inc/customizer.php
+msgid "Personnalisez votre site restaurant."
+msgstr "Personalizza il tuo sito ristorante."
+
+#: inc/customizer.php
+msgid "Header"
+msgstr "Header"
+
+#: inc/customizer.php
+msgid "Image de fond du header"
+msgstr "Immagine di sfondo dell'header"
+
+#: inc/customizer.php
+msgid "Bienvenue dans notre restaurant"
+msgstr "Benvenuti nel nostro ristorante"
+
+#: inc/customizer.php
+msgid "Titre principal (hero)"
+msgstr "Titolo principale (hero)"
+
+#: inc/customizer.php
+msgid "Cuisine traditionnelle française"
+msgstr "Cucina tradizionale italiana"
+
+#: inc/customizer.php
+msgid "Sous-titre (hero)"
+msgstr "Sottotitolo (hero)"
+
+#: inc/customizer.php
+msgid "Couleurs"
+msgstr "Colori"
+
+#: inc/customizer.php
+msgid "Couleur principale (or/accent)"
+msgstr "Colore principale (oro/accento)"
+
+#: inc/customizer.php
+msgid "Couleur secondaire (fond sombre)"
+msgstr "Colore secondario (sfondo scuro)"
+
+#: inc/customizer.php
+msgid "À propos"
+msgstr "Chi siamo"
+
+#: inc/customizer.php
+msgid "Titre de la section"
+msgstr "Titolo della sezione"
+
+#: inc/customizer.php
+msgid "Paragraphe 1"
+msgstr "Paragrafo 1"
+
+#: inc/customizer.php
+msgid "Paragraphe 2"
+msgstr "Paragrafo 2"
+
+#: inc/customizer.php
+msgid "Photo de la section À propos"
+msgstr "Foto della sezione Chi siamo"
+
+#: inc/customizer.php
+msgid "Section Parallax"
+msgstr "Sezione Parallax"
+
+#: inc/customizer.php
+msgid "Image de fond (parallax)"
+msgstr "Immagine di sfondo (parallax)"
+
+#: inc/customizer.php
+msgid "\"La cuisine est l'art de transformer les produits de la nature en plaisir.\""
+msgstr "\"La cucina è l'arte di trasformare i prodotti della natura in piacere.\""
+
+#: inc/customizer.php
+msgid "Citation / texte de la section parallax"
+msgstr "Citazione / testo della sezione parallax"
+
+#: inc/customizer.php
+msgid "Carousel / Galerie"
+msgstr "Carousel / Galleria"
+
+#: inc/customizer.php
+msgid "Notre galerie"
+msgstr "La nostra galleria"
+
+#: inc/customizer.php
+msgid "Section Réservation"
+msgstr "Sezione Prenotazione"
+
+#: inc/customizer.php
+msgid "Réserver une table"
+msgstr "Prenota un tavolo"
+
+#: inc/customizer.php
+msgid "Réservez votre table en quelques secondes."
+msgstr "Prenota il tuo tavolo in pochi secondi."
+
+#: inc/customizer.php
+msgid "Texte d'introduction"
+msgstr "Testo introduttivo"
+
+#: inc/customizer.php
+msgid "Section Carte / Menu"
+msgstr "Sezione Menu"
+
+#: inc/customizer.php
+msgid "Notre carte"
+msgstr "Il nostro menu"
+
+#: inc/customizer.php
+msgid "Réseaux sociaux"
+msgstr "Social media"
+
+#: inc/customizer.php
+msgid "Footer"
+msgstr "Footer"
+
+#: inc/customizer.php
+msgid "Adresse"
+msgstr "Indirizzo"
+
+#: inc/customizer.php
+msgid "Téléphone"
+msgstr "Telefono"
+
+#: inc/customizer.php
+msgid "Texte copyright"
+msgstr "Testo copyright"
+
+#: template-parts/section-hero.php
+msgid "Réserver une table"
+msgstr "Prenota un tavolo"
+
+#: template-parts/section-about.php
+msgid "Notre histoire"
+msgstr "La nostra storia"
+
+#: template-parts/section-about.php
+msgid "Notre restaurant"
+msgstr "Il nostro ristorante"
+
+#: template-parts/section-about.php
+msgid "Une cuisine du cœur"
+msgstr "Una cucina dal cuore"
+
+#: template-parts/section-carousel.php
+msgid "Photos"
+msgstr "Foto"
+
+#: template-parts/section-carousel.php
+msgid "Photo du restaurant"
+msgstr "Foto del ristorante"
+
+#: template-parts/section-carousel.php
+msgid "Photo %d"
+msgstr "Foto %d"
+
+#: template-parts/section-carousel.php
+msgid "Configurez les images dans Apparence > Personnaliser"
+msgstr "Configura le immagini in Aspetto > Personalizza"
+
+#: template-parts/section-menu.php
+msgid "À table"
+msgstr "A tavola"
+
+#: template-parts/section-menu.php
+msgid "Ajoutez vos plats depuis WP Admin > Carte du restaurant."
+msgstr "Aggiungi i tuoi piatti da WP Admin > Menu del ristorante."
+
+#: template-parts/section-reservation.php
+msgid "Réservation"
+msgstr "Prenotazione"
+
+#: template-parts/section-reservation.php
+msgid "Activez le plugin \"Restaurant Reservation\" pour afficher le formulaire de réservation."
+msgstr "Attiva il plugin \"Restaurant Reservation\" per visualizzare il modulo di prenotazione."
+
+#: template-parts/section-reservation.php
+msgid "Prénom"
+msgstr "Nome"
+
+#: template-parts/section-reservation.php
+msgid "Nom"
+msgstr "Cognome"
+
+#: template-parts/section-reservation.php
+msgid "Email"
+msgstr "Email"
+
+#: template-parts/section-reservation.php
+msgid "Date"
+msgstr "Data"
+
+#: template-parts/section-reservation.php
+msgid "Heure"
+msgstr "Ora"
+
+#: template-parts/section-reservation.php
+msgid "Nombre de personnes"
+msgstr "Numero di persone"
+
+#: template-parts/section-reservation.php
+msgid "Message (optionnel)"
+msgstr "Messaggio (opzionale)"
+
+#: template-parts/section-reservation.php
+msgid "Allergies, occasion spéciale, demandes particulières..."
+msgstr "Allergie, occasione speciale, richieste particolari..."
+
+#: template-parts/section-reservation.php
+msgid "Demander une réservation"
+msgstr "Richiedi una prenotazione"

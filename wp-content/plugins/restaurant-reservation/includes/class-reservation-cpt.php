@@ -39,6 +39,7 @@ class Reservation_CPT {
     const META_HEURE     = '_res_heure';
     const META_PERSONNES = '_res_personnes';
     const META_MESSAGE   = '_res_message';
+    const META_LANG      = '_res_lang';       // Langue du visiteur au moment de la soumission
 
     /**
      * Enregistre le CPT "reservation".
@@ -97,6 +98,7 @@ class Reservation_CPT {
             self::META_HEURE     => 'string',
             self::META_PERSONNES => 'integer',
             self::META_MESSAGE   => 'string',
+            self::META_LANG      => 'string',
         ];
 
         foreach ( $metas as $meta_key => $type ) {
@@ -207,6 +209,12 @@ class Reservation_CPT {
         update_post_meta( $post_id, self::META_PERSONNES, absint( $data['personnes'] ) );
         update_post_meta( $post_id, self::META_MESSAGE,   sanitize_textarea_field( $data['message'] ?? '' ) );
 
+        // Stocke la langue du visiteur au moment de la soumission.
+        // pll_current_language() est fournie par Polylang — retourne le slug de langue ('it', 'en', 'fr').
+        // On utilise function_exists() pour éviter une erreur si Polylang est désactivé.
+        $lang = function_exists( 'pll_current_language' ) ? pll_current_language() : get_locale();
+        update_post_meta( $post_id, self::META_LANG, sanitize_key( $lang ) );
+
         return $post_id;
     }
 
@@ -237,6 +245,7 @@ class Reservation_CPT {
             'heure'     => get_post_meta( $post_id, self::META_HEURE,     true ),
             'personnes' => (int) get_post_meta( $post_id, self::META_PERSONNES, true ),
             'message'   => get_post_meta( $post_id, self::META_MESSAGE,   true ),
+            'lang'      => get_post_meta( $post_id, self::META_LANG,      true ) ?: 'it',
         ];
     }
 

@@ -197,38 +197,42 @@ class Reservation_Admin {
             $this->add_settings_text_field( 'sender_name',  __( 'Nom de l\'expéditeur', 'restaurant-reservation' ),  'restaurant_res_sender_section' );
             $this->add_settings_text_field( 'sender_email', __( 'Email de l\'expéditeur', 'restaurant-reservation' ), 'restaurant_res_sender_section', 'email' );
 
-            // Section : Template email acceptation
-            add_settings_section(
-                'restaurant_res_accepted_section',
-                __( 'Email de confirmation (réservation acceptée)', 'restaurant-reservation' ),
-                function() {
-                    $this->render_variables_hint();
-                },
-                'restaurant-res-settings'
-            );
+            // Sections de templates d'email par langue (IT / EN / FR)
+            $langs = [ 'it' => '🇮🇹 Italiano', 'en' => '🇬🇧 English', 'fr' => '🇫🇷 Français' ];
+            foreach ( $langs as $lang_slug => $lang_label ) {
+                $page_slug = "restaurant-res-settings-{$lang_slug}";
 
-            $this->add_settings_text_field(     'subject_accepted', __( 'Objet de l\'email', 'restaurant-reservation' ), 'restaurant_res_accepted_section' );
-            $this->add_settings_textarea_field( 'email_accepted',   __( 'Corps de l\'email', 'restaurant-reservation' ), 'restaurant_res_accepted_section' );
+                add_settings_section(
+                    "restaurant_res_accepted_{$lang_slug}",
+                    sprintf( '✅ Email de confirmation — %s', $lang_label ),
+                    function() { $this->render_variables_hint(); },
+                    $page_slug
+                );
+                $this->add_settings_text_field(     "subject_accepted_{$lang_slug}", __( 'Objet', 'restaurant-reservation' ), "restaurant_res_accepted_{$lang_slug}", 'text', $page_slug );
+                $this->add_settings_textarea_field( "email_accepted_{$lang_slug}",   __( 'Corps', 'restaurant-reservation' ), "restaurant_res_accepted_{$lang_slug}", $page_slug );
 
-            // Section : Template email refus
-            add_settings_section(
-                'restaurant_res_rejected_section',
-                __( 'Email de refus (réservation refusée)', 'restaurant-reservation' ),
-                function() {
-                    $this->render_variables_hint();
-                },
-                'restaurant-res-settings'
-            );
-
-            $this->add_settings_text_field(     'subject_rejected', __( 'Objet de l\'email', 'restaurant-reservation' ), 'restaurant_res_rejected_section' );
-            $this->add_settings_textarea_field( 'email_rejected',   __( 'Corps de l\'email', 'restaurant-reservation' ), 'restaurant_res_rejected_section' );
+                add_settings_section(
+                    "restaurant_res_rejected_{$lang_slug}",
+                    sprintf( '❌ Email de refus — %s', $lang_label ),
+                    function() { $this->render_variables_hint(); },
+                    $page_slug
+                );
+                $this->add_settings_text_field(     "subject_rejected_{$lang_slug}", __( 'Objet', 'restaurant-reservation' ), "restaurant_res_rejected_{$lang_slug}", 'text', $page_slug );
+                $this->add_settings_textarea_field( "email_rejected_{$lang_slug}",   __( 'Corps', 'restaurant-reservation' ), "restaurant_res_rejected_{$lang_slug}", $page_slug );
+            }
         } );
+    }
+
+    /** Langues supportées */
+    public static function get_supported_langs(): array {
+        return [ 'it' => '🇮🇹 Italiano', 'en' => '🇬🇧 English', 'fr' => '🇫🇷 Français' ];
     }
 
     /**
      * Helper : ajoute un champ texte dans la Settings API.
+     * $page = page slug WP où afficher le champ (default = restaurant-res-settings)
      */
-    private function add_settings_text_field( string $key, string $label, string $section, string $type = 'text' ): void {
+    private function add_settings_text_field( string $key, string $label, string $section, string $type = 'text', string $page = 'restaurant-res-settings' ): void {
         add_settings_field(
             "restaurant_res_{$key}",
             $label,
@@ -242,7 +246,7 @@ class Reservation_Admin {
                     esc_attr( $value )
                 );
             },
-            'restaurant-res-settings',
+            $page,
             $section
         );
     }
@@ -250,7 +254,7 @@ class Reservation_Admin {
     /**
      * Helper : ajoute un champ textarea dans la Settings API.
      */
-    private function add_settings_textarea_field( string $key, string $label, string $section ): void {
+    private function add_settings_textarea_field( string $key, string $label, string $section, string $page = 'restaurant-res-settings' ): void {
         add_settings_field(
             "restaurant_res_{$key}",
             $label,
@@ -263,7 +267,7 @@ class Reservation_Admin {
                     esc_textarea( $value )
                 );
             },
-            'restaurant-res-settings',
+            $page,
             $section
         );
     }

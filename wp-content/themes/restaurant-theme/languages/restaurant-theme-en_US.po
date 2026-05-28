@@ -1,0 +1,219 @@
+# English translation — Restaurant Theme
+# Copyright (C) 2024 Restaurant Theme
+msgid ""
+msgstr ""
+"Project-Id-Version: Restaurant Theme 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-01 00:00+0000\n"
+"PO-Revision-Date: 2024-01-01 00:00+0000\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Manual\n"
+"X-Domain: restaurant-theme\n"
+
+msgid "Menu principal"
+msgstr "Main menu"
+
+msgid "Menu footer"
+msgstr "Footer menu"
+
+msgid "Carte du restaurant"
+msgstr "Restaurant menu"
+
+msgid "Plat"
+msgstr "Dish"
+
+msgid "Ajouter un plat"
+msgstr "Add a dish"
+
+msgid "Modifier le plat"
+msgstr "Edit dish"
+
+msgid "Nouveau plat"
+msgstr "New dish"
+
+msgid "Voir le plat"
+msgstr "View dish"
+
+msgid "Rechercher un plat"
+msgstr "Search dishes"
+
+msgid "Aucun plat trouvé"
+msgstr "No dishes found"
+
+msgid "Carte"
+msgstr "Menu"
+
+msgid "Catégories"
+msgstr "Categories"
+
+msgid "Catégorie"
+msgstr "Category"
+
+msgid "Ajouter une catégorie"
+msgstr "Add a category"
+
+msgid "Prix du plat"
+msgstr "Dish price"
+
+msgid "Prix (€)"
+msgstr "Price (€)"
+
+msgid "Personnalisez votre site restaurant."
+msgstr "Customize your restaurant website."
+
+msgid "Header"
+msgstr "Header"
+
+msgid "Image de fond du header"
+msgstr "Header background image"
+
+msgid "Bienvenue dans notre restaurant"
+msgstr "Welcome to our restaurant"
+
+msgid "Titre principal (hero)"
+msgstr "Main title (hero)"
+
+msgid "Cuisine traditionnelle française"
+msgstr "Traditional Italian cuisine"
+
+msgid "Sous-titre (hero)"
+msgstr "Subtitle (hero)"
+
+msgid "Couleurs"
+msgstr "Colors"
+
+msgid "Couleur principale (or/accent)"
+msgstr "Primary color (gold/accent)"
+
+msgid "Couleur secondaire (fond sombre)"
+msgstr "Secondary color (dark background)"
+
+msgid "À propos"
+msgstr "About us"
+
+msgid "Titre de la section"
+msgstr "Section title"
+
+msgid "Paragraphe 1"
+msgstr "Paragraph 1"
+
+msgid "Paragraphe 2"
+msgstr "Paragraph 2"
+
+msgid "Photo de la section À propos"
+msgstr "About section photo"
+
+msgid "Section Parallax"
+msgstr "Parallax section"
+
+msgid "Image de fond (parallax)"
+msgstr "Background image (parallax)"
+
+msgid "\"La cuisine est l'art de transformer les produits de la nature en plaisir.\""
+msgstr "\"Cooking is the art of transforming nature's gifts into pleasure.\""
+
+msgid "Citation / texte de la section parallax"
+msgstr "Quote / parallax section text"
+
+msgid "Carousel / Galerie"
+msgstr "Carousel / Gallery"
+
+msgid "Notre galerie"
+msgstr "Our gallery"
+
+msgid "Section Réservation"
+msgstr "Reservation section"
+
+msgid "Réserver une table"
+msgstr "Book a table"
+
+msgid "Réservez votre table en quelques secondes."
+msgstr "Book your table in seconds."
+
+msgid "Texte d'introduction"
+msgstr "Introduction text"
+
+msgid "Section Carte / Menu"
+msgstr "Menu section"
+
+msgid "Notre carte"
+msgstr "Our menu"
+
+msgid "Réseaux sociaux"
+msgstr "Social media"
+
+msgid "Footer"
+msgstr "Footer"
+
+msgid "Adresse"
+msgstr "Address"
+
+msgid "Téléphone"
+msgstr "Phone"
+
+msgid "Texte copyright"
+msgstr "Copyright text"
+
+msgid "Notre histoire"
+msgstr "Our story"
+
+msgid "Notre restaurant"
+msgstr "Our restaurant"
+
+msgid "Une cuisine du cœur"
+msgstr "A cuisine from the heart"
+
+msgid "Photos"
+msgstr "Photos"
+
+msgid "Photo du restaurant"
+msgstr "Restaurant photo"
+
+msgid "Photo %d"
+msgstr "Photo %d"
+
+msgid "Configurez les images dans Apparence > Personnaliser"
+msgstr "Configure images in Appearance > Customize"
+
+msgid "À table"
+msgstr "At the table"
+
+msgid "Ajoutez vos plats depuis WP Admin > Carte du restaurant."
+msgstr "Add your dishes from WP Admin > Restaurant menu."
+
+msgid "Réservation"
+msgstr "Reservation"
+
+msgid "Activez le plugin \"Restaurant Reservation\" pour afficher le formulaire de réservation."
+msgstr "Activate the \"Restaurant Reservation\" plugin to display the booking form."
+
+msgid "Prénom"
+msgstr "First name"
+
+msgid "Nom"
+msgstr "Last name"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Date"
+msgstr "Date"
+
+msgid "Heure"
+msgstr "Time"
+
+msgid "Nombre de personnes"
+msgstr "Number of guests"
+
+msgid "Message (optionnel)"
+msgstr "Message (optional)"
+
+msgid "Allergies, occasion spéciale, demandes particulières..."
+msgstr "Allergies, special occasion, particular requests..."
+
+msgid "Demander une réservation"
+msgstr "Request a reservation"

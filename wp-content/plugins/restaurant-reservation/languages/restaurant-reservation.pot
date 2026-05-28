@@ -1,0 +1,506 @@
+# Copyright (C) 2026 Votre Nom
+# This file is distributed under the GPL v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Restaurant Reservation 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/restaurant-reservation\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-05-28T02:34:17+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: restaurant-reservation\n"
+
+#. Plugin Name of the plugin
+#: restaurant-reservation.php
+msgid "Restaurant Reservation"
+msgstr ""
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: restaurant-reservation.php
+msgid "https://example.com"
+msgstr ""
+
+#. Description of the plugin
+#: restaurant-reservation.php
+msgid "Système de réservation de table avec backoffice complet et emails automatiques."
+msgstr ""
+
+#. Author of the plugin
+#: restaurant-reservation.php
+msgid "Votre Nom"
+msgstr ""
+
+#: admin/class-list-table.php:56
+msgid "Client"
+msgstr ""
+
+#: admin/class-list-table.php:57
+msgid "Contact"
+msgstr ""
+
+#: admin/class-list-table.php:58
+msgid "Date & Heure"
+msgstr ""
+
+#: admin/class-list-table.php:59
+#: public/views/reservation-form.php:106
+msgid "Couverts"
+msgstr ""
+
+#: admin/class-list-table.php:60
+msgid "Statut"
+msgstr ""
+
+#: admin/class-list-table.php:61
+msgid "Demande reçue"
+msgstr ""
+
+#: admin/class-list-table.php:62
+msgid "Actions"
+msgstr ""
+
+#: admin/class-list-table.php:83
+#: admin/class-list-table.php:300
+msgid "Accepter"
+msgstr ""
+
+#: admin/class-list-table.php:84
+#: admin/class-list-table.php:301
+msgid "Refuser"
+msgstr ""
+
+#: admin/class-list-table.php:85
+msgid "Mettre à la corbeille"
+msgstr ""
+
+#: admin/class-list-table.php:107
+msgid "Toutes"
+msgstr ""
+
+#: admin/class-list-table.php:112
+#: admin/class-list-table.php:270
+#: admin/views/reservation-detail.php:13
+#: includes/class-reservation-admin.php:347
+#: includes/class-reservation-cpt.php:124
+msgid "En attente"
+msgstr ""
+
+#: admin/class-list-table.php:113
+msgid "Acceptées"
+msgstr ""
+
+#: admin/class-list-table.php:114
+msgid "Refusées"
+msgstr ""
+
+#: admin/class-list-table.php:271
+#: admin/views/reservation-detail.php:14
+#: includes/class-reservation-admin.php:345
+#: includes/class-reservation-cpt.php:136
+msgid "Acceptée"
+msgstr ""
+
+#: admin/class-list-table.php:272
+#: admin/views/reservation-detail.php:15
+#: includes/class-reservation-admin.php:346
+#: includes/class-reservation-cpt.php:148
+msgid "Refusée"
+msgstr ""
+
+#: admin/class-list-table.php:291
+msgid "Déjà acceptée"
+msgstr ""
+
+#: admin/class-list-table.php:294
+msgid "Déjà refusée"
+msgstr ""
+
+#: admin/class-list-table.php:312
+msgid "Aucune réservation trouvée."
+msgstr ""
+
+#: admin/views/list-reservations.php:31
+#, php-format
+msgid "%d réservation(s) %s."
+msgstr ""
+
+#: admin/views/list-reservations.php:43
+#: includes/class-reservation-admin.php:92
+#: includes/class-reservation-admin.php:93
+#: includes/class-reservation-cpt.php:56
+#: includes/class-reservation-cpt.php:58
+msgid "Réservations"
+msgstr ""
+
+#: admin/views/list-reservations.php:57
+#: includes/class-reservation-cpt.php:61
+msgid "Rechercher"
+msgstr ""
+
+#: admin/views/reservation-detail.php:23
+msgid "Retour à la liste"
+msgstr ""
+
+#: admin/views/reservation-detail.php:25
+msgid "Détail de la réservation"
+msgstr ""
+
+#: admin/views/reservation-detail.php:37
+msgid "Informations client"
+msgstr ""
+
+#: admin/views/reservation-detail.php:42
+#: public/views/reservation-form.php:45
+msgid "Nom"
+msgstr ""
+
+#: admin/views/reservation-detail.php:46
+#: public/views/reservation-form.php:58
+msgid "Email"
+msgstr ""
+
+#: admin/views/reservation-detail.php:50
+#: public/views/reservation-form.php:68
+msgid "Téléphone"
+msgstr ""
+
+#: admin/views/reservation-detail.php:60
+msgid "Détails de la réservation"
+msgstr ""
+
+#: admin/views/reservation-detail.php:65
+#: public/views/reservation-form.php:81
+msgid "Date"
+msgstr ""
+
+#: admin/views/reservation-detail.php:69
+#: public/views/reservation-form.php:90
+msgid "Heure"
+msgstr ""
+
+#: admin/views/reservation-detail.php:73
+msgid "Nombre de couverts"
+msgstr ""
+
+#: admin/views/reservation-detail.php:77
+msgid "Demande reçue le"
+msgstr ""
+
+#: admin/views/reservation-detail.php:82
+#: includes/class-reservation-email.php:51
+msgid "Message du client"
+msgstr ""
+
+#: admin/views/reservation-detail.php:96
+msgid "Traiter cette réservation"
+msgstr ""
+
+#: admin/views/reservation-detail.php:99
+msgid "Un email sera automatiquement envoyé au client avec le template configuré."
+msgstr ""
+
+#: admin/views/reservation-detail.php:104
+msgid "Accepter la réservation"
+msgstr ""
+
+#: admin/views/reservation-detail.php:110
+msgid "Refuser la réservation"
+msgstr ""
+
+#: admin/views/reservation-detail.php:121
+msgid "Cette réservation a été acceptée. Un email de confirmation a été envoyé au client."
+msgstr ""
+
+#: admin/views/reservation-detail.php:123
+msgid "Cette réservation a été refusée. Un email d'information a été envoyé au client."
+msgstr ""
+
+#: admin/views/settings.php:22
+msgid "Configuration — Restaurant Reservation"
+msgstr ""
+
+#: admin/views/settings.php:39
+msgid "Enregistrer les modifications"
+msgstr ""
+
+#: admin/views/settings.php:46
+msgid "Test d'envoi d'email"
+msgstr ""
+
+#: admin/views/settings.php:50
+msgid "Envoyez un email de test pour vérifier la configuration SMTP."
+msgstr ""
+
+#. translators: %s: URL de Mailpit
+#: admin/views/settings.php:53
+#, php-format
+msgid "En développement, les emails sont capturés par Mailpit : %s"
+msgstr ""
+
+#: admin/views/settings.php:75
+#, php-format
+msgid "Email de test envoyé à %s !"
+msgstr ""
+
+#: admin/views/settings.php:77
+msgid "Échec de l'envoi. Vérifiez la configuration SMTP."
+msgstr ""
+
+#: admin/views/settings.php:82
+msgid "Envoyer un email de test"
+msgstr ""
+
+#: includes/class-reservation-admin.php:77
+msgid "Confirmer l'acceptation de cette réservation ?"
+msgstr ""
+
+#: includes/class-reservation-admin.php:78
+msgid "Confirmer le refus de cette réservation ?"
+msgstr ""
+
+#: includes/class-reservation-admin.php:79
+msgid "Mise à jour…"
+msgstr ""
+
+#: includes/class-reservation-admin.php:80
+msgid "Une erreur est survenue."
+msgstr ""
+
+#: includes/class-reservation-admin.php:104
+#: includes/class-reservation-admin.php:105
+#: includes/class-reservation-cpt.php:59
+msgid "Toutes les réservations"
+msgstr ""
+
+#: includes/class-reservation-admin.php:114
+#: includes/class-reservation-admin.php:115
+msgid "Configuration"
+msgstr ""
+
+#: includes/class-reservation-admin.php:130
+#: includes/class-reservation-admin.php:162
+msgid "Accès refusé."
+msgstr ""
+
+#: includes/class-reservation-admin.php:152
+msgid "Réservation introuvable."
+msgstr ""
+
+#: includes/class-reservation-admin.php:190
+msgid "Expéditeur des emails"
+msgstr ""
+
+#: includes/class-reservation-admin.php:192
+msgid "Nom et adresse email utilisés comme expéditeur des emails automatiques."
+msgstr ""
+
+#: includes/class-reservation-admin.php:197
+msgid "Nom de l'expéditeur"
+msgstr ""
+
+#: includes/class-reservation-admin.php:198
+msgid "Email de l'expéditeur"
+msgstr ""
+
+#: includes/class-reservation-admin.php:203
+msgid "Email de confirmation (réservation acceptée)"
+msgstr ""
+
+#: includes/class-reservation-admin.php:210
+#: includes/class-reservation-admin.php:223
+msgid "Objet de l'email"
+msgstr ""
+
+#: includes/class-reservation-admin.php:211
+#: includes/class-reservation-admin.php:224
+msgid "Corps de l'email"
+msgstr ""
+
+#: includes/class-reservation-admin.php:216
+msgid "Email de refus (réservation refusée)"
+msgstr ""
+
+#: includes/class-reservation-admin.php:275
+msgid "Variables disponibles :"
+msgstr ""
+
+#: includes/class-reservation-admin.php:310
+msgid "L'adresse email de l'expéditeur n'est pas valide."
+msgstr ""
+
+#: includes/class-reservation-admin.php:328
+msgid "Droits insuffisants."
+msgstr ""
+
+#: includes/class-reservation-admin.php:335
+msgid "Paramètres manquants."
+msgstr ""
+
+#: includes/class-reservation-admin.php:341
+msgid "Impossible de mettre à jour le statut."
+msgstr ""
+
+#: includes/class-reservation-admin.php:351
+msgid "Statut mis à jour avec succès."
+msgstr ""
+
+#: includes/class-reservation-cpt.php:57
+msgid "Réservation"
+msgstr ""
+
+#: includes/class-reservation-cpt.php:60
+msgid "Voir la réservation"
+msgstr ""
+
+#: includes/class-reservation-cpt.php:62
+msgid "Aucune réservation"
+msgstr ""
+
+#: includes/class-reservation-cpt.php:63
+msgid "Aucune réservation dans la corbeille"
+msgstr ""
+
+#: includes/class-reservation-cpt.php:125
+#, php-format
+msgid "En attente <span class=\"count\">(%s)</span>"
+msgid_plural "En attente <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-reservation-cpt.php:137
+#, php-format
+msgid "Acceptée <span class=\"count\">(%s)</span>"
+msgid_plural "Acceptées <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-reservation-cpt.php:149
+#, php-format
+msgid "Refusée <span class=\"count\">(%s)</span>"
+msgid_plural "Refusées <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-reservation-email.php:44
+msgid "Prénom du client"
+msgstr ""
+
+#: includes/class-reservation-email.php:45
+msgid "Nom du client"
+msgstr ""
+
+#: includes/class-reservation-email.php:46
+msgid "Email du client"
+msgstr ""
+
+#: includes/class-reservation-email.php:47
+msgid "Téléphone du client"
+msgstr ""
+
+#: includes/class-reservation-email.php:48
+msgid "Date de la réservation"
+msgstr ""
+
+#: includes/class-reservation-email.php:49
+msgid "Heure de la réservation"
+msgstr ""
+
+#: includes/class-reservation-email.php:50
+msgid "Nombre de personnes"
+msgstr ""
+
+#: includes/class-reservation-email.php:52
+msgid "Nom du restaurant"
+msgstr ""
+
+#: includes/class-reservation-form.php:68
+#: public/views/reservation-form.php:135
+msgid "Envoi en cours…"
+msgstr ""
+
+#: includes/class-reservation-form.php:69
+#: includes/class-reservation-form.php:179
+msgid "Votre demande de réservation a bien été envoyée ! Vous recevrez une confirmation par email."
+msgstr ""
+
+#: includes/class-reservation-form.php:70
+msgid "Une erreur est survenue. Veuillez réessayer."
+msgstr ""
+
+#: includes/class-reservation-form.php:120
+#, php-format
+msgid "Le champ \"%s\" est obligatoire."
+msgstr ""
+
+#: includes/class-reservation-form.php:128
+msgid "L'adresse email n'est pas valide."
+msgstr ""
+
+#: includes/class-reservation-form.php:135
+msgid "La date de réservation doit être dans le futur."
+msgstr ""
+
+#: includes/class-reservation-form.php:142
+msgid "Le nombre de personnes doit être entre 1 et 50."
+msgstr ""
+
+#: includes/class-reservation-form.php:173
+msgid "Impossible d'enregistrer la réservation. Veuillez réessayer."
+msgstr ""
+
+#: public/views/reservation-form.php:35
+msgid "Prénom"
+msgstr ""
+
+#: public/views/reservation-form.php:41
+msgid "Jean"
+msgstr ""
+
+#: public/views/reservation-form.php:51
+msgid "Dupont"
+msgstr ""
+
+#: public/views/reservation-form.php:64
+msgid "jean.dupont@email.com"
+msgstr ""
+
+#: public/views/reservation-form.php:74
+msgid "+33 6 12 34 56 78"
+msgstr ""
+
+#: public/views/reservation-form.php:92
+msgid "-- Choisir --"
+msgstr ""
+
+#: public/views/reservation-form.php:108
+msgid "-- Nombre --"
+msgstr ""
+
+#: public/views/reservation-form.php:111
+msgid "personne"
+msgstr ""
+
+#: public/views/reservation-form.php:111
+msgid "personnes"
+msgstr ""
+
+#: public/views/reservation-form.php:120
+msgid "Message (optionnel)"
+msgstr ""
+
+#: public/views/reservation-form.php:124
+msgid "Allergies, occasion spéciale, demandes particulières…"
+msgstr ""
+
+#: public/views/reservation-form.php:129
+msgid "Champs obligatoires"
+msgstr ""
+
+#: public/views/reservation-form.php:132
+msgid "Demander une réservation"
+msgstr ""

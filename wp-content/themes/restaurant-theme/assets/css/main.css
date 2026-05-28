@@ -185,6 +185,39 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 /* ==========================================================================
+   5b. Sélecteur de langue (Polylang)
+   ========================================================================== */
+
+.language-switcher {
+    display: flex;
+    gap: 0.25rem;
+    align-items: center;
+}
+
+.lang-item {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.6);
+    padding: 0.25rem 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--border-radius);
+    transition: all var(--transition);
+    text-decoration: none;
+}
+
+.lang-item:hover {
+    color: var(--color-white);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.lang-item--active {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+/* ==========================================================================
    6. Section Hero
    ========================================================================== */
 

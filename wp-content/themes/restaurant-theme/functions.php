@@ -32,6 +32,20 @@ add_action( 'after_setup_theme', 'restaurant_theme_setup' );
 
 function restaurant_theme_setup() {
     /*
+     * load_theme_textdomain() charge le fichier .mo correspondant à la locale active.
+     *
+     * WordPress cherche le fichier dans ce dossier avec le pattern :
+     *   {text-domain}-{locale}.mo  →  restaurant-theme-it_IT.mo
+     *
+     * La locale est définie par :
+     *   1. Polylang selon la langue de la page visitée
+     *   2. Le réglage WP Admin > Réglages > Général > Langue du site
+     *
+     * Parallèle Symfony : équivalent à la config translator.default_locale
+     * et aux fichiers translations/messages.it.yaml.
+     */
+    load_theme_textdomain( 'restaurant-theme', get_template_directory() . '/languages' );
+    /*
      * add_theme_support() déclare les fonctionnalités WP que le thème utilise.
      * Sans ces déclarations, certaines fonctions WP ne fonctionnent pas.
      */
