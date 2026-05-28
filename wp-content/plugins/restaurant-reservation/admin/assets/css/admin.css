@@ -1,0 +1,89 @@
+/* Styles du backoffice du plugin Restaurant Reservation */
+
+/* Badges de statut */
+.res-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.res-badge--pending  { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
+.res-badge--accepted { background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; }
+.res-badge--rejected { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+
+/* Grille de détail */
+.res-detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+@media (max-width: 900px) {
+    .res-detail-grid { grid-template-columns: 1fr; }
+}
+
+.res-detail-table th {
+    width: 35%;
+    font-weight: 600;
+    color: #555;
+}
+
+/* Boutons d'action */
+.res-action-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+/* Feedback AJAX (dans la liste et le détail) */
+#res-action-feedback {
+    padding: 10px 15px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+#res-action-feedback.success {
+    background: #d1fae5;
+    border: 1px solid #6ee7b7;
+    color: #065f46;
+}
+
+#res-action-feedback.error {
+    background: #fee2e2;
+    border: 1px solid #fca5a5;
+    color: #991b1b;
+}
+
+/* Liste des variables dans les settings */
+.res-variables-list {
+    margin: 8px 0 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.res-variables-list li {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #f0f0f0;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.res-variables-list code {
+    background: #e0e0e0;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 12px;
+    color: #c0392b;
+}

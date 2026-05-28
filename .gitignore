@@ -1,1 +1,9 @@
 .idea
+
+# Fichiers sensibles
+*.env.local
+wp-config.php
+
+# On versionne uniquement notre thème et plugin, pas WordPress core
+# Les dossiers wp-content/themes et wp-content/plugins ne sont pas montés
+# (sauf restaurant-theme et restaurant-reservation qui le sont via compose.yaml)

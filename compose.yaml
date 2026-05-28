@@ -1,5 +1,5 @@
 services:
-  # CoTUTP3NZ(FSO^nBUS
+  # S4MzaTXQnvlexn$8R7 - admin_nanou - nanoulounge@outlook.com
   wordpress:
     image: wordpress
     restart: always
@@ -10,8 +10,13 @@ services:
       WORDPRESS_DB_USER: exampleuser
       WORDPRESS_DB_PASSWORD: examplepass
       WORDPRESS_DB_NAME: exampledb
+      WORDPRESS_SMTP_HOST: mailpit
+      WORDPRESS_SMTP_PORT: 1025
     volumes:
       - wordpress:/var/www/html
+      - ./wp-content/themes/restaurant-theme:/var/www/html/wp-content/themes/restaurant-theme
+      - ./wp-content/plugins/restaurant-reservation:/var/www/html/wp-content/plugins/restaurant-reservation
+      - ./wp-content/mu-plugins:/var/www/html/wp-content/mu-plugins
 
   db:
     image: mysql:8.0
@@ -23,6 +28,13 @@ services:
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
     volumes:
       - db:/var/lib/mysql
+
+  mailpit:
+    image: axllent/mailpit
+    restart: always
+    ports:
+      - 8025:8025  # Interface web pour voir les emails
+      - 1025:1025  # Serveur SMTP
 
 volumes:
   wordpress:

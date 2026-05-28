@@ -1,0 +1,19 @@
+/*
+Theme Name: Restaurant Theme
+Theme URI: https://example.com
+Description: Template one-page restaurant entièrement configurable depuis l'admin WordPress.
+Version: 1.0.0
+Author: Votre Nom
+Author URI: https://example.com
+License: GPL v2 or later
+Text Domain: restaurant-theme
+*/
+
+/*
+ * IMPORTANT : Ce fichier style.css sert UNIQUEMENT à déclarer les métadonnées
+ * du thème via ce commentaire. WordPress le lit pour identifier le thème.
+ * Les vraies règles CSS sont dans assets/css/main.css.
+ *
+ * Parallèle Symfony : c'est l'équivalent du composer.json — de la metadata,
+ * pas de la logique.
+ */

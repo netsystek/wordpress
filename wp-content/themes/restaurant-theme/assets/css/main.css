@@ -1,0 +1,657 @@
+/*
+ * main.css — Styles principaux du thème restaurant
+ *
+ * Architecture : Mobile-first avec CSS Custom Properties (variables CSS)
+ * Les couleurs primaire/secondaire sont injectées dynamiquement depuis le
+ * Customizer via wp_head() dans inc/customizer.php.
+ */
+
+/* ==========================================================================
+   1. Reset & Base
+   ========================================================================== */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;   /* Animation de scroll pour les ancres */
+    font-size: 16px;
+}
+
+body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #333;
+    background-color: #fff;
+}
+
+/* ==========================================================================
+   2. Variables CSS (custom properties)
+   Les couleurs --color-primary et --color-secondary sont définies
+   dans <style id="restaurant-customizer-css"> via inc/customizer.php.
+   On déclare ici les valeurs par défaut au cas où le CSS inline ne soit
+   pas encore chargé.
+   ========================================================================== */
+
+:root {
+    --color-primary:   #c8a96e;   /* Or / Accent */
+    --color-secondary: #1a1a1a;   /* Fond sombre */
+    --color-text:      #333333;
+    --color-light:     #f8f5f0;   /* Fond clair crème */
+    --color-white:     #ffffff;
+
+    --font-heading: 'Playfair Display', 'Georgia', serif;
+    --font-body:    'Lato', 'Helvetica Neue', sans-serif;
+
+    --container-max: 1200px;
+    --section-padding: 5rem 1.5rem;
+    --border-radius: 4px;
+    --transition: 0.3s ease;
+}
+
+/* ==========================================================================
+   3. Typographie
+   ========================================================================== */
+
+h1, h2, h3, h4 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--color-secondary);
+}
+
+h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
+h2 { font-size: clamp(1.75rem, 4vw, 2.5rem); }
+h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); }
+
+p { font-family: var(--font-body); margin-bottom: 1rem; }
+
+a { color: var(--color-primary); text-decoration: none; transition: color var(--transition); }
+a:hover { color: var(--color-secondary); }
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* ==========================================================================
+   4. Utilitaires
+   ========================================================================== */
+
+.container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+.section-label {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    margin-bottom: 0.75rem;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.875rem 2rem;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 2px solid transparent;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.btn-primary {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-white);
+}
+.btn-primary:hover {
+    background-color: transparent;
+    color: var(--color-primary);
+}
+
+.btn-outline {
+    background-color: transparent;
+    border-color: var(--color-white);
+    color: var(--color-white);
+}
+.btn-outline:hover {
+    background-color: var(--color-white);
+    color: var(--color-secondary);
+}
+
+/* ==========================================================================
+   5. Header / Navigation
+   ========================================================================== */
+
+.site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: transparent;
+    transition: background var(--transition), padding var(--transition), box-shadow var(--transition);
+}
+
+/* Classe ajoutée par JS quand l'utilisateur défile */
+.site-header.scrolled {
+    background: var(--color-secondary);
+    padding: 0.75rem 1.5rem;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+}
+
+.site-nav {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.nav-menu {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-menu a {
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--color-white);
+    transition: color var(--transition);
+}
+
+.nav-menu a:hover,
+.nav-menu .current-menu-item a {
+    color: var(--color-primary);
+}
+
+/* ==========================================================================
+   6. Section Hero
+   ========================================================================== */
+
+.hero-section {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: var(--color-secondary);   /* Fallback si pas d'image */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 2rem 1.5rem;
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);   /* Overlay sombre pour la lisibilité du texte */
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+}
+
+.hero-headline {
+    color: var(--color-white);
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.hero-subheadline {
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 2rem;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+}
+
+.hero-scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    color: var(--color-white);
+    font-size: 1.5rem;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50%       { transform: translateX(-50%) translateY(8px); }
+}
+
+/* ==========================================================================
+   7. Section About
+   ========================================================================== */
+
+.about-section {
+    padding: var(--section-padding);
+    background-color: var(--color-light);
+}
+
+.about-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+@media (min-width: 768px) {
+    .about-content {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.about-text h2 { margin-bottom: 1.5rem; }
+.about-text p  { color: #555; }
+
+.about-image img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* ==========================================================================
+   8. Section Parallax
+   ========================================================================== */
+
+.parallax-section {
+    position: relative;
+    padding: 6rem 1.5rem;
+    background-color: var(--color-secondary);
+
+    /* Effet parallax CSS */
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.parallax-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.parallax-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.parallax-quote {
+    font-family: var(--font-heading);
+    font-size: clamp(1.25rem, 3vw, 2rem);
+    font-style: italic;
+    color: var(--color-white);
+    line-height: 1.6;
+    border: none;
+    padding: 0;
+}
+
+/* ==========================================================================
+   9. Section Carousel
+   ========================================================================== */
+
+.carousel-section {
+    padding: var(--section-padding);
+}
+
+.carousel-section .container {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.restaurant-swiper {
+    width: 100%;
+    max-width: var(--container-max);
+    margin: 0 auto;
+}
+
+.swiper-slide img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+}
+
+.swiper-slide--placeholder {
+    height: 400px;
+    background: var(--color-light);
+}
+
+.slide-placeholder {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: #aaa;
+}
+
+.slide-placeholder i { font-size: 3rem; }
+.slide-placeholder span { font-size: 1.1rem; font-weight: 600; }
+.slide-placeholder small { font-size: 0.8rem; text-align: center; padding: 0 1rem; }
+
+/* Variables Swiper overrides */
+.swiper-button-next,
+.swiper-button-prev {
+    color: var(--color-primary) !important;
+}
+
+.swiper-pagination-bullet-active {
+    background: var(--color-primary) !important;
+}
+
+/* ==========================================================================
+   10. Section Menu
+   ========================================================================== */
+
+.menu-section {
+    padding: var(--section-padding);
+    background-color: var(--color-light);
+}
+
+.menu-section .container > h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.menu-tabs {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+}
+
+.menu-tab {
+    padding: 0.5rem 1.5rem;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    background: transparent;
+    border: 2px solid var(--color-primary);
+    color: var(--color-primary);
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.menu-tab:hover,
+.menu-tab.active {
+    background: var(--color-primary);
+    color: var(--color-white);
+}
+
+.menu-category { display: none; }
+.menu-category.active { display: block; }
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+@media (min-width: 640px)  { .menu-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1024px) { .menu-grid { grid-template-columns: 1fr 1fr 1fr; } }
+
+.menu-item {
+    background: var(--color-white);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+    transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.menu-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.menu-item-image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.menu-item-content { padding: 1.25rem; }
+
+.menu-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.menu-item-header h3 { font-size: 1.1rem; flex: 1; }
+
+.menu-item-price {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    white-space: nowrap;
+}
+
+.menu-item-desc {
+    font-size: 0.875rem;
+    color: #777;
+    margin-bottom: 0;
+}
+
+.menu-placeholder {
+    text-align: center;
+    padding: 4rem 1rem;
+    color: #aaa;
+}
+.menu-placeholder i { font-size: 3rem; margin-bottom: 1rem; }
+
+/* ==========================================================================
+   11. Section Réservation
+   ========================================================================== */
+
+.reservation-section {
+    padding: var(--section-padding);
+    background-color: var(--color-secondary);
+    color: var(--color-white);
+}
+
+.reservation-section .section-label { color: var(--color-primary); }
+
+.reservation-section h2 {
+    color: var(--color-white);
+    margin-bottom: 1rem;
+}
+
+.reservation-section .container {
+    text-align: center;
+    max-width: 700px;
+}
+
+.reservation-intro {
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 2.5rem;
+}
+
+.notice-demo {
+    background: rgba(200, 169, 110, 0.15);
+    border: 1px solid var(--color-primary);
+    border-radius: var(--border-radius);
+    padding: 1rem 1.5rem;
+    color: var(--color-primary);
+    margin-bottom: 2rem;
+    text-align: left;
+    font-size: 0.875rem;
+}
+
+/* Formulaire (partagé thème + plugin) */
+.reservation-form {
+    text-align: left;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+@media (min-width: 640px) {
+    .form-row { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+}
+
+.form-group { display: flex; flex-direction: column; gap: 0.375rem; }
+
+.form-group label {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    padding: 0.75rem 1rem;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--border-radius);
+    color: var(--color-white);
+    transition: border-color var(--transition), background var(--transition);
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: rgba(255, 255, 255, 0.35);
+}
+
+.form-group input:disabled,
+.form-group textarea:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.form-group textarea { resize: vertical; min-height: 100px; }
+
+.reservation-form .btn {
+    margin-top: 1rem;
+    width: 100%;
+}
+
+/* ==========================================================================
+   12. Footer
+   ========================================================================== */
+
+.site-footer {
+    background: #111;
+    color: rgba(255, 255, 255, 0.7);
+    padding: 3rem 1.5rem;
+}
+
+.footer-container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .footer-container {
+        grid-template-columns: 1fr 1fr 1fr;
+        text-align: left;
+        align-items: center;
+    }
+    .footer-social { text-align: center; }
+    .footer-copyright { text-align: right; }
+}
+
+.footer-info p {
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.footer-info i { color: var(--color-primary); }
+
+.footer-info a { color: rgba(255, 255, 255, 0.7); }
+.footer-info a:hover { color: var(--color-primary); }
+
+.footer-social {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.footer-social a {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.875rem;
+    transition: all var(--transition);
+}
+
+.footer-social a:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    background: rgba(200, 169, 110, 0.1);
+}
+
+.footer-copyright p {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin-bottom: 0;
+}
