@@ -54,6 +54,171 @@ class Reservation_Email {
     }
 
     /**
+     * Listener de l'événement "reservation_created".
+     * Envoie une notification à l'adresse admin configurée dans les settings.
+     *
+     * @param int $post_id ID de la réservation nouvellement créée
+     */
+    public function send_admin_notification( int $post_id ): void {
+        $reservation = Reservation_CPT::get( $post_id );
+        if ( ! $reservation ) {
+            return;
+        }
+
+        $settings     = get_option( 'restaurant_res_settings', [] );
+        $notify_email = $settings['notify_email'] ?? get_bloginfo( 'admin_email' );
+
+        if ( empty( $notify_email ) || ! is_email( $notify_email ) ) {
+            return;
+        }
+
+        // Lien direct vers la page de détail dans le backoffice.
+        // L'admin clique dessus depuis son email et arrive directement sur la réservation.
+        $detail_url = add_query_arg( [
+            'page'           => 'restaurant-reservations',
+            'action'         => 'view',
+            'reservation_id' => $post_id,
+        ], admin_url( 'admin.php' ) );
+
+        $subject = sprintf(
+            '🍽️ Nouvelle réservation — %s %s le %s',
+            $reservation['prenom'],
+            $reservation['nom'],
+            date_i18n( 'd/m/Y', strtotime( $reservation['date'] ) )
+        );
+
+        $lang_labels = [ 'it' => '🇮🇹 Italiano', 'en' => '🇬🇧 English', 'fr' => '🇫🇷 Français' ];
+        $lang_label  = $lang_labels[ $reservation['lang'] ] ?? strtoupper( $reservation['lang'] );
+
+        $body = $this->build_admin_notification_html( $reservation, $detail_url, $lang_label );
+
+        $this->send(
+            $notify_email,
+            $subject,
+            $body,
+            get_bloginfo( 'name' ),
+            $settings['sender_email'] ?? get_bloginfo( 'admin_email' )
+        );
+    }
+
+    /**
+     * Construit le HTML de l'email de notification admin.
+     */
+    private function build_admin_notification_html( array $r, string $detail_url, string $lang_label ): string {
+        $primary = get_theme_mod( 'color_primary', '#c8a96e' );
+        $date_fmt = date_i18n( 'l j F Y', strtotime( $r['date'] ) );
+
+        $message_row = $r['message']
+            ? sprintf( '<tr><td style="padding:8px 0;border-bottom:1px solid #eee;color:#888;font-size:13px;width:180px;">Message</td><td style="padding:8px 0;border-bottom:1px solid #eee;">%s</td></tr>', nl2br( esc_html( $r['message'] ) ) )
+            : '';
+
+        return sprintf( '<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"><title>Nouvelle réservation</title></head>
+<body style="margin:0;padding:0;background:#f4f4f4;font-family:Georgia,serif;">
+<table width="100%%" cellpadding="0" cellspacing="0" style="background:#f4f4f4;padding:40px 20px;">
+  <tr><td align="center">
+    <table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:8px;overflow:hidden;max-width:100%%;">
+
+      <!-- En-tête -->
+      <tr>
+        <td style="background:%s;padding:28px 30px;text-align:center;">
+          <p style="margin:0;color:rgba(255,255,255,0.8);font-size:13px;letter-spacing:0.1em;text-transform:uppercase;">%s</p>
+          <h1 style="margin:8px 0 0;color:#fff;font-size:22px;">🍽️ Nouvelle demande de réservation</h1>
+        </td>
+      </tr>
+
+      <!-- Corps -->
+      <tr>
+        <td style="padding:30px;">
+          <table width="100%%" cellpadding="0" cellspacing="0" style="font-size:15px;color:#333;line-height:1.6;">
+            <tr>
+              <td style="padding:8px 0;border-bottom:1px solid #eee;color:#888;font-size:13px;width:180px;">Client</td>
+              <td style="padding:8px 0;border-bottom:1px solid #eee;"><strong>%s %s</strong></td>
+            </tr>
+            <tr>
+              <td style="padding:8px 0;border-bottom:1px solid #eee;color:#888;font-size:13px;">Email</td>
+              <td style="padding:8px 0;border-bottom:1px solid #eee;"><a href="mailto:%s" style="color:%s;">%s</a></td>
+            </tr>
+            <tr>
+              <td style="padding:8px 0;border-bottom:1px solid #eee;color:#888;font-size:13px;">Téléphone</td>
+              <td style="padding:8px 0;border-bottom:1px solid #eee;">%s</td>
+            </tr>
+            <tr>
+              <td style="padding:8px 0;border-bottom:1px solid #eee;color:#888;font-size:13px;">Date</td>
+              <td style="padding:8px 0;border-bottom:1px solid #eee;"><strong>%s</strong></td>
+            </tr>
+            <tr>
+              <td style="padding:8px 0;border-bottom:1px solid #eee;color:#888;font-size:13px;">Heure</td>
+              <td style="padding:8px 0;border-bottom:1px solid #eee;"><strong>%s</strong></td>
+            </tr>
+            <tr>
+              <td style="padding:8px 0;border-bottom:1px solid #eee;color:#888;font-size:13px;">Couverts</td>
+              <td style="padding:8px 0;border-bottom:1px solid #eee;"><strong>%d personne(s)</strong></td>
+            </tr>
+            <tr>
+              <td style="padding:8px 0;border-bottom:1px solid #eee;color:#888;font-size:13px;">Langue</td>
+              <td style="padding:8px 0;border-bottom:1px solid #eee;">%s</td>
+            </tr>
+            %s
+          </table>
+
+          <!-- Bouton CTA -->
+          <table width="100%%" cellpadding="0" cellspacing="0" style="margin-top:30px;">
+            <tr>
+              <td align="center">
+                <a href="%s"
+                   style="display:inline-block;padding:14px 32px;background:%s;color:#fff;text-decoration:none;border-radius:4px;font-family:sans-serif;font-size:14px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;">
+                  ✓ Traiter cette réservation
+                </a>
+              </td>
+            </tr>
+            <tr>
+              <td align="center" style="padding-top:10px;">
+                <p style="font-size:12px;color:#aaa;margin:0;">
+                  Ou copiez ce lien : <a href="%s" style="color:%s;font-size:11px;">%s</a>
+                </p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+      <!-- Pied de page -->
+      <tr>
+        <td style="padding:16px 30px;background:#f9f9f9;text-align:center;font-size:12px;color:#aaa;">
+          %s &mdash; Notification automatique
+        </td>
+      </tr>
+
+    </table>
+  </td></tr>
+</table>
+</body>
+</html>',
+            esc_attr( sanitize_hex_color( $primary ) ),
+            esc_html( get_bloginfo( 'name' ) ),
+            esc_html( $r['prenom'] ),
+            esc_html( $r['nom'] ),
+            esc_attr( $r['email'] ),
+            esc_attr( sanitize_hex_color( $primary ) ),
+            esc_html( $r['email'] ),
+            esc_html( $r['telephone'] ),
+            esc_html( $date_fmt ),
+            esc_html( $r['heure'] ),
+            (int) $r['personnes'],
+            esc_html( $lang_label ),
+            $message_row,
+            esc_url( $detail_url ),
+            esc_attr( sanitize_hex_color( $primary ) ),
+            esc_url( $detail_url ),
+            esc_attr( sanitize_hex_color( $primary ) ),
+            esc_html( $detail_url ),
+            esc_html( get_bloginfo( 'name' ) )
+        );
+    }
+
+    /**
      * Listener de l'événement "reservation_status_changed".
      *
      * Cette méthode est appelée par do_action('reservation_status_changed', $id, $status)
@@ -96,9 +261,12 @@ class Reservation_Email {
         $subject_key  = "subject_{$action_key}_{$lang}";
         $template_key = "email_{$action_key}_{$lang}";
 
-        // Fallback vers 'it' si la langue de la réservation n'a pas de template configuré
-        $subject  = $settings[ $subject_key ]  ?? $settings[ "subject_{$action_key}_it" ]  ?? '';
-        $template = $settings[ $template_key ] ?? $settings[ "email_{$action_key}_it" ]   ?? '';
+        // Chaîne de fallback :
+        // 1. template de la langue de la réservation (ex: subject_accepted_en)
+        // 2. template IT (langue par défaut du site)
+        // 3. clé sans suffixe de langue (valeurs de l'activation initiale du plugin)
+        $subject  = $settings[ $subject_key ]  ?? $settings[ "subject_{$action_key}_it" ]  ?? $settings[ "subject_{$action_key}" ]  ?? '';
+        $template = $settings[ $template_key ] ?? $settings[ "email_{$action_key}_it" ]   ?? $settings[ "email_{$action_key}" ]    ?? '';
 
         if ( empty( $subject ) || empty( $template ) ) {
             return;
@@ -169,8 +337,10 @@ class Reservation_Email {
             ? [ 'Content-Type: text/html; charset=UTF-8' ]
             : [ 'Content-Type: text/plain; charset=UTF-8' ];
 
-        // Convertit les sauts de ligne en <br> si HTML
-        if ( $is_html ) {
+        // Si le corps est du HTML mais PAS un document complet (template admin),
+        // on échappe et on enveloppe. Sinon (build_admin_notification_html), on
+        // envoie tel quel — le document HTML est déjà complet et escapé.
+        if ( $is_html && ! str_contains( $body, '<!DOCTYPE' ) ) {
             $body = nl2br( esc_html( $body ) );
             $body = $this->wrap_html( $body, get_bloginfo( 'name' ) );
         }

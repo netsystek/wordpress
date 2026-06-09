@@ -215,6 +215,11 @@ class Reservation_CPT {
         $lang = function_exists( 'pll_current_language' ) ? pll_current_language() : get_locale();
         update_post_meta( $post_id, self::META_LANG, sanitize_key( $lang ) );
 
+        // Déclenche l'événement "nouvelle réservation créée".
+        // Parallèle Symfony : $dispatcher->dispatch(new ReservationCreatedEvent($postId))
+        // Le listener (send_admin_notification) est branché dans restaurant-reservation.php.
+        do_action( 'reservation_created', $post_id );
+
         return $post_id;
     }
 

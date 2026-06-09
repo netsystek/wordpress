@@ -196,6 +196,7 @@ class Reservation_Admin {
 
             $this->add_settings_text_field( 'sender_name',  __( 'Nom de l\'expéditeur', 'restaurant-reservation' ),  'restaurant_res_sender_section' );
             $this->add_settings_text_field( 'sender_email', __( 'Email de l\'expéditeur', 'restaurant-reservation' ), 'restaurant_res_sender_section', 'email' );
+            $this->add_settings_text_field( 'notify_email', __( 'Email de notification (admin)', 'restaurant-reservation' ), 'restaurant_res_sender_section', 'email' );
 
             // Sections de templates d'email par langue (IT / EN / FR)
             $langs = [ 'it' => '🇮🇹 Italiano', 'en' => '🇬🇧 English', 'fr' => '🇫🇷 Français' ];
@@ -295,19 +296,50 @@ class Reservation_Admin {
      * Parallèle Symfony : équivalent à un FormType avec des constraints Assert.
      */
     public function sanitize_settings( array $input ): array {
-        $sanitized = [];
+        /*
+         * On part des valeurs existantes en base de données.
+         *
+         * POURQUOI : la page de configuration a plusieurs onglets (IT / EN / FR),
+         * chacun avec son propre <form>. Quand l'onglet IT est soumis, $_POST ne
+         * contient QUE les champs IT — les templates EN et FR sont absents de $input.
+         * Si on partait d'un tableau vide, chaque sauvegarde d'un onglet effacerait
+         * les données des autres onglets.
+         *
+         * En partant des valeurs existantes, on ne met à jour que les clés présentes
+         * dans $input, tout le reste est conservé tel quel.
+         *
+         * Parallèle Symfony : équivalent à $form->getData() qui part de l'objet
+         * existant et n'écrase que les champs soumis.
+         */
+        $sanitized = get_option( 'restaurant_res_settings', [] );
 
-        $sanitized['sender_name']      = sanitize_text_field( $input['sender_name'] ?? '' );
-        $sanitized['sender_email']     = sanitize_email( $input['sender_email'] ?? '' );
-        $sanitized['subject_accepted'] = sanitize_text_field( $input['subject_accepted'] ?? '' );
-        $sanitized['subject_rejected'] = sanitize_text_field( $input['subject_rejected'] ?? '' );
-        $sanitized['email_accepted']   = sanitize_textarea_field( $input['email_accepted'] ?? '' );
-        $sanitized['email_rejected']   = sanitize_textarea_field( $input['email_rejected'] ?? '' );
+        // Champs de la section "Expéditeur" (présents sur l'onglet IT uniquement)
+        if ( array_key_exists( 'sender_name', $input ) ) {
+            $sanitized['sender_name'] = sanitize_text_field( $input['sender_name'] );
+        }
+        if ( array_key_exists( 'sender_email', $input ) ) {
+            $sanitized['sender_email'] = sanitize_email( $input['sender_email'] );
+        }
+        if ( array_key_exists( 'notify_email', $input ) ) {
+            $sanitized['notify_email'] = sanitize_email( $input['notify_email'] );
+        }
+
+        // Templates par langue — boucle sur toutes les langues et les deux statuts
+        foreach ( array_keys( self::get_supported_langs() ) as $lang ) {
+            foreach ( [ 'accepted', 'rejected' ] as $action ) {
+                $sk = "subject_{$action}_{$lang}";
+                $tk = "email_{$action}_{$lang}";
+                if ( array_key_exists( $sk, $input ) ) {
+                    $sanitized[ $sk ] = sanitize_text_field( $input[ $sk ] );
+                }
+                if ( array_key_exists( $tk, $input ) ) {
+                    $sanitized[ $tk ] = sanitize_textarea_field( $input[ $tk ] );
+                }
+            }
+        }
 
         // Validation email expéditeur
         if ( ! empty( $sanitized['sender_email'] ) && ! is_email( $sanitized['sender_email'] ) ) {
-            // add_settings_error() ajoute un message d'erreur affiché dans l'admin
-            // Parallèle Symfony : équivalent à $form->addError(new FormError(...))
             add_settings_error(
                 'restaurant_res_settings',
                 'invalid_email',

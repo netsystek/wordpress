@@ -124,6 +124,9 @@ final class Restaurant_Reservation {
         // Parallèle Symfony : équivalent à dispatcher un Event personnalisé
         // et y abonner un Listener séparé
         add_action( 'reservation_status_changed', [ $email, 'send_status_email' ], 10, 2 );
+
+        // Notification email à l'admin quand une nouvelle réservation est soumise
+        add_action( 'reservation_created', [ $email, 'send_admin_notification' ] );
     }
 }
 
@@ -148,6 +151,7 @@ register_activation_hook( RESTAURANT_RES_FILE, function () {
             'email_rejected'   => "Bonjour {{client_prenom}},\n\nNous sommes désolés, nous ne pouvons pas confirmer votre réservation du {{reservation_date}} à {{reservation_heure}}.\n\nCordialement,\n{{restaurant_nom}}",
             'subject_accepted' => 'Votre réservation est confirmée — {{restaurant_nom}}',
             'subject_rejected' => 'Votre réservation — {{restaurant_nom}}',
+            'notify_email'     => get_bloginfo( 'admin_email' ),
         ] );
     }
 
