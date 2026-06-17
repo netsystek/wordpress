@@ -46,7 +46,7 @@ class Reservation_Form {
         wp_enqueue_style(
             'restaurant-res-form',
             RESTAURANT_RES_URL . 'public/assets/css/form.css',
-            [],
+            [ 'restaurant-main' ],
             RESTAURANT_RES_VERSION
         );
 

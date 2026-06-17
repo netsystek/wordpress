@@ -184,6 +184,33 @@ class Reservation_Admin {
                 'sanitize_callback' => [ $this, 'sanitize_settings' ],
             ] );
 
+            // Section : Labels du formulaire public
+            add_settings_section(
+                'restaurant_res_labels_section',
+                'Labels du formulaire de réservation',
+                function() {
+                    echo '<p class="description">Textes affichés dans le formulaire public de réservation.</p>';
+                },
+                'restaurant-res-settings'
+            );
+
+            $form_labels = [
+                'label_prenom'       => 'Prénom',
+                'label_nom'          => 'Nom',
+                'label_email'        => 'Email',
+                'label_telephone'    => 'Téléphone',
+                'label_date'         => 'Date',
+                'label_heure'        => 'Heure',
+                'label_personnes'    => 'Couverts',
+                'label_message'      => 'Message (optionnel)',
+                'label_placeholder'  => 'Allergies, occasion spéciale, demandes particulières…',
+                'label_required'     => '* Champs obligatoires',
+                'label_submit'       => 'Demander une réservation',
+            ];
+            foreach ( $form_labels as $key => $default ) {
+                $this->add_settings_text_field( $key, $default, 'restaurant_res_labels_section' );
+            }
+
             // Section : Expéditeur des emails
             add_settings_section(
                 'restaurant_res_sender_section',
@@ -312,6 +339,13 @@ class Reservation_Admin {
          * existant et n'écrase que les champs soumis.
          */
         $sanitized = get_option( 'restaurant_res_settings', [] );
+
+        // Labels du formulaire public
+        foreach ( [ 'label_prenom', 'label_nom', 'label_email', 'label_telephone', 'label_date', 'label_heure', 'label_personnes', 'label_message', 'label_placeholder', 'label_required', 'label_submit' ] as $key ) {
+            if ( array_key_exists( $key, $input ) ) {
+                $sanitized[ $key ] = sanitize_text_field( $input[ $key ] );
+            }
+        }
 
         // Champs de la section "Expéditeur" (présents sur l'onglet IT uniquement)
         if ( array_key_exists( 'sender_name', $input ) ) {

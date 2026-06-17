@@ -256,22 +256,32 @@ function restaurant_customizer_register( WP_Customize_Manager $wp_customize ) {
         'priority' => 45,
     ] );
 
+    $wp_customize->add_setting( 'reservation_label', [
+        'default'           => 'Réservation',
+        'sanitize_callback' => 'sanitize_text_field',
+    ] );
+    $wp_customize->add_control( 'reservation_label', [
+        'label'   => 'Label (petit texte au-dessus du titre)',
+        'section' => 'restaurant_reservation_texts',
+        'type'    => 'text',
+    ] );
+
     $wp_customize->add_setting( 'reservation_title', [
-        'default'           => __( 'Réserver une table', 'restaurant-theme' ),
+        'default'           => 'Réserver une table',
         'sanitize_callback' => 'sanitize_text_field',
     ] );
     $wp_customize->add_control( 'reservation_title', [
-        'label'   => __( 'Titre de la section', 'restaurant-theme' ),
+        'label'   => 'Titre de la section',
         'section' => 'restaurant_reservation_texts',
         'type'    => 'text',
     ] );
 
     $wp_customize->add_setting( 'reservation_text', [
-        'default'           => __( 'Réservez votre table en quelques secondes.', 'restaurant-theme' ),
+        'default'           => 'Réservez votre table en quelques secondes. Nous vous confirmerons votre réservation dans les plus brefs délais.',
         'sanitize_callback' => 'sanitize_text_field',
     ] );
     $wp_customize->add_control( 'reservation_text', [
-        'label'   => __( 'Texte d\'introduction', 'restaurant-theme' ),
+        'label'   => 'Texte d\'introduction',
         'section' => 'restaurant_reservation_texts',
         'type'    => 'textarea',
     ] );
