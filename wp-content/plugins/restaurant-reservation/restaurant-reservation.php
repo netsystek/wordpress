@@ -127,13 +127,6 @@ final class Restaurant_Reservation {
 
         // Notification email à l'admin quand une nouvelle réservation est soumise
         add_action( 'reservation_created', [ $email, 'send_admin_notification' ] );
-
-        // Auto-acceptation : passe immédiatement la réservation en "Acceptée"
-        // et déclenche l'envoi de l'email de confirmation au client via reservation_status_changed.
-        // Priorité 20 : s'exécute après send_admin_notification (priorité 10 par défaut).
-        add_action( 'reservation_created', function( int $post_id ) {
-            Reservation_CPT::update_status( $post_id, Reservation_CPT::STATUS_ACCEPTED );
-        }, 20 );
     }
 }
 

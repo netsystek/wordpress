@@ -209,12 +209,6 @@ class Reservation_CPT {
         update_post_meta( $post_id, self::META_PERSONNES, absint( $data['personnes'] ) );
         update_post_meta( $post_id, self::META_MESSAGE,   sanitize_textarea_field( $data['message'] ?? '' ) );
 
-        // Stocke la langue du visiteur au moment de la soumission.
-        // pll_current_language() est fournie par Polylang — retourne le slug de langue ('it', 'en', 'fr').
-        // On utilise function_exists() pour éviter une erreur si Polylang est désactivé.
-        $lang = function_exists( 'pll_current_language' ) ? pll_current_language() : get_locale();
-        update_post_meta( $post_id, self::META_LANG, sanitize_key( $lang ) );
-
         // Déclenche l'événement "nouvelle réservation créée".
         // Parallèle Symfony : $dispatcher->dispatch(new ReservationCreatedEvent($postId))
         // Le listener (send_admin_notification) est branché dans restaurant-reservation.php.

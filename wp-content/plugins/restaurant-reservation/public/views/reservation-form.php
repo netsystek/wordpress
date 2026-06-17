@@ -2,6 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 $settings      = get_option( 'restaurant_res_settings', [] );
+$max_personnes = intval( $settings['max_personnes'] ?? 20 );
 $l_prenom      = $settings['label_prenom']      ?? 'Prénom';
 $l_nom         = $settings['label_nom']         ?? 'Nom';
 $l_email       = $settings['label_email']       ?? 'Email';
@@ -96,7 +97,7 @@ $l_submit      = $settings['label_submit']      ?? 'Demander une réservation';
                 <label for="res-personnes"><?php echo esc_html( $l_personnes ); ?> <span aria-hidden="true">*</span></label>
                 <select id="res-personnes" name="personnes" required>
                     <option value="">-- Nombre --</option>
-                    <?php for ( $i = 1; $i <= 20; $i++ ) : ?>
+                    <?php for ( $i = 1; $i <= $max_personnes; $i++ ) : ?>
                         <option value="<?php echo esc_attr( $i ); ?>">
                             <?php echo esc_html( $i ); ?> <?php echo $i === 1 ? 'personne' : 'personnes'; ?>
                         </option>

@@ -87,10 +87,7 @@ class Reservation_Email {
             date_i18n( 'd/m/Y', strtotime( $reservation['date'] ) )
         );
 
-        $lang_labels = [ 'it' => '🇮🇹 Italiano', 'en' => '🇬🇧 English', 'fr' => '🇫🇷 Français' ];
-        $lang_label  = $lang_labels[ $reservation['lang'] ] ?? strtoupper( $reservation['lang'] );
-
-        $body = $this->build_admin_notification_html( $reservation, $detail_url, $lang_label );
+        $body = $this->build_admin_notification_html( $reservation, $detail_url );
 
         $this->send(
             $notify_email,
@@ -104,7 +101,7 @@ class Reservation_Email {
     /**
      * Construit le HTML de l'email de notification admin.
      */
-    private function build_admin_notification_html( array $r, string $detail_url, string $lang_label ): string {
+    private function build_admin_notification_html( array $r, string $detail_url ): string {
         $primary = get_theme_mod( 'color_primary', '#c8a96e' );
         $date_fmt = date_i18n( 'l j F Y', strtotime( $r['date'] ) );
 
@@ -156,10 +153,6 @@ class Reservation_Email {
               <td style="padding:8px 0;border-bottom:1px solid #eee;color:#888;font-size:13px;">Couverts</td>
               <td style="padding:8px 0;border-bottom:1px solid #eee;"><strong>%d personne(s)</strong></td>
             </tr>
-            <tr>
-              <td style="padding:8px 0;border-bottom:1px solid #eee;color:#888;font-size:13px;">Langue</td>
-              <td style="padding:8px 0;border-bottom:1px solid #eee;">%s</td>
-            </tr>
             %s
           </table>
 
@@ -207,7 +200,6 @@ class Reservation_Email {
             esc_html( $date_fmt ),
             esc_html( $r['heure'] ),
             (int) $r['personnes'],
-            esc_html( $lang_label ),
             $message_row,
             esc_url( $detail_url ),
             esc_attr( sanitize_hex_color( $primary ) ),
@@ -243,30 +235,10 @@ class Reservation_Email {
 
         $settings    = get_option( 'restaurant_res_settings', [] );
         $is_accepted = $new_status === Reservation_CPT::STATUS_ACCEPTED;
+        $action_key  = $is_accepted ? 'accepted' : 'rejected';
 
-        /*
-         * Sélectionne le template selon la langue de la réservation.
-         *
-         * Les clés de settings sont préfixées par la langue :
-         *   subject_accepted_it, subject_accepted_en, subject_accepted_fr
-         *   email_accepted_it, email_accepted_en, email_accepted_fr
-         *
-         * Fallback : si le template de la langue n'est pas configuré,
-         * on tombe sur la langue par défaut (it).
-         *
-         * Parallèle Symfony : équivalent à $translator->trans('email.subject', [], null, $locale)
-         */
-        $lang         = $reservation['lang'] ?? 'it';
-        $action_key   = $is_accepted ? 'accepted' : 'rejected';
-        $subject_key  = "subject_{$action_key}_{$lang}";
-        $template_key = "email_{$action_key}_{$lang}";
-
-        // Chaîne de fallback :
-        // 1. template de la langue de la réservation (ex: subject_accepted_en)
-        // 2. template IT (langue par défaut du site)
-        // 3. clé sans suffixe de langue (valeurs de l'activation initiale du plugin)
-        $subject  = $settings[ $subject_key ]  ?? $settings[ "subject_{$action_key}_it" ]  ?? $settings[ "subject_{$action_key}" ]  ?? '';
-        $template = $settings[ $template_key ] ?? $settings[ "email_{$action_key}_it" ]   ?? $settings[ "email_{$action_key}" ]    ?? '';
+        $subject  = $settings[ "subject_{$action_key}" ] ?? '';
+        $template = $settings[ "email_{$action_key}" ]   ?? '';
 
         if ( empty( $subject ) || empty( $template ) ) {
             return;

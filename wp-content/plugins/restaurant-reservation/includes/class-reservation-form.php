@@ -60,14 +60,17 @@ class Reservation_Form {
 
         // Injecte les variables PHP → JS
         // Parallèle Symfony : équivalent à json_encode et output dans un <script> Twig
+        $settings = get_option( 'restaurant_res_settings', [] );
         wp_localize_script( 'restaurant-res-form', 'resConfig', [
-            'ajaxUrl' => admin_url( 'admin-ajax.php' ),
-            // wp_create_nonce() génère un token unique lié à la session utilisateur
-            'nonce'   => wp_create_nonce( 'submit_reservation' ),
-            'i18n'    => [
-                'sending'  => __( 'Envoi en cours…', 'restaurant-reservation' ),
-                'success'  => __( 'Votre réservation est confirmée ! Un email de confirmation vous a été envoyé.', 'restaurant-reservation' ),
-                'error'    => __( 'Une erreur est survenue. Veuillez réessayer.', 'restaurant-reservation' ),
+            'ajaxUrl'        => admin_url( 'admin-ajax.php' ),
+            'nonce'          => wp_create_nonce( 'submit_reservation' ),
+            'joursFermeture' => array_map( 'intval', $settings['jours_fermeture'] ?? [] ),
+            'maxPersonnes'   => intval( $settings['max_personnes'] ?? 20 ),
+            'i18n'           => [
+                'sending'  => 'Envoi en cours…',
+                'success'  => 'Votre réservation a bien été reçue. Nous vous confirmerons par email dans les plus brefs délais.',
+                'error'    => 'Une erreur est survenue. Veuillez réessayer.',
+                'dayFerme' => 'Le restaurant est fermé ce jour-là. Veuillez choisir une autre date.',
             ],
         ] );
     }
@@ -128,18 +131,27 @@ class Reservation_Form {
             $errors[] = __( 'L\'adresse email n\'est pas valide.', 'restaurant-reservation' );
         }
 
-        // Validation date (format YYYY-MM-DD et pas dans le passé)
+        $settings        = get_option( 'restaurant_res_settings', [] );
+        $max_personnes   = intval( $settings['max_personnes'] ?? 20 );
+        $jours_fermeture = array_map( 'intval', $settings['jours_fermeture'] ?? [] );
+
+        // Validation date (format YYYY-MM-DD, pas dans le passé, pas un jour fermé)
         if ( ! empty( $_POST['date'] ) ) {
             $date = sanitize_text_field( wp_unslash( $_POST['date'] ) );
             if ( strtotime( $date ) < strtotime( 'today' ) ) {
-                $errors[] = __( 'La date de réservation doit être dans le futur.', 'restaurant-reservation' );
+                $errors[] = 'La date de réservation doit être dans le futur.';
+            } elseif ( ! empty( $jours_fermeture ) ) {
+                $day_of_week = intval( date( 'w', strtotime( $date ) ) );
+                if ( in_array( $day_of_week, $jours_fermeture, true ) ) {
+                    $errors[] = 'Le restaurant est fermé ce jour-là. Veuillez choisir une autre date.';
+                }
             }
         }
 
         // Validation nombre de personnes
         $personnes = absint( $_POST['personnes'] ?? 0 );
-        if ( $personnes < 1 || $personnes > 50 ) {
-            $errors[] = __( 'Le nombre de personnes doit être entre 1 et 50.', 'restaurant-reservation' );
+        if ( $personnes < 1 || $personnes > $max_personnes ) {
+            $errors[] = sprintf( 'Le nombre de couverts doit être entre 1 et %d.', $max_personnes );
         }
 
         if ( ! empty( $errors ) ) {
@@ -170,13 +182,24 @@ class Reservation_Form {
 
         if ( is_wp_error( $post_id ) ) {
             wp_send_json_error( [
-                'messages' => [ __( 'Impossible d\'enregistrer la réservation. Veuillez réessayer.', 'restaurant-reservation' ) ],
+                'messages' => [ 'Impossible d\'enregistrer la réservation. Veuillez réessayer.' ],
             ], 500 );
         }
 
-        // 5. RÉPONSE JSON DE SUCCÈS
+        // 5. CONFIRMATION AUTOMATIQUE (si activée dans les settings)
+        if ( ! empty( $settings['auto_confirm'] ) ) {
+            Reservation_CPT::update_status( $post_id, Reservation_CPT::STATUS_ACCEPTED );
+            // update_status() déclenche do_action('reservation_status_changed', $post_id, STATUS_ACCEPTED)
+            // ce qui appelle Reservation_Email::send_status_email() automatiquement
+        }
+
+        // 6. RÉPONSE JSON DE SUCCÈS
+        $message = ! empty( $settings['auto_confirm'] )
+            ? 'Votre réservation est confirmée ! Un email de confirmation vous a été envoyé.'
+            : 'Votre demande a bien été reçue. Nous vous confirmerons votre réservation dans les plus brefs délais.';
+
         wp_send_json_success( [
-            'message' => __( 'Votre réservation est confirmée ! Un email de confirmation vous a été envoyé.', 'restaurant-reservation' ),
+            'message' => $message,
             'id'      => $post_id,
         ] );
     }

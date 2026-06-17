@@ -14,11 +14,25 @@
 
     if (!form) return;
 
+    // Validation côté client : jours de fermeture
+    const dateInput = document.getElementById('res-date');
+    if (dateInput) {
+        dateInput.addEventListener('change', function () {
+            validateDate(this.value);
+        });
+    }
+
     form.addEventListener('submit', async function (e) {
         e.preventDefault();
 
         // Réinitialise les erreurs précédentes
         clearErrors();
+
+        // Vérifie le jour de fermeture avant d'envoyer
+        if (dateInput && !validateDate(dateInput.value)) {
+            return;
+        }
+
         setLoading(true);
 
         // Collecte les données du formulaire
@@ -77,6 +91,24 @@
         feedback.style.display = 'block';
         // Scroll vers le message pour les mobiles
         feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function validateDate(dateValue) {
+        if (!dateValue) return true;
+        const joursFermeture = resConfig.joursFermeture || [];
+        if (joursFermeture.length === 0) return true;
+
+        // Utilise midi pour éviter les décalages UTC
+        const date = new Date(dateValue + 'T12:00:00');
+        const day  = date.getDay(); // 0=Dim, 1=Lun, ..., 6=Sam
+
+        const errorEl = document.querySelector('#res-date ~ .res-field-error');
+        if (joursFermeture.includes(day)) {
+            if (errorEl) errorEl.textContent = resConfig.i18n.dayFerme;
+            return false;
+        }
+        if (errorEl) errorEl.textContent = '';
+        return true;
     }
 
     function clearErrors() {

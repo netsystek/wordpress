@@ -184,6 +184,56 @@ class Reservation_Admin {
                 'sanitize_callback' => [ $this, 'sanitize_settings' ],
             ] );
 
+            // Section : Capacité & Jours d'ouverture
+            add_settings_section(
+                'restaurant_res_capacity_section',
+                'Capacité & Jours d\'ouverture',
+                function() {
+                    echo '<p class="description">Contraintes appliquées au formulaire de réservation et à la validation serveur.</p>';
+                },
+                'restaurant-res-settings'
+            );
+
+            // Confirmation automatique
+            add_settings_field(
+                'restaurant_res_auto_confirm',
+                'Confirmation automatique',
+                function() {
+                    $settings = get_option( 'restaurant_res_settings', [] );
+                    $checked  = ! empty( $settings['auto_confirm'] ) ? ' checked' : '';
+                    echo '<label>';
+                    printf( '<input type="checkbox" name="restaurant_res_settings[auto_confirm]" value="1"%s>', $checked );
+                    echo ' Confirmer et envoyer l\'email de confirmation au client dès la soumission du formulaire</label>';
+                    echo '<p class="description" style="margin-top:6px;">Si décoché, les réservations restent <em>En attente</em> jusqu\'à votre validation manuelle.</p>';
+                },
+                'restaurant-res-settings',
+                'restaurant_res_capacity_section'
+            );
+
+            $this->add_settings_text_field( 'max_personnes', 'Nombre maximum de couverts', 'restaurant_res_capacity_section', 'number' );
+
+            add_settings_field(
+                'restaurant_res_jours_fermeture',
+                'Jours de fermeture',
+                function() {
+                    $settings = get_option( 'restaurant_res_settings', [] );
+                    $closed   = array_map( 'intval', $settings['jours_fermeture'] ?? [] );
+                    $days     = [ 0 => 'Dimanche', 1 => 'Lundi', 2 => 'Mardi', 3 => 'Mercredi', 4 => 'Jeudi', 5 => 'Vendredi', 6 => 'Samedi' ];
+                    echo '<fieldset>';
+                    foreach ( $days as $num => $label ) {
+                        printf(
+                            '<label style="display:inline-block;margin-right:1.25rem;"><input type="checkbox" name="restaurant_res_settings[jours_fermeture][]" value="%d"%s> %s</label>',
+                            $num,
+                            in_array( $num, $closed, true ) ? ' checked' : '',
+                            esc_html( $label )
+                        );
+                    }
+                    echo '</fieldset><p class="description">Les clients ne pourront pas sélectionner ces jours dans le formulaire.</p>';
+                },
+                'restaurant-res-settings',
+                'restaurant_res_capacity_section'
+            );
+
             // Section : Labels du formulaire public
             add_settings_section(
                 'restaurant_res_labels_section',
@@ -339,6 +389,16 @@ class Reservation_Admin {
          * existant et n'écrase que les champs soumis.
          */
         $sanitized = get_option( 'restaurant_res_settings', [] );
+
+        // Capacité & jours de fermeture
+        if ( array_key_exists( 'max_personnes', $input ) ) {
+            $max = absint( $input['max_personnes'] );
+            $sanitized['max_personnes']   = $max >= 1 ? $max : 20;
+            $sanitized['auto_confirm']    = ! empty( $input['auto_confirm'] ) ? 1 : 0;
+            $sanitized['jours_fermeture'] = isset( $input['jours_fermeture'] )
+                ? array_map( 'intval', (array) $input['jours_fermeture'] )
+                : [];
+        }
 
         // Labels du formulaire public
         foreach ( [ 'label_prenom', 'label_nom', 'label_email', 'label_telephone', 'label_date', 'label_heure', 'label_personnes', 'label_message', 'label_placeholder', 'label_required', 'label_submit' ] as $key ) {
