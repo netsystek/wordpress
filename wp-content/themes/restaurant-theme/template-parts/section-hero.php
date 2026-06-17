@@ -21,10 +21,10 @@ $hero_style = $bg_image
     <div class="hero-content">
         <h1 class="hero-headline"><?php echo esc_html( $headline ); ?></h1>
         <p class="hero-subheadline"><?php echo esc_html( $subline ); ?></p>
-        <a href="#reservation" class="btn btn-primary">
-            <?php echo esc_html( get_theme_mod( 'hero_cta_label', __( 'Réserver une table', 'restaurant-theme' ) ) ); ?>
-        </a>
     </div>
+    <a href="#reservation" class="btn btn-primary hero-cta">
+        <?php echo esc_html( get_theme_mod( 'hero_cta_label', 'Réserver une table' ) ); ?>
+    </a>
     <a href="#about" class="hero-scroll-indicator" aria-label="Défiler vers le bas">
         <i class="fa-solid fa-chevron-down"></i>
     </a>

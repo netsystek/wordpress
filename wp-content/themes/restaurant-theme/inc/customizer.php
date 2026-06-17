@@ -55,13 +55,33 @@ function restaurant_customizer_register( WP_Customize_Manager $wp_customize ) {
 
     // Setting : texte du bouton CTA du hero
     $wp_customize->add_setting( 'hero_cta_label', [
-        'default'           => __( 'Réserver une table', 'restaurant-theme' ),
+        'default'           => 'Réserver une table',
         'sanitize_callback' => 'sanitize_text_field',
     ] );
     $wp_customize->add_control( 'hero_cta_label', [
-        'label'   => __( 'Texte du bouton (CTA)', 'restaurant-theme' ),
+        'label'   => 'Texte du bouton CTA',
         'section' => 'restaurant_header',
         'type'    => 'text',
+    ] );
+
+    // Setting : position du bouton CTA dans le header
+    $wp_customize->add_setting( 'cta_position', [
+        'default'           => 'bottom-right',
+        'sanitize_callback' => function( $val ) {
+            $allowed = [ 'top-right', 'bottom-right', 'bottom-left', 'hidden' ];
+            return in_array( $val, $allowed, true ) ? $val : 'bottom-right';
+        },
+    ] );
+    $wp_customize->add_control( 'cta_position', [
+        'label'   => 'Position du bouton CTA (header)',
+        'section' => 'restaurant_header',
+        'type'    => 'select',
+        'choices' => [
+            'top-right'    => 'En haut à droite (inline avec le menu)',
+            'bottom-right' => 'En bas à droite du header',
+            'bottom-left'  => 'En bas à gauche du header',
+            'hidden'       => 'Masqué',
+        ],
     ] );
 
     // Setting : texte d'accroche (headline) du hero

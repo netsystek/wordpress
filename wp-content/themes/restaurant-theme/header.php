@@ -23,55 +23,25 @@
 wp_body_open();
 ?>
 
-<header class="site-header" id="top">
+<?php
+$cta_label    = get_theme_mod( 'hero_cta_label', 'Réserver une table' );
+$cta_position = get_theme_mod( 'cta_position', 'bottom-right' );
+?>
+<header class="site-header<?php echo $cta_position !== 'hidden' && $cta_position !== 'top-right' ? ' site-header--has-bottom-cta' : ''; ?>" id="top">
     <?php
-    /*
-     * Navigation principale.
-     * wp_nav_menu() génère le HTML du menu enregistré dans functions.php.
-     * Parallèle Symfony : équivalent à {{ knp_menu_render('main') }} en Twig.
-     *
-     * Le menu doit être assigné dans WP Admin > Apparence > Menus
-     * (ou via le Customizer > Menus).
-     */
     wp_nav_menu( [
-        'theme_location' => 'primary',
-        'menu_class'     => 'nav-menu',
-        'container'      => 'nav',
+        'theme_location'  => 'primary',
+        'menu_class'      => 'nav-menu',
+        'container'       => 'nav',
         'container_class' => 'site-nav',
-        'fallback_cb'    => false,  // Ne rien afficher si aucun menu assigné
+        'fallback_cb'     => false,
     ] );
     ?>
-    <?php
-    /*
-     * Sélecteur de langue — affiché uniquement si Polylang est actif.
-     *
-     * pll_the_languages() est la fonction de Polylang qui génère les liens
-     * vers les versions dans chaque langue de la page courante.
-     *
-     * Parallèle Symfony : équivalent au LocaleSwitcher de Symfony UX
-     * ou à un menu construit avec $router->generate('route', ['_locale' => 'it']).
-     *
-     * Le paramètre 'raw' => 1 retourne un tableau PHP au lieu du HTML,
-     * ce qui nous permet de personnaliser complètement le rendu.
-     */
-    if ( function_exists( 'pll_the_languages' ) ) :
-        $languages = pll_the_languages( [ 'raw' => 1 ] );
-        if ( ! empty( $languages ) ) :
-            ?>
-            <nav class="language-switcher" aria-label="<?php esc_attr_e( 'Sélecteur de langue', 'restaurant-theme' ); ?>">
-                <?php foreach ( $languages as $lang ) :
-                    $classes  = 'lang-item';
-                    $classes .= $lang['current_lang'] ? ' lang-item--active' : '';
-                    ?>
-                    <a href="<?php echo esc_url( $lang['url'] ); ?>"
-                       class="<?php echo esc_attr( $classes ); ?>"
-                       lang="<?php echo esc_attr( $lang['locale'] ); ?>"
-                       hreflang="<?php echo esc_attr( $lang['locale'] ); ?>"
-                       <?php echo $lang['current_lang'] ? 'aria-current="true"' : ''; ?>>
-                        <?php echo esc_html( strtoupper( $lang['slug'] ) ); ?>
-                    </a>
-                <?php endforeach; ?>
-            </nav>
-        <?php endif;
-    endif; ?>
+
+    <?php if ( $cta_position !== 'hidden' ) : ?>
+        <a href="#reservation"
+           class="btn btn-primary header-cta header-cta--<?php echo esc_attr( $cta_position ); ?>">
+            <?php echo esc_html( $cta_label ); ?>
+        </a>
+    <?php endif; ?>
 </header>
