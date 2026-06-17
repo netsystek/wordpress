@@ -76,21 +76,53 @@
     padding: 0.75rem 1rem;
     font-family: var(--font-body, sans-serif);
     font-size: 1rem;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 4px;
     color: #fff;
-    transition: border-color 0.3s ease;
+    transition: border-color 0.25s ease, background-color 0.25s ease;
     -webkit-appearance: none;
     appearance: none;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-/* Champs select : flèche personnalisée */
+/* Champs select : fond solide pour éviter le blanc natif du navigateur */
 .res-form-group select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='rgba(255,255,255,0.6)' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-color: #242424;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23c8a96e' d='M5 7L0 2h10z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
-    background-position: right 12px center;
+    background-position: right 14px center;
     padding-right: 2.5rem;
+    border-color: rgba(200, 169, 110, 0.3);
+    cursor: pointer;
+}
+
+.res-form-group select:hover {
+    border-color: rgba(200, 169, 110, 0.6);
+    background-color: #2a2a2a;
+}
+
+/* Options du menu déroulant */
+.res-form-group select option {
+    background-color: #242424;
+    color: #fff;
+}
+
+.res-form-group select option[value=""] {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* Input date : fond solide pour éviter le blanc natif */
+.res-form-group input[type="date"] {
+    background-color: #242424;
+    border-color: rgba(200, 169, 110, 0.3);
+    color-scheme: dark;
+}
+
+.res-form-group input[type="date"]:hover {
+    border-color: rgba(200, 169, 110, 0.6);
+    background-color: #2a2a2a;
 }
 
 .res-form-group input:focus,
@@ -98,11 +130,12 @@
 .res-form-group select:focus {
     outline: none;
     border-color: var(--color-primary, #c8a96e);
+    background-color: #2a2a2a;
 }
 
 .res-form-group input::placeholder,
 .res-form-group textarea::placeholder {
-    color: rgba(255, 255, 255, 0.35);
+    color: rgba(255, 255, 255, 0.3);
 }
 
 .res-form-group textarea {

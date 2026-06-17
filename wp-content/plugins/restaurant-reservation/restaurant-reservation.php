@@ -127,6 +127,13 @@ final class Restaurant_Reservation {
 
         // Notification email à l'admin quand une nouvelle réservation est soumise
         add_action( 'reservation_created', [ $email, 'send_admin_notification' ] );
+
+        // Auto-acceptation : passe immédiatement la réservation en "Acceptée"
+        // et déclenche l'envoi de l'email de confirmation au client via reservation_status_changed.
+        // Priorité 20 : s'exécute après send_admin_notification (priorité 10 par défaut).
+        add_action( 'reservation_created', function( int $post_id ) {
+            Reservation_CPT::update_status( $post_id, Reservation_CPT::STATUS_ACCEPTED );
+        }, 20 );
     }
 }
 
@@ -145,13 +152,33 @@ register_activation_hook( RESTAURANT_RES_FILE, function () {
     // get_option() retourne false si l'option n'existe pas
     if ( ! get_option( 'restaurant_res_settings' ) ) {
         update_option( 'restaurant_res_settings', [
-            'sender_name'      => get_bloginfo( 'name' ),
-            'sender_email'     => get_bloginfo( 'admin_email' ),
-            'email_accepted'   => "Bonjour {{client_prenom}},\n\nVotre réservation pour {{reservation_personnes}} personne(s) le {{reservation_date}} à {{reservation_heure}} est confirmée.\n\nÀ bientôt,\n{{restaurant_nom}}",
-            'email_rejected'   => "Bonjour {{client_prenom}},\n\nNous sommes désolés, nous ne pouvons pas confirmer votre réservation du {{reservation_date}} à {{reservation_heure}}.\n\nCordialement,\n{{restaurant_nom}}",
+            'sender_name'  => get_bloginfo( 'name' ),
+            'sender_email' => get_bloginfo( 'admin_email' ),
+            'notify_email' => get_bloginfo( 'admin_email' ),
+
+            // Templates génériques (fallback si la langue n'est pas trouvée)
             'subject_accepted' => 'Votre réservation est confirmée — {{restaurant_nom}}',
+            'email_accepted'   => "Bonjour {{client_prenom}},\n\nVotre réservation pour {{reservation_personnes}} personne(s) le {{reservation_date}} à {{reservation_heure}} est confirmée.\n\nÀ bientôt !\n{{restaurant_nom}}",
             'subject_rejected' => 'Votre réservation — {{restaurant_nom}}',
-            'notify_email'     => get_bloginfo( 'admin_email' ),
+            'email_rejected'   => "Bonjour {{client_prenom}},\n\nNous sommes désolés, nous ne pouvons pas confirmer votre réservation du {{reservation_date}} à {{reservation_heure}}.\n\nCordialement,\n{{restaurant_nom}}",
+
+            // Templates 🇮🇹 Italiano
+            'subject_accepted_it' => 'La Sua prenotazione è confermata — {{restaurant_nom}}',
+            'email_accepted_it'   => "Gentile {{client_prenom}},\n\nLa Sua prenotazione per {{reservation_personnes}} persona/e il {{reservation_date}} alle {{reservation_heure}} è confermata.\n\nA presto!\n{{restaurant_nom}}",
+            'subject_rejected_it' => 'La Sua prenotazione — {{restaurant_nom}}',
+            'email_rejected_it'   => "Gentile {{client_prenom}},\n\nCi dispiace, non è possibile confermare la Sua prenotazione del {{reservation_date}} alle {{reservation_heure}}.\n\nCordialmente,\n{{restaurant_nom}}",
+
+            // Templates 🇬🇧 English
+            'subject_accepted_en' => 'Your reservation is confirmed — {{restaurant_nom}}',
+            'email_accepted_en'   => "Dear {{client_prenom}},\n\nYour reservation for {{reservation_personnes}} guest(s) on {{reservation_date}} at {{reservation_heure}} is confirmed.\n\nSee you soon!\n{{restaurant_nom}}",
+            'subject_rejected_en' => 'Your reservation — {{restaurant_nom}}',
+            'email_rejected_en'   => "Dear {{client_prenom}},\n\nWe are sorry, we cannot confirm your reservation for {{reservation_date}} at {{reservation_heure}}.\n\nKind regards,\n{{restaurant_nom}}",
+
+            // Templates 🇫🇷 Français
+            'subject_accepted_fr' => 'Votre réservation est confirmée — {{restaurant_nom}}',
+            'email_accepted_fr'   => "Bonjour {{client_prenom}},\n\nVotre réservation pour {{reservation_personnes}} personne(s) le {{reservation_date}} à {{reservation_heure}} est confirmée.\n\nÀ bientôt !\n{{restaurant_nom}}",
+            'subject_rejected_fr' => 'Votre réservation — {{restaurant_nom}}',
+            'email_rejected_fr'   => "Bonjour {{client_prenom}},\n\nNous sommes désolés, nous ne pouvons pas confirmer votre réservation du {{reservation_date}} à {{reservation_heure}}.\n\nCordialement,\n{{restaurant_nom}}",
         ] );
     }
 

@@ -89,8 +89,8 @@ msgstr "Restaurant name"
 msgid "Envoi en cours…"
 msgstr "Sending…"
 
-msgid "Votre demande de réservation a bien été envoyée ! Vous recevrez une confirmation par email."
-msgstr "Your reservation request has been sent! You will receive a confirmation by email."
+msgid "Votre réservation est confirmée ! Un email de confirmation vous a été envoyé."
+msgstr "Your reservation is confirmed! A confirmation email has been sent to you."
 
 msgid "Une erreur est survenue. Veuillez réessayer."
 msgstr "An error occurred. Please try again."
@@ -155,9 +155,6 @@ msgstr "Required fields"
 msgid "Demander une réservation"
 msgstr "Request a reservation"
 
-msgid "Toutes les réservations"
-msgstr "All reservations"
-
 msgid "Configuration"
 msgstr "Settings"
 
@@ -169,9 +166,6 @@ msgstr "Contact"
 
 msgid "Date & Heure"
 msgstr "Date & Time"
-
-msgid "Couverts"
-msgstr "Guests"
 
 msgid "Statut"
 msgstr "Status"
@@ -215,9 +209,6 @@ msgstr "Reservation details"
 msgid "Demande reçue le"
 msgstr "Request received on"
 
-msgid "Message du client"
-msgstr "Customer message"
-
 msgid "Nombre de couverts"
 msgstr "Number of guests"
 
@@ -232,6 +223,12 @@ msgstr "Accept reservation"
 
 msgid "Refuser la réservation"
 msgstr "Reject reservation"
+
+msgid "Réservation confirmée"
+msgstr "Reservation confirmed"
+
+msgid "Annuler cette réservation"
+msgstr "Cancel this reservation"
 
 msgid "Cette réservation a été acceptée. Un email de confirmation a été envoyé au client."
 msgstr "This reservation has been accepted. A confirmation email has been sent to the customer."

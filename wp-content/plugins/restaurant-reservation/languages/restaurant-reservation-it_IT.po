@@ -93,8 +93,8 @@ msgstr "Nome del ristorante"
 msgid "Envoi en cours…"
 msgstr "Invio in corso…"
 
-msgid "Votre demande de réservation a bien été envoyée ! Vous recevrez une confirmation par email."
-msgstr "La tua richiesta di prenotazione è stata inviata! Riceverai una conferma via email."
+msgid "Votre réservation est confirmée ! Un email de confirmation vous a été envoyé."
+msgstr "La tua prenotazione è confermata! Ti abbiamo inviato un'email di conferma."
 
 msgid "Une erreur est survenue. Veuillez réessayer."
 msgstr "Si è verificato un errore. Riprova."
@@ -161,12 +161,6 @@ msgid "Demander une réservation"
 msgstr "Richiedi una prenotazione"
 
 # Admin menu
-msgid "Réservations"
-msgstr "Prenotazioni"
-
-msgid "Toutes les réservations"
-msgstr "Tutte le prenotazioni"
-
 msgid "Configuration"
 msgstr "Configurazione"
 
@@ -179,9 +173,6 @@ msgstr "Contatto"
 
 msgid "Date & Heure"
 msgstr "Data & Ora"
-
-msgid "Couverts"
-msgstr "Coperti"
 
 msgid "Statut"
 msgstr "Stato"
@@ -226,9 +217,6 @@ msgstr "Dettagli della prenotazione"
 msgid "Demande reçue le"
 msgstr "Richiesta ricevuta il"
 
-msgid "Message du client"
-msgstr "Messaggio del cliente"
-
 msgid "Nombre de couverts"
 msgstr "Numero di coperti"
 
@@ -243,6 +231,12 @@ msgstr "Accetta la prenotazione"
 
 msgid "Refuser la réservation"
 msgstr "Rifiuta la prenotazione"
+
+msgid "Réservation confirmée"
+msgstr "Prenotazione confermata"
+
+msgid "Annuler cette réservation"
+msgstr "Annulla questa prenotazione"
 
 msgid "Cette réservation a été acceptée. Un email de confirmation a été envoyé au client."
 msgstr "Questa prenotazione è stata accettata. Un'email di conferma è stata inviata al cliente."

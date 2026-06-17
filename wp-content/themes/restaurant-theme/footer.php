@@ -32,6 +32,7 @@
             $social_networks = [
                 'facebook'    => 'fa-brands fa-facebook-f',
                 'instagram'   => 'fa-brands fa-instagram',
+                'whatsapp'    => 'fa-brands fa-whatsapp',
                 'tripadvisor' => 'fa-brands fa-tripadvisor',
             ];
             foreach ( $social_networks as $key => $icon ) :

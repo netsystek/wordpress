@@ -53,6 +53,17 @@ function restaurant_customizer_register( WP_Customize_Manager $wp_customize ) {
         'section' => 'restaurant_header',
     ] ) );
 
+    // Setting : texte du bouton CTA du hero
+    $wp_customize->add_setting( 'hero_cta_label', [
+        'default'           => __( 'Réserver une table', 'restaurant-theme' ),
+        'sanitize_callback' => 'sanitize_text_field',
+    ] );
+    $wp_customize->add_control( 'hero_cta_label', [
+        'label'   => __( 'Texte du bouton (CTA)', 'restaurant-theme' ),
+        'section' => 'restaurant_header',
+        'type'    => 'text',
+    ] );
+
     // Setting : texte d'accroche (headline) du hero
     $wp_customize->add_setting( 'hero_headline', [
         'default'           => __( 'Bienvenue dans notre restaurant', 'restaurant-theme' ),
@@ -114,6 +125,7 @@ function restaurant_customizer_register( WP_Customize_Manager $wp_customize ) {
     ] );
 
     foreach ( [
+        'about_label' => [ 'label' => 'Label (ex: Notre histoire)', 'default' => 'Notre histoire', 'type' => 'text' ],
         'about_title'  => [ 'label' => 'Titre de la section', 'default' => 'Une cuisine du cœur', 'type' => 'text' ],
         'about_text'   => [ 'label' => 'Paragraphe 1', 'default' => 'Depuis 1985, nous perpétuons la tradition de la cuisine française avec des produits frais sélectionnés chaque matin.', 'type' => 'textarea' ],
         'about_text_2' => [ 'label' => 'Paragraphe 2', 'default' => 'Venez découvrir un cadre chaleureux au cœur de la ville.', 'type' => 'textarea' ],
@@ -167,6 +179,45 @@ function restaurant_customizer_register( WP_Customize_Manager $wp_customize ) {
     ] );
 
     // =========================================================================
+    // SECTION : Location per Eventi
+    // =========================================================================
+    $wp_customize->add_section( 'restaurant_eventi', [
+        'title'    => __( 'Location per Eventi', 'restaurant-theme' ),
+        'panel'    => 'restaurant_panel',
+        'priority' => 32,
+    ] );
+
+    $wp_customize->add_setting( 'eventi_title', [
+        'default'           => 'Location per Eventi',
+        'sanitize_callback' => 'sanitize_text_field',
+    ] );
+    $wp_customize->add_control( 'eventi_title', [
+        'label'   => __( 'Titre de la section', 'restaurant-theme' ),
+        'section' => 'restaurant_eventi',
+        'type'    => 'text',
+    ] );
+
+    $wp_customize->add_setting( 'eventi_text', [
+        'default'           => '',
+        'sanitize_callback' => 'sanitize_textarea_field',
+    ] );
+    $wp_customize->add_control( 'eventi_text', [
+        'label'       => __( 'Description', 'restaurant-theme' ),
+        'description' => __( 'Laissez une ligne vide entre chaque paragraphe.', 'restaurant-theme' ),
+        'section'     => 'restaurant_eventi',
+        'type'        => 'textarea',
+    ] );
+
+    $wp_customize->add_setting( 'eventi_image', [
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+    ] );
+    $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'eventi_image', [
+        'label'   => __( 'Image', 'restaurant-theme' ),
+        'section' => 'restaurant_eventi',
+    ] ) );
+
+    // =========================================================================
     // SECTION : Carousel / Galerie
     // =========================================================================
     $wp_customize->add_section( 'restaurant_carousel', [
@@ -184,6 +235,17 @@ function restaurant_customizer_register( WP_Customize_Manager $wp_customize ) {
         'section' => 'restaurant_carousel',
         'type'    => 'text',
     ] );
+
+    for ( $i = 1; $i <= 8; $i++ ) {
+        $wp_customize->add_setting( "carousel_image_{$i}", [
+            'default'           => '',
+            'sanitize_callback' => 'esc_url_raw',
+        ] );
+        $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, "carousel_image_{$i}", [
+            'label'   => sprintf( __( 'Image %d', 'restaurant-theme' ), $i ),
+            'section' => 'restaurant_carousel',
+        ] ) );
+    }
 
     // =========================================================================
     // SECTION : Réservation (textes)
@@ -223,6 +285,16 @@ function restaurant_customizer_register( WP_Customize_Manager $wp_customize ) {
         'priority' => 38,
     ] );
 
+    $wp_customize->add_setting( 'menu_section_label', [
+        'default'           => __( 'À table', 'restaurant-theme' ),
+        'sanitize_callback' => 'sanitize_text_field',
+    ] );
+    $wp_customize->add_control( 'menu_section_label', [
+        'label'   => __( 'Label (ex: À table)', 'restaurant-theme' ),
+        'section' => 'restaurant_menu_section',
+        'type'    => 'text',
+    ] );
+
     $wp_customize->add_setting( 'menu_section_title', [
         'default'           => __( 'Notre carte', 'restaurant-theme' ),
         'sanitize_callback' => 'sanitize_text_field',
@@ -231,6 +303,27 @@ function restaurant_customizer_register( WP_Customize_Manager $wp_customize ) {
         'label'   => __( 'Titre de la section', 'restaurant-theme' ),
         'section' => 'restaurant_menu_section',
         'type'    => 'text',
+    ] );
+
+    $wp_customize->add_setting( 'menu_btn_label', [
+        'default'           => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ] );
+    $wp_customize->add_control( 'menu_btn_label', [
+        'label'       => __( 'Texte du bouton', 'restaurant-theme' ),
+        'description' => __( 'Laisser vide pour ne pas afficher le bouton.', 'restaurant-theme' ),
+        'section'     => 'restaurant_menu_section',
+        'type'        => 'text',
+    ] );
+
+    $wp_customize->add_setting( 'menu_btn_url', [
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+    ] );
+    $wp_customize->add_control( 'menu_btn_url', [
+        'label'   => __( 'URL du bouton', 'restaurant-theme' ),
+        'section' => 'restaurant_menu_section',
+        'type'    => 'url',
     ] );
 
     // =========================================================================
@@ -245,6 +338,7 @@ function restaurant_customizer_register( WP_Customize_Manager $wp_customize ) {
     $social_networks = [
         'facebook'    => [ 'label' => 'Facebook', 'icon' => 'fa-brands fa-facebook-f' ],
         'instagram'   => [ 'label' => 'Instagram', 'icon' => 'fa-brands fa-instagram' ],
+        'whatsapp'    => [ 'label' => 'WhatsApp', 'icon' => 'fa-brands fa-whatsapp' ],
         'tripadvisor' => [ 'label' => 'TripAdvisor', 'icon' => 'fa-brands fa-tripadvisor' ],
     ];
 
@@ -253,11 +347,15 @@ function restaurant_customizer_register( WP_Customize_Manager $wp_customize ) {
             'default'           => '',
             'sanitize_callback' => 'esc_url_raw',
         ] );
+        $placeholder = $key === 'whatsapp'
+            ? 'https://wa.me/votrenuméro'
+            : "https://www.{$key}.com/votrerestaurant";
+
         $wp_customize->add_control( "social_{$key}", [
             'label'       => $network['label'] . ' URL',
             'section'     => 'restaurant_social',
             'type'        => 'url',
-            'input_attrs' => [ 'placeholder' => "https://www.{$key}.com/votrerestaurant" ],
+            'input_attrs' => [ 'placeholder' => $placeholder ],
         ] );
     }
 

@@ -66,7 +66,7 @@ class Reservation_Form {
             'nonce'   => wp_create_nonce( 'submit_reservation' ),
             'i18n'    => [
                 'sending'  => __( 'Envoi en cours…', 'restaurant-reservation' ),
-                'success'  => __( 'Votre demande de réservation a bien été envoyée ! Vous recevrez une confirmation par email.', 'restaurant-reservation' ),
+                'success'  => __( 'Votre réservation est confirmée ! Un email de confirmation vous a été envoyé.', 'restaurant-reservation' ),
                 'error'    => __( 'Une erreur est survenue. Veuillez réessayer.', 'restaurant-reservation' ),
             ],
         ] );
@@ -176,7 +176,7 @@ class Reservation_Form {
 
         // 5. RÉPONSE JSON DE SUCCÈS
         wp_send_json_success( [
-            'message' => __( 'Votre demande de réservation a bien été envoyée ! Vous recevrez une confirmation par email.', 'restaurant-reservation' ),
+            'message' => __( 'Votre réservation est confirmée ! Un email de confirmation vous a été envoyé.', 'restaurant-reservation' ),
             'id'      => $post_id,
         ] );
     }

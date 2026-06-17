@@ -31,6 +31,7 @@ get_header();
     get_template_part( 'template-parts/section-about' );
     get_template_part( 'template-parts/section-parallax' );
     get_template_part( 'template-parts/section-carousel' );
+    get_template_part( 'template-parts/section-eventi' );
     get_template_part( 'template-parts/section-menu' );
     get_template_part( 'template-parts/section-reservation' );
     ?>

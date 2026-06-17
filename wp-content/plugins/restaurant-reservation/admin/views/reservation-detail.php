@@ -98,7 +98,7 @@ $status_cfg = $status_config[ $reservation['status'] ] ?? [ 'label' => $reservat
 
     </div>
 
-    <!-- Actions (Accepter / Refuser) -->
+    <!-- Actions -->
     <?php if ( $reservation['status'] === Reservation_CPT::STATUS_PENDING ) : ?>
     <div class="postbox" style="margin-top: 20px;">
         <div class="postbox-header">
@@ -122,17 +122,31 @@ $status_cfg = $status_config[ $reservation['status'] ] ?? [ 'label' => $reservat
             <div id="res-action-feedback" style="display:none; margin-top:15px;"></div>
         </div>
     </div>
+
+    <?php elseif ( $reservation['status'] === Reservation_CPT::STATUS_ACCEPTED ) : ?>
+    <div class="postbox" style="margin-top: 20px;">
+        <div class="postbox-header">
+            <h2><?php esc_html_e( 'Réservation confirmée', 'restaurant-reservation' ); ?></h2>
+        </div>
+        <div class="inside">
+            <div class="notice notice-success inline">
+                <p><?php esc_html_e( 'Cette réservation a été acceptée. Un email de confirmation a été envoyé au client.', 'restaurant-reservation' ); ?></p>
+            </div>
+            <div class="res-action-buttons" style="margin-top: 15px;">
+                <button class="button button-hero res-action-btn"
+                        data-id="<?php echo esc_attr( $reservation['id'] ); ?>"
+                        data-action="<?php echo esc_attr( Reservation_CPT::STATUS_REJECTED ); ?>"
+                        style="color: #a00; border-color: #a00;">
+                    ✗ <?php esc_html_e( 'Annuler cette réservation', 'restaurant-reservation' ); ?>
+                </button>
+            </div>
+            <div id="res-action-feedback" style="display:none; margin-top:15px;"></div>
+        </div>
+    </div>
+
     <?php else : ?>
     <div class="notice notice-info inline" style="margin-top: 20px;">
-        <p>
-            <?php
-            if ( $reservation['status'] === Reservation_CPT::STATUS_ACCEPTED ) {
-                esc_html_e( 'Cette réservation a été acceptée. Un email de confirmation a été envoyé au client.', 'restaurant-reservation' );
-            } else {
-                esc_html_e( 'Cette réservation a été refusée. Un email d\'information a été envoyé au client.', 'restaurant-reservation' );
-            }
-            ?>
-        </p>
+        <p><?php esc_html_e( 'Cette réservation a été refusée. Un email d\'information a été envoyé au client.', 'restaurant-reservation' ); ?></p>
     </div>
     <?php endif; ?>
 

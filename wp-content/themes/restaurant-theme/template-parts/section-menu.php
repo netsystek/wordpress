@@ -11,7 +11,9 @@
  * Pour l'instant (avant l'étape 6), on affiche des données d'exemple.
  */
 
-$menu_title = get_theme_mod( 'menu_section_title', 'Notre carte' );
+$menu_title   = get_theme_mod( 'menu_section_title', 'Notre carte' );
+$menu_btn_label = get_theme_mod( 'menu_btn_label', '' );
+$menu_btn_url   = get_theme_mod( 'menu_btn_url', '' );
 
 // WP_Query — l'ORM de WordPress pour interroger les posts/CPT
 $plats_query = new WP_Query( [
@@ -25,7 +27,7 @@ $plats_query = new WP_Query( [
 
 <section class="menu-section" id="menu">
     <div class="container">
-        <span class="section-label"><?php esc_html_e( 'À table', 'restaurant-theme' ); ?></span>
+        <span class="section-label"><?php echo esc_html( get_theme_mod( 'menu_section_label', __( 'À table', 'restaurant-theme' ) ) ); ?></span>
         <h2><?php echo esc_html( $menu_title ); ?></h2>
 
         <?php if ( $plats_query->have_posts() ) : ?>
@@ -106,6 +108,17 @@ $plats_query = new WP_Query( [
             <div class="menu-placeholder">
                 <i class="fa-solid fa-utensils"></i>
                 <p><?php esc_html_e( 'Ajoutez vos plats depuis WP Admin > Carte du restaurant.', 'restaurant-theme' ); ?></p>
+            </div>
+        <?php endif; ?>
+
+        <?php if ( $menu_btn_label && $menu_btn_url ) : ?>
+            <div class="menu-btn-wrap">
+                <a href="<?php echo esc_url( $menu_btn_url ); ?>"
+                   class="btn btn-primary"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    <?php echo esc_html( $menu_btn_label ); ?>
+                </a>
             </div>
         <?php endif; ?>
 

@@ -29,8 +29,13 @@ $carousel_title = get_theme_mod( 'carousel_title', 'Notre galerie' );
              * Pour l'instant on affiche des slides de démonstration si aucune
              * image n'est configurée.
              */
-            $carousel_images_json = get_theme_mod( 'carousel_images', '' );
-            $carousel_images      = $carousel_images_json ? json_decode( $carousel_images_json, true ) : [];
+            $carousel_images = [];
+            for ( $i = 1; $i <= 8; $i++ ) {
+                $url = get_theme_mod( "carousel_image_{$i}", '' );
+                if ( $url ) {
+                    $carousel_images[] = $url;
+                }
+            }
 
             if ( ! empty( $carousel_images ) ) :
                 foreach ( $carousel_images as $image_url ) : ?>
