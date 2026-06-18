@@ -245,17 +245,16 @@ class Reservation_Admin {
             );
 
             $form_labels = [
-                'label_prenom'       => 'Prénom',
-                'label_nom'          => 'Nom',
-                'label_email'        => 'Email',
-                'label_telephone'    => 'Téléphone',
-                'label_date'         => 'Date',
-                'label_heure'        => 'Heure',
-                'label_personnes'    => 'Couverts',
-                'label_message'      => 'Message (optionnel)',
-                'label_placeholder'  => 'Allergies, occasion spéciale, demandes particulières…',
-                'label_required'     => '* Champs obligatoires',
-                'label_submit'       => 'Demander une réservation',
+                'label_nom'                  => 'Nom',
+                'label_email'                => 'Email',
+                'label_telephone'            => 'Téléphone',
+                'label_date'                 => 'Date',
+                'label_heure'                => 'Heure',
+                'label_heure_placeholder'    => 'Placeholder select Heure',
+                'label_personnes'            => 'Couverts',
+                'label_personnes_placeholder'=> 'Placeholder champ Couverts',
+                'label_required'             => '* Champs obligatoires',
+                'label_submit'               => 'Demander une réservation',
             ];
             foreach ( $form_labels as $key => $default ) {
                 $this->add_settings_text_field( $key, $default, 'restaurant_res_labels_section' );
@@ -274,6 +273,9 @@ class Reservation_Admin {
             $this->add_settings_text_field( 'sender_name',  __( 'Nom de l\'expéditeur', 'restaurant-reservation' ),  'restaurant_res_sender_section' );
             $this->add_settings_text_field( 'sender_email', __( 'Email de l\'expéditeur', 'restaurant-reservation' ), 'restaurant_res_sender_section', 'email' );
             $this->add_settings_text_field( 'notify_email', __( 'Email de notification (admin)', 'restaurant-reservation' ), 'restaurant_res_sender_section', 'email' );
+            $this->add_settings_text_field( 'restaurant_contact_email', __( 'Email de contact du restaurant', 'restaurant-reservation' ), 'restaurant_res_sender_section', 'email' );
+            $this->add_settings_text_field( 'restaurant_contact_phone', __( 'Téléphone du restaurant', 'restaurant-reservation' ), 'restaurant_res_sender_section' );
+            $this->add_settings_text_field( 'restaurant_address', __( 'Adresse du restaurant', 'restaurant-reservation' ), 'restaurant_res_sender_section' );
 
             // Sections de templates d'email par langue (IT / EN / FR)
             $langs = [ 'it' => '🇮🇹 Italiano', 'en' => '🇬🇧 English', 'fr' => '🇫🇷 Français' ];
@@ -393,7 +395,7 @@ class Reservation_Admin {
         // Capacité & jours de fermeture
         if ( array_key_exists( 'max_personnes', $input ) ) {
             $max = absint( $input['max_personnes'] );
-            $sanitized['max_personnes']   = $max >= 1 ? $max : 20;
+            $sanitized['max_personnes']   = $max >= 1 ? $max : 12;
             $sanitized['auto_confirm']    = ! empty( $input['auto_confirm'] ) ? 1 : 0;
             $sanitized['jours_fermeture'] = isset( $input['jours_fermeture'] )
                 ? array_map( 'intval', (array) $input['jours_fermeture'] )
@@ -401,7 +403,7 @@ class Reservation_Admin {
         }
 
         // Labels du formulaire public
-        foreach ( [ 'label_prenom', 'label_nom', 'label_email', 'label_telephone', 'label_date', 'label_heure', 'label_personnes', 'label_message', 'label_placeholder', 'label_required', 'label_submit' ] as $key ) {
+        foreach ( [ 'label_nom', 'label_email', 'label_telephone', 'label_date', 'label_heure', 'label_heure_placeholder', 'label_personnes', 'label_personnes_placeholder', 'label_required', 'label_submit' ] as $key ) {
             if ( array_key_exists( $key, $input ) ) {
                 $sanitized[ $key ] = sanitize_text_field( $input[ $key ] );
             }
@@ -416,6 +418,15 @@ class Reservation_Admin {
         }
         if ( array_key_exists( 'notify_email', $input ) ) {
             $sanitized['notify_email'] = sanitize_email( $input['notify_email'] );
+        }
+        if ( array_key_exists( 'restaurant_contact_email', $input ) ) {
+            $sanitized['restaurant_contact_email'] = sanitize_email( $input['restaurant_contact_email'] );
+        }
+        if ( array_key_exists( 'restaurant_contact_phone', $input ) ) {
+            $sanitized['restaurant_contact_phone'] = sanitize_text_field( $input['restaurant_contact_phone'] );
+        }
+        if ( array_key_exists( 'restaurant_address', $input ) ) {
+            $sanitized['restaurant_address'] = sanitize_text_field( $input['restaurant_address'] );
         }
 
         // Templates par langue — boucle sur toutes les langues et les deux statuts

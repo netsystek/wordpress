@@ -90,14 +90,12 @@ class Reservation_CPT {
         // register_post_meta() documente les meta et les expose via l'API REST
         // Parallèle Symfony : équivalent à déclarer les propriétés de l'Entity
         $metas = [
-            self::META_PRENOM    => 'string',
             self::META_NOM       => 'string',
             self::META_EMAIL     => 'string',
             self::META_TELEPHONE => 'string',
             self::META_DATE      => 'string',
             self::META_HEURE     => 'string',
             self::META_PERSONNES => 'integer',
-            self::META_MESSAGE   => 'string',
             self::META_LANG      => 'string',
         ];
 
@@ -179,8 +177,7 @@ class Reservation_CPT {
     public static function create( array $data ): int|\WP_Error {
         // Le "titre" du post = nom du client (visible dans les listes admin)
         $title = sprintf(
-            '%s %s — %s %s',
-            sanitize_text_field( $data['prenom'] ),
+            '%s — %s %s',
             sanitize_text_field( $data['nom'] ),
             sanitize_text_field( $data['date'] ),
             sanitize_text_field( $data['heure'] )
@@ -200,14 +197,12 @@ class Reservation_CPT {
         // Stocke les métadonnées de la réservation
         // update_post_meta() crée ou met à jour la métadonnée
         // Parallèle Symfony : équivalent aux setters sur l'Entity avant flush()
-        update_post_meta( $post_id, self::META_PRENOM,    sanitize_text_field( $data['prenom'] ) );
         update_post_meta( $post_id, self::META_NOM,       sanitize_text_field( $data['nom'] ) );
         update_post_meta( $post_id, self::META_EMAIL,     sanitize_email( $data['email'] ) );
         update_post_meta( $post_id, self::META_TELEPHONE, sanitize_text_field( $data['telephone'] ) );
         update_post_meta( $post_id, self::META_DATE,      sanitize_text_field( $data['date'] ) );
         update_post_meta( $post_id, self::META_HEURE,     sanitize_text_field( $data['heure'] ) );
         update_post_meta( $post_id, self::META_PERSONNES, absint( $data['personnes'] ) );
-        update_post_meta( $post_id, self::META_MESSAGE,   sanitize_textarea_field( $data['message'] ?? '' ) );
 
         // Déclenche l'événement "nouvelle réservation créée".
         // Parallèle Symfony : $dispatcher->dispatch(new ReservationCreatedEvent($postId))
@@ -236,14 +231,14 @@ class Reservation_CPT {
             'title'     => $post->post_title,
             'status'    => $post->post_status,
             'created'   => $post->post_date,
-            'prenom'    => get_post_meta( $post_id, self::META_PRENOM,    true ),
+            'prenom'    => get_post_meta( $post_id, self::META_PRENOM,    true ) ?: '',
             'nom'       => get_post_meta( $post_id, self::META_NOM,       true ),
             'email'     => get_post_meta( $post_id, self::META_EMAIL,     true ),
             'telephone' => get_post_meta( $post_id, self::META_TELEPHONE, true ),
             'date'      => get_post_meta( $post_id, self::META_DATE,      true ),
             'heure'     => get_post_meta( $post_id, self::META_HEURE,     true ),
             'personnes' => (int) get_post_meta( $post_id, self::META_PERSONNES, true ),
-            'message'   => get_post_meta( $post_id, self::META_MESSAGE,   true ),
+            'message'   => get_post_meta( $post_id, self::META_MESSAGE,   true ) ?: '',
             'lang'      => get_post_meta( $post_id, self::META_LANG,      true ) ?: 'it',
         ];
     }

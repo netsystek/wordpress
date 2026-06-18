@@ -227,10 +227,9 @@ class Reservation_List_Table extends WP_List_Table {
             'reservation_id' => $item['id'],
         ], admin_url( 'admin.php' ) );
 
-        $name = sprintf( '%s %s',
-            esc_html( $item['prenom'] ),
-            esc_html( $item['nom'] )
-        );
+        $name = $item['prenom']
+            ? sprintf( '%s %s', esc_html( $item['prenom'] ), esc_html( $item['nom'] ) )
+            : esc_html( $item['nom'] );
 
         return sprintf(
             '<strong><a href="%s">%s</a></strong>',

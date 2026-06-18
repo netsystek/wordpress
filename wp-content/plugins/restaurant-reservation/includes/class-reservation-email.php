@@ -41,15 +41,16 @@ class Reservation_Email {
      */
     public static function get_template_variables(): array {
         return [
-            '{{client_prenom}}'         => __( 'Prénom du client', 'restaurant-reservation' ),
-            '{{client_nom}}'            => __( 'Nom du client', 'restaurant-reservation' ),
-            '{{client_email}}'          => __( 'Email du client', 'restaurant-reservation' ),
-            '{{client_telephone}}'      => __( 'Téléphone du client', 'restaurant-reservation' ),
-            '{{reservation_date}}'      => __( 'Date de la réservation', 'restaurant-reservation' ),
-            '{{reservation_heure}}'     => __( 'Heure de la réservation', 'restaurant-reservation' ),
-            '{{reservation_personnes}}' => __( 'Nombre de personnes', 'restaurant-reservation' ),
-            '{{reservation_message}}'   => __( 'Message du client', 'restaurant-reservation' ),
-            '{{restaurant_nom}}'        => __( 'Nom du restaurant', 'restaurant-reservation' ),
+            '{{client_nom}}'              => __( 'Nom du client', 'restaurant-reservation' ),
+            '{{client_email}}'            => __( 'Email du client', 'restaurant-reservation' ),
+            '{{client_telephone}}'        => __( 'Téléphone du client', 'restaurant-reservation' ),
+            '{{reservation_date}}'        => __( 'Date de la réservation', 'restaurant-reservation' ),
+            '{{reservation_heure}}'       => __( 'Heure de la réservation', 'restaurant-reservation' ),
+            '{{reservation_personnes}}'   => __( 'Nombre de personnes', 'restaurant-reservation' ),
+            '{{restaurant_nom}}'          => __( 'Nom du restaurant', 'restaurant-reservation' ),
+            '{{restaurant_contact_email}}'=> __( 'Email de contact du restaurant', 'restaurant-reservation' ),
+            '{{restaurant_contact_phone}}'=> __( 'Téléphone du restaurant', 'restaurant-reservation' ),
+            '{{restaurant_address}}'      => __( 'Adresse du restaurant', 'restaurant-reservation' ),
         ];
     }
 
@@ -81,8 +82,7 @@ class Reservation_Email {
         ], admin_url( 'admin.php' ) );
 
         $subject = sprintf(
-            '🍽️ Nouvelle réservation — %s %s le %s',
-            $reservation['prenom'],
+            '🍽️ Nouvelle réservation — %s le %s',
             $reservation['nom'],
             date_i18n( 'd/m/Y', strtotime( $reservation['date'] ) )
         );
@@ -131,7 +131,7 @@ class Reservation_Email {
           <table width="100%%" cellpadding="0" cellspacing="0" style="font-size:15px;color:#333;line-height:1.6;">
             <tr>
               <td style="padding:8px 0;border-bottom:1px solid #eee;color:#888;font-size:13px;width:180px;">Client</td>
-              <td style="padding:8px 0;border-bottom:1px solid #eee;"><strong>%s %s</strong></td>
+              <td style="padding:8px 0;border-bottom:1px solid #eee;"><strong>%s</strong></td>
             </tr>
             <tr>
               <td style="padding:8px 0;border-bottom:1px solid #eee;color:#888;font-size:13px;">Email</td>
@@ -191,7 +191,6 @@ class Reservation_Email {
 </html>',
             esc_attr( sanitize_hex_color( $primary ) ),
             esc_html( get_bloginfo( 'name' ) ),
-            esc_html( $r['prenom'] ),
             esc_html( $r['nom'] ),
             esc_attr( $r['email'] ),
             esc_attr( sanitize_hex_color( $primary ) ),
@@ -265,16 +264,20 @@ class Reservation_Email {
      * @return string Template avec les variables substituées
      */
     private function render_template( string $template, array $reservation ): string {
+        $settings = get_option( 'restaurant_res_settings', [] );
+
         $replacements = [
-            '{{client_prenom}}'         => $reservation['prenom'],
-            '{{client_nom}}'            => $reservation['nom'],
-            '{{client_email}}'          => $reservation['email'],
-            '{{client_telephone}}'      => $reservation['telephone'],
-            '{{reservation_date}}'      => $this->format_date( $reservation['date'] ),
-            '{{reservation_heure}}'     => $reservation['heure'],
-            '{{reservation_personnes}}' => $reservation['personnes'],
-            '{{reservation_message}}'   => $reservation['message'] ?: '—',
-            '{{restaurant_nom}}'        => get_bloginfo( 'name' ),
+            '{{client_prenom}}'           => $reservation['prenom'] ?? '',
+            '{{client_nom}}'              => $reservation['nom'],
+            '{{client_email}}'            => $reservation['email'],
+            '{{client_telephone}}'        => $reservation['telephone'],
+            '{{reservation_date}}'        => $this->format_date( $reservation['date'] ),
+            '{{reservation_heure}}'       => $reservation['heure'],
+            '{{reservation_personnes}}'   => $reservation['personnes'],
+            '{{restaurant_nom}}'          => get_bloginfo( 'name' ),
+            '{{restaurant_contact_email}}'=> $settings['restaurant_contact_email'] ?? '',
+            '{{restaurant_contact_phone}}'=> $settings['restaurant_contact_phone'] ?? '',
+            '{{restaurant_address}}'      => $settings['restaurant_address'] ?? '',
         ];
 
         return str_replace(

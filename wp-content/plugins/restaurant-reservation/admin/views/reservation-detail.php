@@ -38,9 +38,15 @@ $status_cfg = $status_config[ $reservation['status'] ] ?? [ 'label' => $reservat
             </div>
             <div class="inside">
                 <table class="form-table res-detail-table">
+                    <?php if ( $reservation['prenom'] ) : ?>
+                    <tr>
+                        <th><?php esc_html_e( 'Prénom', 'restaurant-reservation' ); ?></th>
+                        <td><?php echo esc_html( $reservation['prenom'] ); ?></td>
+                    </tr>
+                    <?php endif; ?>
                     <tr>
                         <th><?php esc_html_e( 'Nom', 'restaurant-reservation' ); ?></th>
-                        <td><?php echo esc_html( $reservation['prenom'] . ' ' . $reservation['nom'] ); ?></td>
+                        <td><?php echo esc_html( $reservation['nom'] ); ?></td>
                     </tr>
                     <tr>
                         <th><?php esc_html_e( 'Email', 'restaurant-reservation' ); ?></th>

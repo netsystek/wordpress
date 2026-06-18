@@ -65,12 +65,11 @@ class Reservation_Form {
             'ajaxUrl'        => admin_url( 'admin-ajax.php' ),
             'nonce'          => wp_create_nonce( 'submit_reservation' ),
             'joursFermeture' => array_map( 'intval', $settings['jours_fermeture'] ?? [] ),
-            'maxPersonnes'   => intval( $settings['max_personnes'] ?? 20 ),
+            'maxPersonnes'   => intval( $settings['max_personnes'] ?? 12 ),
             'i18n'           => [
-                'sending'  => 'Envoi en cours…',
-                'success'  => 'Votre réservation a bien été reçue. Nous vous confirmerons par email dans les plus brefs délais.',
-                'error'    => 'Une erreur est survenue. Veuillez réessayer.',
-                'dayFerme' => 'Le restaurant est fermé ce jour-là. Veuillez choisir une autre date.',
+                'sending'  => 'Invio in corso…',
+                'error'    => 'Si è verificato un errore. Riprova.',
+                'dayFerme' => 'Il ristorante è chiuso quel giorno. Scegli un\'altra data.',
             ],
         ] );
     }
@@ -114,7 +113,7 @@ class Reservation_Form {
         check_ajax_referer( 'submit_reservation', 'nonce' );
 
         // 2. VALIDATION DES DONNÉES REQUISES
-        $required = [ 'prenom', 'nom', 'email', 'telephone', 'date', 'heure', 'personnes' ];
+        $required = [ 'nom', 'email', 'telephone', 'date', 'heure', 'personnes' ];
         $errors   = [];
 
         foreach ( $required as $field ) {
@@ -132,7 +131,7 @@ class Reservation_Form {
         }
 
         $settings        = get_option( 'restaurant_res_settings', [] );
-        $max_personnes   = intval( $settings['max_personnes'] ?? 20 );
+        $max_personnes   = intval( $settings['max_personnes'] ?? 12 );
         $jours_fermeture = array_map( 'intval', $settings['jours_fermeture'] ?? [] );
 
         // Validation date (format YYYY-MM-DD, pas dans le passé, pas un jour fermé)
@@ -167,14 +166,12 @@ class Reservation_Form {
         //   sanitize_textarea_field() : comme text_field mais conserve les sauts de ligne
         //   wp_unslash()          : supprime les antislashs ajoutés par magic_quotes (legacy PHP)
         $data = [
-            'prenom'    => sanitize_text_field( wp_unslash( $_POST['prenom'] ) ),
             'nom'       => sanitize_text_field( wp_unslash( $_POST['nom'] ) ),
             'email'     => sanitize_email( wp_unslash( $_POST['email'] ) ),
             'telephone' => sanitize_text_field( wp_unslash( $_POST['telephone'] ) ),
             'date'      => sanitize_text_field( wp_unslash( $_POST['date'] ) ),
             'heure'     => sanitize_text_field( wp_unslash( $_POST['heure'] ) ),
             'personnes' => $personnes,
-            'message'   => sanitize_textarea_field( wp_unslash( $_POST['message'] ?? '' ) ),
         ];
 
         // 4. CRÉATION DE LA RÉSERVATION
@@ -195,8 +192,8 @@ class Reservation_Form {
 
         // 6. RÉPONSE JSON DE SUCCÈS
         $message = ! empty( $settings['auto_confirm'] )
-            ? 'Votre réservation est confirmée ! Un email de confirmation vous a été envoyé.'
-            : 'Votre demande a bien été reçue. Nous vous confirmerons votre réservation dans les plus brefs délais.';
+            ? 'La tua prenotazione è confermata! Ti è stata inviata un\'email di conferma.'
+            : 'La tua richiesta è stata ricevuta. Ti confermeremo la prenotazione al più presto.';
 
         wp_send_json_success( [
             'message' => $message,

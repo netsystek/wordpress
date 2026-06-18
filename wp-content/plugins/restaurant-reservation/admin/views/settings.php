@@ -100,21 +100,21 @@ $base_url    = admin_url( 'admin.php?page=restaurant-res-settings' );
             $defaults = [
                 'it' => [
                     'subject_accepted' => 'La tua prenotazione è confermata — {{restaurant_nom}}',
-                    'email_accepted'   => "Ciao {{client_prenom}},\n\nLa tua prenotazione per {{reservation_personnes}} persone il {{reservation_date}} alle {{reservation_heure}} è confermata.\n\nA presto,\n{{restaurant_nom}}",
+                    'email_accepted'   => "Gentile {{client_nom}},\n\nLa tua prenotazione per {{reservation_personnes}} persona/e il {{reservation_date}} alle {{reservation_heure}} è confermata.\n\nPer qualsiasi informazione: {{restaurant_contact_email}} — {{restaurant_contact_phone}}\n{{restaurant_address}}\n\nA presto!\n{{restaurant_nom}}",
                     'subject_rejected' => 'La tua prenotazione — {{restaurant_nom}}',
-                    'email_rejected'   => "Ciao {{client_prenom}},\n\nSiamo spiacenti, non è possibile confermare la tua prenotazione del {{reservation_date}} alle {{reservation_heure}}.\n\nCordiali saluti,\n{{restaurant_nom}}",
+                    'email_rejected'   => "Gentile {{client_nom}},\n\nCi dispiace, non è possibile confermare la tua prenotazione del {{reservation_date}} alle {{reservation_heure}}.\n\nCordialmente,\n{{restaurant_nom}}",
                 ],
                 'en' => [
                     'subject_accepted' => 'Your reservation is confirmed — {{restaurant_nom}}',
-                    'email_accepted'   => "Hello {{client_prenom}},\n\nYour reservation for {{reservation_personnes}} guests on {{reservation_date}} at {{reservation_heure}} is confirmed.\n\nSee you soon,\n{{restaurant_nom}}",
+                    'email_accepted'   => "Dear {{client_nom}},\n\nYour reservation for {{reservation_personnes}} guest(s) on {{reservation_date}} at {{reservation_heure}} is confirmed.\n\nContact: {{restaurant_contact_email}} — {{restaurant_contact_phone}}\n{{restaurant_address}}\n\nSee you soon!\n{{restaurant_nom}}",
                     'subject_rejected' => 'Your reservation — {{restaurant_nom}}',
-                    'email_rejected'   => "Hello {{client_prenom}},\n\nWe are sorry, we cannot confirm your reservation for {{reservation_date}} at {{reservation_heure}}.\n\nKind regards,\n{{restaurant_nom}}",
+                    'email_rejected'   => "Dear {{client_nom}},\n\nWe are sorry, we cannot confirm your reservation for {{reservation_date}} at {{reservation_heure}}.\n\nKind regards,\n{{restaurant_nom}}",
                 ],
                 'fr' => [
                     'subject_accepted' => 'Votre réservation est confirmée — {{restaurant_nom}}',
-                    'email_accepted'   => "Bonjour {{client_prenom}},\n\nVotre réservation pour {{reservation_personnes}} personne(s) le {{reservation_date}} à {{reservation_heure}} est confirmée.\n\nÀ bientôt,\n{{restaurant_nom}}",
+                    'email_accepted'   => "Bonjour {{client_nom}},\n\nVotre réservation pour {{reservation_personnes}} personne(s) le {{reservation_date}} à {{reservation_heure}} est confirmée.\n\nContact : {{restaurant_contact_email}} — {{restaurant_contact_phone}}\n{{restaurant_address}}\n\nÀ bientôt,\n{{restaurant_nom}}",
                     'subject_rejected' => 'Votre réservation — {{restaurant_nom}}',
-                    'email_rejected'   => "Bonjour {{client_prenom}},\n\nNous sommes désolés, nous ne pouvons pas confirmer votre réservation du {{reservation_date}} à {{reservation_heure}}.\n\nCordialement,\n{{restaurant_nom}}",
+                    'email_rejected'   => "Bonjour {{client_nom}},\n\nNous sommes désolés, nous ne pouvons pas confirmer votre réservation du {{reservation_date}} à {{reservation_heure}}.\n\nCordialement,\n{{restaurant_nom}}",
                 ],
             ];
             $d = $defaults[ $active_lang ] ?? $defaults['it'];
