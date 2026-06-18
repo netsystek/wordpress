@@ -16,8 +16,8 @@ $social_networks = [
 
 $hours_rows = [];
 for ( $i = 1; $i <= 5; $i++ ) {
-    $days = get_theme_mod( "footer_hours_{$i}_days", '' );
-    $time = get_theme_mod( "footer_hours_{$i}_time", '' );
+    $days = get_theme_text( "footer_hours_{$i}_days", '' );
+    $time = get_theme_text( "footer_hours_{$i}_time", '' );
     if ( $days || $time ) {
         $hours_rows[] = [ 'days' => $days, 'time' => $time ];
     }

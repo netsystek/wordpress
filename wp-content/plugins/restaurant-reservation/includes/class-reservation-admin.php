@@ -234,6 +234,35 @@ class Reservation_Admin {
                 'restaurant_res_capacity_section'
             );
 
+            // Section : Labels du formulaire — English
+            add_settings_section(
+                'restaurant_res_labels_en_section',
+                '🇬🇧 Labels du formulaire — English',
+                function() {
+                    echo '<p class="description">Textes du formulaire affichés quand le visiteur choisit la langue anglaise. Laissez vide pour conserver les labels italiens.</p>';
+                },
+                'restaurant-res-settings'
+            );
+
+            $form_labels_en = [
+                'label_nom_en'                   => 'Name',
+                'label_email_en'                 => 'Email',
+                'label_telephone_en'             => 'Phone',
+                'label_date_en'                  => 'Date',
+                'label_heure_en'                 => 'Time',
+                'label_heure_placeholder_en'     => 'Placeholder select Time (EN)',
+                'label_personnes_en'             => 'Guests',
+                'label_personnes_placeholder_en' => 'Placeholder Guests (EN)',
+                'label_required_en'              => '* Required fields',
+                'label_submit_en'                => 'Request a reservation',
+                'placeholder_nom_en'             => 'Placeholder — Name (EN)',
+                'placeholder_email_en'           => 'Placeholder — Email (EN)',
+                'placeholder_telephone_en'       => 'Placeholder — Phone (EN)',
+            ];
+            foreach ( $form_labels_en as $key => $default ) {
+                $this->add_settings_text_field( $key, $default, 'restaurant_res_labels_en_section' );
+            }
+
             // Section : Notification au propriétaire
             add_settings_section(
                 'restaurant_res_notify_section',
@@ -427,8 +456,8 @@ class Reservation_Admin {
             $sanitized['email_notify'] = sanitize_textarea_field( $input['email_notify'] );
         }
 
-        // Labels du formulaire public
-        foreach ( [ 'label_nom', 'placeholder_nom', 'label_email', 'placeholder_email', 'label_telephone', 'placeholder_telephone', 'label_date', 'label_heure', 'label_heure_placeholder', 'label_personnes', 'label_personnes_placeholder', 'label_required', 'label_submit' ] as $key ) {
+        // Labels du formulaire public (IT + EN)
+        foreach ( [ 'label_nom', 'placeholder_nom', 'label_email', 'placeholder_email', 'label_telephone', 'placeholder_telephone', 'label_date', 'label_heure', 'label_heure_placeholder', 'label_personnes', 'label_personnes_placeholder', 'label_required', 'label_submit', 'label_nom_en', 'placeholder_nom_en', 'label_email_en', 'placeholder_email_en', 'label_telephone_en', 'placeholder_telephone_en', 'label_date_en', 'label_heure_en', 'label_heure_placeholder_en', 'label_personnes_en', 'label_personnes_placeholder_en', 'label_required_en', 'label_submit_en' ] as $key ) {
             if ( array_key_exists( $key, $input ) ) {
                 $sanitized[ $key ] = sanitize_text_field( $input[ $key ] );
             }

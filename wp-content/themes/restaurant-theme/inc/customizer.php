@@ -306,6 +306,16 @@ function restaurant_customizer_register( WP_Customize_Manager $wp_customize ) {
         'priority' => 35,
     ] );
 
+    $wp_customize->add_setting( 'carousel_label', [
+        'default'           => 'Photos',
+        'sanitize_callback' => 'sanitize_text_field',
+    ] );
+    $wp_customize->add_control( 'carousel_label', [
+        'label'   => __( 'Label (petit texte au-dessus du titre)', 'restaurant-theme' ),
+        'section' => 'restaurant_carousel',
+        'type'    => 'text',
+    ] );
+
     $wp_customize->add_setting( 'carousel_title', [
         'default'           => __( 'Notre galerie', 'restaurant-theme' ),
         'sanitize_callback' => 'sanitize_text_field',
@@ -325,6 +335,16 @@ function restaurant_customizer_register( WP_Customize_Manager $wp_customize ) {
             'label'   => sprintf( __( 'Image %d', 'restaurant-theme' ), $i ),
             'section' => 'restaurant_carousel',
         ] ) );
+
+        $wp_customize->add_setting( "carousel_image_{$i}_caption", [
+            'default'           => '',
+            'sanitize_callback' => 'sanitize_text_field',
+        ] );
+        $wp_customize->add_control( "carousel_image_{$i}_caption", [
+            'label'   => sprintf( __( 'Légende image %d', 'restaurant-theme' ), $i ),
+            'section' => 'restaurant_carousel',
+            'type'    => 'text',
+        ] );
     }
 
     // =========================================================================
@@ -636,6 +656,7 @@ function restaurant_customizer_register( WP_Customize_Manager $wp_customize ) {
         'menu_section_title'   => [ 'label' => 'Menu — Titre',                 'type' => 'text' ],
         'menu_btn_label'       => [ 'label' => 'Menu — Bouton',                'type' => 'text' ],
         // Carousel
+        'carousel_label'       => [ 'label' => 'Galerie — Label',              'type' => 'text' ],
         'carousel_title'       => [ 'label' => 'Galerie — Titre',              'type' => 'text' ],
         // Reservation
         'reservation_label'    => [ 'label' => 'Réservation — Label',          'type' => 'text' ],
@@ -657,6 +678,42 @@ function restaurant_customizer_register( WP_Customize_Manager $wp_customize ) {
             'label'   => __( $args['label'], 'restaurant-theme' ),
             'section' => 'restaurant_translations_en',
             'type'    => $args['type'],
+        ] );
+    }
+
+    // Horaires footer (5 lignes × jours + heures)
+    for ( $i = 1; $i <= 5; $i++ ) {
+        $wp_customize->add_setting( "footer_hours_{$i}_days_en", [
+            'default'           => '',
+            'sanitize_callback' => 'sanitize_text_field',
+        ] );
+        $wp_customize->add_control( "footer_hours_{$i}_days_en", [
+            'label'   => sprintf( __( 'Footer — Ligne %d Jours (EN)', 'restaurant-theme' ), $i ),
+            'section' => 'restaurant_translations_en',
+            'type'    => 'text',
+        ] );
+
+        $wp_customize->add_setting( "footer_hours_{$i}_time_en", [
+            'default'           => '',
+            'sanitize_callback' => 'sanitize_text_field',
+        ] );
+        $wp_customize->add_control( "footer_hours_{$i}_time_en", [
+            'label'   => sprintf( __( 'Footer — Ligne %d Horaires (EN)', 'restaurant-theme' ), $i ),
+            'section' => 'restaurant_translations_en',
+            'type'    => 'text',
+        ] );
+    }
+
+    // Légendes des photos (carousel)
+    for ( $i = 1; $i <= 14; $i++ ) {
+        $wp_customize->add_setting( "carousel_image_{$i}_caption_en", [
+            'default'           => '',
+            'sanitize_callback' => 'sanitize_text_field',
+        ] );
+        $wp_customize->add_control( "carousel_image_{$i}_caption_en", [
+            'label'   => sprintf( __( 'Légende image %d (EN)', 'restaurant-theme' ), $i ),
+            'section' => 'restaurant_translations_en',
+            'type'    => 'text',
         ] );
     }
 

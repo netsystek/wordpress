@@ -14,7 +14,7 @@ $carousel_title = get_theme_text( 'carousel_title', 'Notre galerie' );
 
 <section class="carousel-section" id="galerie">
     <div class="container">
-        <span class="section-label"><?php esc_html_e( 'Photos', 'restaurant-theme' ); ?></span>
+        <span class="section-label"><?php echo esc_html( get_theme_text( 'carousel_label', 'Photos' ) ); ?></span>
         <h2><?php echo esc_html( $carousel_title ); ?></h2>
     </div>
 
@@ -33,16 +33,22 @@ $carousel_title = get_theme_text( 'carousel_title', 'Notre galerie' );
             for ( $i = 1; $i <= 14; $i++ ) {
                 $url = get_theme_mod( "carousel_image_{$i}", '' );
                 if ( $url ) {
-                    $carousel_images[] = $url;
+                    $carousel_images[] = [
+                        'url'     => $url,
+                        'caption' => get_theme_text( "carousel_image_{$i}_caption", '' ),
+                    ];
                 }
             }
 
             if ( ! empty( $carousel_images ) ) :
-                foreach ( $carousel_images as $image_url ) : ?>
+                foreach ( $carousel_images as $slide ) : ?>
                     <div class="swiper-slide">
-                        <img src="<?php echo esc_url( $image_url ); ?>"
-                             alt="<?php esc_attr_e( 'Photo du restaurant', 'restaurant-theme' ); ?>"
+                        <img src="<?php echo esc_url( $slide['url'] ); ?>"
+                             alt="<?php echo esc_attr( $slide['caption'] ?: get_bloginfo( 'name' ) ); ?>"
                              loading="lazy">
+                        <?php if ( $slide['caption'] ) : ?>
+                            <p class="carousel-caption"><?php echo esc_html( $slide['caption'] ); ?></p>
+                        <?php endif; ?>
                     </div>
                 <?php endforeach;
             else :

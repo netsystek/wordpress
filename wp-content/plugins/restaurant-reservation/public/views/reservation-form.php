@@ -3,19 +3,29 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 $settings      = get_option( 'restaurant_res_settings', [] );
 $max_personnes = intval( $settings['max_personnes'] ?? 12 );
-$l_nom         = $settings['label_nom']         ?? 'Nom';
-$l_email       = $settings['label_email']       ?? 'Email';
-$l_telephone   = $settings['label_telephone']   ?? 'Téléphone';
-$l_date        = $settings['label_date']        ?? 'Date';
-$l_heure       = $settings['label_heure']       ?? 'Heure';
-$l_personnes   = $settings['label_personnes']   ?? 'Couverts';
-$l_required    = $settings['label_required']    ?? '* Champs obligatoires';
-$l_submit      = $settings['label_submit']      ?? 'Demander une réservation';
-$l_heure_placeholder     = $settings['label_heure_placeholder']    ?? '-- Choisir --';
-$l_personnes_placeholder = $settings['label_personnes_placeholder'] ?? '1';
-$ph_nom        = $settings['placeholder_nom']       ?? 'Dupont';
-$ph_email      = $settings['placeholder_email']     ?? 'jean.dupont@email.com';
-$ph_telephone  = $settings['placeholder_telephone'] ?? '+39 06 12 34 56 78';
+
+$_lang = ( isset( $_COOKIE['site_lang'] ) && $_COOKIE['site_lang'] === 'en' ) ? 'en' : 'it';
+$_t = function( string $key, string $default ) use ( $settings, $_lang ): string {
+    if ( $_lang === 'en' ) {
+        $en = $settings[ $key . '_en' ] ?? '';
+        if ( $en !== '' ) return $en;
+    }
+    return $settings[ $key ] ?? $default;
+};
+
+$l_nom         = $_t( 'label_nom',         'Nome' );
+$l_email       = $_t( 'label_email',       'Email' );
+$l_telephone   = $_t( 'label_telephone',   'Telefono' );
+$l_date        = $_t( 'label_date',        'Data' );
+$l_heure       = $_t( 'label_heure',       'Ora' );
+$l_personnes   = $_t( 'label_personnes',   'Coperti' );
+$l_required    = $_t( 'label_required',    '* Campi obbligatori' );
+$l_submit      = $_t( 'label_submit',      'Richiedi una prenotazione' );
+$l_heure_placeholder     = $_t( 'label_heure_placeholder',    '-- Scegli --' );
+$l_personnes_placeholder = $_t( 'label_personnes_placeholder', '1' );
+$ph_nom        = $_t( 'placeholder_nom',       'Rossi' );
+$ph_email      = $_t( 'placeholder_email',     'mario.rossi@email.com' );
+$ph_telephone  = $_t( 'placeholder_telephone', '+39 06 12 34 56 78' );
 ?>
 
 <div class="res-form-wrapper" id="reservation-form-wrapper">
