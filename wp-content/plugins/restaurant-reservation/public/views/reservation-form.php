@@ -75,8 +75,8 @@ $ph_telephone  = $settings['placeholder_telephone'] ?? '+39 06 12 34 56 78';
                 <select id="res-heure" name="heure" required>
                     <option value=""><?php echo esc_html( $l_heure_placeholder ); ?></option>
                     <?php
-                    $start = strtotime( '12:00' );
-                    $end   = strtotime( '22:30' );
+                    $start = strtotime( 'today 12:00' );
+                    $end   = strtotime( 'tomorrow 01:00' );
                     for ( $t = $start; $t <= $end; $t += 30 * 60 ) :
                         $time_str = date( 'H:i', $t );
                         ?>
