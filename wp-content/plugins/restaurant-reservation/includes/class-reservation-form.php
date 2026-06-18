@@ -63,16 +63,19 @@ class Reservation_Form {
         $settings = get_option( 'restaurant_res_settings', [] );
         $lang     = ( isset( $_COOKIE['site_lang'] ) && $_COOKIE['site_lang'] === 'en' ) ? 'en' : 'it';
 
+        $day_closed_it = $settings['error_day_closed'] ?? '';
+        $day_closed_en = $settings['error_day_closed_en'] ?? '';
+
         $all_i18n = [
             'it' => [
                 'sending'  => 'Invio in corso…',
                 'error'    => 'Si è verificato un errore. Riprova.',
-                'dayFerme' => 'Il ristorante è chiuso quel giorno. Scegli un\'altra data.',
+                'dayFerme' => $day_closed_it ?: 'Il ristorante è chiuso quel giorno. Scegli un\'altra data.',
             ],
             'en' => [
                 'sending'  => 'Sending…',
                 'error'    => 'An error occurred. Please try again.',
-                'dayFerme' => 'The restaurant is closed on that day. Please choose another date.',
+                'dayFerme' => $day_closed_en ?: ( $day_closed_it ?: 'The restaurant is closed on that day. Please choose another date.' ),
             ],
         ];
 
@@ -125,45 +128,60 @@ class Reservation_Form {
         check_ajax_referer( 'submit_reservation', 'nonce' );
 
         // 2. VALIDATION DES DONNÉES REQUISES
-        $required = [ 'nom', 'email', 'telephone', 'date', 'heure', 'personnes' ];
         $lang     = ( isset( $_POST['site_lang'] ) && $_POST['site_lang'] === 'en' ) ? 'en' : 'it';
         $errors   = [];
-
-        foreach ( $required as $field ) {
-            if ( empty( $_POST[ $field ] ) ) {
-                $errors[] = sprintf(
-                    __( 'Le champ "%s" est obligatoire.', 'restaurant-reservation' ),
-                    $field
-                );
-            }
-        }
-
-        // Validation email
-        if ( ! empty( $_POST['email'] ) && ! is_email( $_POST['email'] ) ) {
-            $errors[] = __( 'L\'adresse email n\'est pas valide.', 'restaurant-reservation' );
-        }
 
         $settings        = get_option( 'restaurant_res_settings', [] );
         $max_personnes   = intval( $settings['max_personnes'] ?? 12 );
         $jours_fermeture = array_map( 'intval', $settings['jours_fermeture'] ?? [] );
 
+        // Helper : lit le message configuré dans la bonne langue, avec fallback IT puis défaut codé
+        $_e = function( string $key, string $default ) use ( $settings, $lang ): string {
+            if ( $lang === 'en' ) {
+                $en = $settings[ $key . '_en' ] ?? '';
+                if ( $en !== '' ) return $en;
+            }
+            return $settings[ $key ] ?? $default;
+        };
+
+        // Champs obligatoires — messages individuels par champ
+        $required_map = [
+            'nom'       => $_e( 'error_required_nom',       'Il campo «Nome» è obbligatorio.' ),
+            'email'     => $_e( 'error_required_email',     'Il campo «Email» è obbligatorio.' ),
+            'telephone' => $_e( 'error_required_telephone', 'Il campo «Telefono» è obbligatorio.' ),
+            'date'      => $_e( 'error_required_date',      'Il campo «Data» è obbligatorio.' ),
+            'heure'     => $_e( 'error_required_heure',     'Il campo «Ora» è obbligatorio.' ),
+        ];
+
+        foreach ( $required_map as $field => $message ) {
+            if ( empty( $_POST[ $field ] ) ) {
+                $errors[] = $message;
+            }
+        }
+
+        // Validation email
+        if ( ! empty( $_POST['email'] ) && ! is_email( $_POST['email'] ) ) {
+            $errors[] = $_e( 'error_email_invalid', 'L\'indirizzo email non è valido.' );
+        }
+
         // Validation date (format YYYY-MM-DD, pas dans le passé, pas un jour fermé)
         if ( ! empty( $_POST['date'] ) ) {
             $date = sanitize_text_field( wp_unslash( $_POST['date'] ) );
             if ( strtotime( $date ) < strtotime( 'today' ) ) {
-                $errors[] = 'La date de réservation doit être dans le futur.';
+                $errors[] = $_e( 'error_date_past', 'La data deve essere futura.' );
             } elseif ( ! empty( $jours_fermeture ) ) {
                 $day_of_week = intval( date( 'w', strtotime( $date ) ) );
                 if ( in_array( $day_of_week, $jours_fermeture, true ) ) {
-                    $errors[] = 'Le restaurant est fermé ce jour-là. Veuillez choisir une autre date.';
+                    $errors[] = $_e( 'error_day_closed', 'Il ristorante è chiuso quel giorno. Scegli un\'altra data.' );
                 }
             }
         }
 
-        // Validation nombre de personnes
+        // Validation nombre de personnes (range couvre aussi le cas "vide")
         $personnes = absint( $_POST['personnes'] ?? 0 );
         if ( $personnes < 1 || $personnes > $max_personnes ) {
-            $errors[] = sprintf( 'Le nombre de couverts doit être entre 1 et %d.', $max_personnes );
+            $tpl = $_e( 'error_personnes_range', 'Il numero di coperti deve essere tra 1 e {max}.' );
+            $errors[] = str_replace( '{max}', (string) $max_personnes, $tpl );
         }
 
         if ( ! empty( $errors ) ) {

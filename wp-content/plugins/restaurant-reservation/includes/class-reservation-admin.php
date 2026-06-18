@@ -234,14 +234,14 @@ class Reservation_Admin {
                 'restaurant_res_capacity_section'
             );
 
-            // Section : Labels du formulaire — English
+            // Section : Labels du formulaire — English (onglet EN)
             add_settings_section(
                 'restaurant_res_labels_en_section',
                 '🇬🇧 Labels du formulaire — English',
                 function() {
                     echo '<p class="description">Textes du formulaire affichés quand le visiteur choisit la langue anglaise. Laissez vide pour conserver les labels italiens.</p>';
                 },
-                'restaurant-res-settings'
+                'restaurant-res-settings-en'
             );
 
             $form_labels_en = [
@@ -260,7 +260,32 @@ class Reservation_Admin {
                 'placeholder_telephone_en'       => 'Placeholder — Phone (EN)',
             ];
             foreach ( $form_labels_en as $key => $default ) {
-                $this->add_settings_text_field( $key, $default, 'restaurant_res_labels_en_section' );
+                $this->add_settings_text_field( $key, $default, 'restaurant_res_labels_en_section', 'text', 'restaurant-res-settings-en' );
+            }
+
+            // Section : Messages d'erreur (EN)
+            add_settings_section(
+                'restaurant_res_errors_en_section',
+                '⚠️ Messages d\'erreur du formulaire — English',
+                function() {
+                    echo '<p class="description">Error messages displayed when form validation fails (English version). Leave empty to fall back to Italian messages. Use <code>{max}</code> in the guests message.</p>';
+                },
+                'restaurant-res-settings-en'
+            );
+
+            $error_messages_en = [
+                'error_required_nom_en'       => 'The «Name» field is required.',
+                'error_required_email_en'     => 'The «Email» field is required.',
+                'error_required_telephone_en' => 'The «Phone» field is required.',
+                'error_required_date_en'      => 'The «Date» field is required.',
+                'error_required_heure_en'     => 'The «Time» field is required.',
+                'error_personnes_range_en'    => 'The number of guests must be between 1 and {max}.',
+                'error_email_invalid_en'      => 'The email address is not valid.',
+                'error_date_past_en'          => 'The date must be in the future.',
+                'error_day_closed_en'         => 'The restaurant is closed that day. Please choose another date.',
+            ];
+            foreach ( $error_messages_en as $key => $default ) {
+                $this->add_settings_text_field( $key, $default, 'restaurant_res_errors_en_section', 'text', 'restaurant-res-settings-en' );
             }
 
             // Section : Notification au propriétaire
@@ -304,6 +329,31 @@ class Reservation_Admin {
             ];
             foreach ( $form_labels as $key => $default ) {
                 $this->add_settings_text_field( $key, $default, 'restaurant_res_labels_section' );
+            }
+
+            // Section : Messages d'erreur (IT)
+            add_settings_section(
+                'restaurant_res_errors_section',
+                '⚠️ Messages d\'erreur du formulaire',
+                function() {
+                    echo '<p class="description">Messages affichés sous les champs quand la validation échoue. Utilisez <code>{max}</code> dans le message sur les couverts pour insérer le nombre maximum.</p>';
+                },
+                'restaurant-res-settings'
+            );
+
+            $error_messages_it = [
+                'error_required_nom'       => 'Il campo «Nome» è obbligatorio.',
+                'error_required_email'     => 'Il campo «Email» è obbligatorio.',
+                'error_required_telephone' => 'Il campo «Telefono» è obbligatorio.',
+                'error_required_date'      => 'Il campo «Data» è obbligatorio.',
+                'error_required_heure'     => 'Il campo «Ora» è obbligatorio.',
+                'error_personnes_range'    => 'Il numero di coperti deve essere tra 1 e {max}.',
+                'error_email_invalid'      => 'L\'indirizzo email non è valido.',
+                'error_date_past'          => 'La data deve essere futura.',
+                'error_day_closed'         => 'Il ristorante è chiuso quel giorno. Scegli un\'altra data.',
+            ];
+            foreach ( $error_messages_it as $key => $default ) {
+                $this->add_settings_text_field( $key, $default, 'restaurant_res_errors_section' );
             }
 
             // Section : Expéditeur des emails
@@ -456,8 +506,8 @@ class Reservation_Admin {
             $sanitized['email_notify'] = sanitize_textarea_field( $input['email_notify'] );
         }
 
-        // Labels du formulaire public (IT + EN)
-        foreach ( [ 'label_nom', 'placeholder_nom', 'label_email', 'placeholder_email', 'label_telephone', 'placeholder_telephone', 'label_date', 'label_heure', 'label_heure_placeholder', 'label_personnes', 'label_personnes_placeholder', 'label_required', 'label_submit', 'label_nom_en', 'placeholder_nom_en', 'label_email_en', 'placeholder_email_en', 'label_telephone_en', 'placeholder_telephone_en', 'label_date_en', 'label_heure_en', 'label_heure_placeholder_en', 'label_personnes_en', 'label_personnes_placeholder_en', 'label_required_en', 'label_submit_en' ] as $key ) {
+        // Labels du formulaire public (IT + EN) + messages d'erreur (IT + EN)
+        foreach ( [ 'label_nom', 'placeholder_nom', 'label_email', 'placeholder_email', 'label_telephone', 'placeholder_telephone', 'label_date', 'label_heure', 'label_heure_placeholder', 'label_personnes', 'label_personnes_placeholder', 'label_required', 'label_submit', 'label_nom_en', 'placeholder_nom_en', 'label_email_en', 'placeholder_email_en', 'label_telephone_en', 'placeholder_telephone_en', 'label_date_en', 'label_heure_en', 'label_heure_placeholder_en', 'label_personnes_en', 'label_personnes_placeholder_en', 'label_required_en', 'label_submit_en', 'error_required_nom', 'error_required_email', 'error_required_telephone', 'error_required_date', 'error_required_heure', 'error_personnes_range', 'error_email_invalid', 'error_date_past', 'error_day_closed', 'error_required_nom_en', 'error_required_email_en', 'error_required_telephone_en', 'error_required_date_en', 'error_required_heure_en', 'error_personnes_range_en', 'error_email_invalid_en', 'error_date_past_en', 'error_day_closed_en' ] as $key ) {
             if ( array_key_exists( $key, $input ) ) {
                 $sanitized[ $key ] = sanitize_text_field( $input[ $key ] );
             }
