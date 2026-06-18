@@ -90,6 +90,36 @@ $base_url    = admin_url( 'admin.php?page=restaurant-res-settings' );
     </div>
     <?php endif; ?>
 
+    <?php if ( $active_lang === 'it' ) : ?>
+    <!-- Aide : template notification propriétaire -->
+    <div class="postbox" style="margin-top: 20px;">
+        <div class="postbox-header">
+            <h2>🔔 <?php esc_html_e( 'Template par défaut — Notification propriétaire', 'restaurant-reservation' ); ?></h2>
+        </div>
+        <div class="inside">
+            <p style="color:#666; font-size:13px;"><?php esc_html_e( 'Copiez-collez ces valeurs dans les champs ci-dessus si vous souhaitez personnaliser la notification.', 'restaurant-reservation' ); ?></p>
+            <table class="widefat striped" style="font-size:13px;">
+                <tr>
+                    <th style="width:160px;">subject_notify</th>
+                    <td><code>🍽️ Nuova prenotazione — {{client_nom}} il {{reservation_date}}</code></td>
+                </tr>
+                <tr>
+                    <th>email_notify</th>
+                    <td><pre style="margin:0; white-space:pre-wrap;">Nuova richiesta di prenotazione:
+
+Cliente : {{client_nom}}
+Email   : {{client_email}}
+Tel     : {{client_telephone}}
+Data    : {{reservation_date}} alle {{reservation_heure}}
+Coperti : {{reservation_personnes}}
+
+👉 Gestisci la prenotazione : {{detail_url}}</pre></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <?php endif; ?>
+
     <!-- Aide : valeurs par défaut des templates -->
     <div class="postbox" style="margin-top: 20px;">
         <div class="postbox-header">

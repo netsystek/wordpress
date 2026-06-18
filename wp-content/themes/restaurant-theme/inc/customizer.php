@@ -231,6 +231,23 @@ function restaurant_customizer_register( WP_Customize_Manager $wp_customize ) {
         'section' => 'restaurant_parallax',
     ] ) );
 
+    $wp_customize->add_setting( 'parallax_height', [
+        'default'           => 400,
+        'sanitize_callback' => 'absint',
+        'transport'         => 'postMessage',
+    ] );
+    $wp_customize->add_control( 'parallax_height', [
+        'label'       => __( 'Hauteur de la section (px)', 'restaurant-theme' ),
+        'description' => __( 'Hauteur minimale de la section parallax. Recommandé : entre 200 et 700px.', 'restaurant-theme' ),
+        'section'     => 'restaurant_parallax',
+        'type'        => 'range',
+        'input_attrs' => [
+            'min'  => 150,
+            'max'  => 700,
+            'step' => 10,
+        ],
+    ] );
+
     $wp_customize->add_setting( 'parallax_quote', [
         'default'           => __( '"La cuisine est l\'art de transformer les produits de la nature en plaisir."', 'restaurant-theme' ),
         'sanitize_callback' => 'sanitize_text_field',
@@ -594,9 +611,10 @@ function restaurant_customizer_css() {
     $color_secondary = get_theme_mod( 'color_secondary', '#1a1a1a' );
     $logo_height     = absint( get_theme_mod( 'header_logo_height', 72 ) );
     $logo_height_sm  = max( 30, intval( $logo_height * 0.75 ) );
-    $header_bg       = get_theme_mod( 'header_bg_color', '#010101' );
-    $footer_bg       = get_theme_mod( 'footer_bg_color', '#010101' );
+    $header_bg        = get_theme_mod( 'header_bg_color', '#010101' );
+    $footer_bg        = get_theme_mod( 'footer_bg_color', '#010101' );
     $footer_font_size = absint( get_theme_mod( 'footer_font_size', 14 ) );
+    $parallax_height  = absint( get_theme_mod( 'parallax_height', 400 ) );
     ?>
     <style id="restaurant-customizer-css">
         :root {
@@ -607,6 +625,7 @@ function restaurant_customizer_css() {
             --header-bg-color:             <?php echo sanitize_hex_color( $header_bg ); ?>;
             --footer-bg-color:             <?php echo sanitize_hex_color( $footer_bg ); ?>;
             --footer-font-size:            <?php echo $footer_font_size; ?>px;
+            --parallax-height:             <?php echo $parallax_height; ?>px;
         }
     </style>
     <?php

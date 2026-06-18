@@ -51,6 +51,7 @@ class Reservation_Email {
             '{{restaurant_contact_email}}'=> __( 'Email de contact du restaurant', 'restaurant-reservation' ),
             '{{restaurant_contact_phone}}'=> __( 'Téléphone du restaurant', 'restaurant-reservation' ),
             '{{restaurant_address}}'      => __( 'Adresse du restaurant', 'restaurant-reservation' ),
+            '{{detail_url}}'              => __( 'Lien vers la réservation dans le backoffice (notification propriétaire uniquement)', 'restaurant-reservation' ),
         ];
     }
 
@@ -81,13 +82,20 @@ class Reservation_Email {
             'reservation_id' => $post_id,
         ], admin_url( 'admin.php' ) );
 
-        $subject = sprintf(
-            '🍽️ Nouvelle réservation — %s le %s',
-            $reservation['nom'],
-            date_i18n( 'd/m/Y', strtotime( $reservation['date'] ) )
-        );
+        $subject_tpl = $settings['subject_notify'] ?? '';
+        $body_tpl    = $settings['email_notify']   ?? '';
 
-        $body = $this->build_admin_notification_html( $reservation, $detail_url );
+        if ( ! empty( $subject_tpl ) && ! empty( $body_tpl ) ) {
+            $subject = $this->render_template( $subject_tpl, $reservation, [ '{{detail_url}}' => $detail_url ] );
+            $body    = $this->render_template( $body_tpl,    $reservation, [ '{{detail_url}}' => $detail_url ] );
+        } else {
+            $subject = sprintf(
+                '🍽️ Nouvelle réservation — %s le %s',
+                $reservation['nom'],
+                date_i18n( 'd/m/Y', strtotime( $reservation['date'] ) )
+            );
+            $body = $this->build_admin_notification_html( $reservation, $detail_url );
+        }
 
         $this->send(
             $notify_email,
@@ -264,7 +272,7 @@ class Reservation_Email {
      * @param array  $reservation Données de la réservation
      * @return string Template avec les variables substituées
      */
-    private function render_template( string $template, array $reservation ): string {
+    private function render_template( string $template, array $reservation, array $extras = [] ): string {
         $settings = get_option( 'restaurant_res_settings', [] );
 
         $replacements = [
@@ -280,6 +288,8 @@ class Reservation_Email {
             '{{restaurant_contact_phone}}'=> $settings['restaurant_contact_phone'] ?? '',
             '{{restaurant_address}}'      => $settings['restaurant_address'] ?? '',
         ];
+
+        $replacements = array_merge( $replacements, $extras );
 
         return str_replace(
             array_keys( $replacements ),

@@ -234,6 +234,20 @@ class Reservation_Admin {
                 'restaurant_res_capacity_section'
             );
 
+            // Section : Notification au propriétaire
+            add_settings_section(
+                'restaurant_res_notify_section',
+                '🔔 Email de notification au propriétaire',
+                function() {
+                    echo '<p class="description">Email envoyé au propriétaire dès qu\'une nouvelle réservation est soumise. Laissez vide pour utiliser le template HTML par défaut.</p>';
+                    $this->render_variables_hint();
+                },
+                'restaurant-res-settings'
+            );
+
+            $this->add_settings_text_field(     'subject_notify', __( 'Objet', 'restaurant-reservation' ),           'restaurant_res_notify_section' );
+            $this->add_settings_textarea_field( 'email_notify',   __( 'Corps du message', 'restaurant-reservation' ), 'restaurant_res_notify_section' );
+
             // Section : Labels du formulaire public
             add_settings_section(
                 'restaurant_res_labels_section',
@@ -403,6 +417,14 @@ class Reservation_Admin {
             $sanitized['jours_fermeture'] = isset( $input['jours_fermeture'] )
                 ? array_map( 'intval', (array) $input['jours_fermeture'] )
                 : [];
+        }
+
+        // Template de notification propriétaire
+        if ( array_key_exists( 'subject_notify', $input ) ) {
+            $sanitized['subject_notify'] = sanitize_text_field( $input['subject_notify'] );
+        }
+        if ( array_key_exists( 'email_notify', $input ) ) {
+            $sanitized['email_notify'] = sanitize_textarea_field( $input['email_notify'] );
         }
 
         // Labels du formulaire public

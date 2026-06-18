@@ -512,7 +512,10 @@ img { max-width: 100%; height: auto; display: block; }
 
 .parallax-section {
     position: relative;
-    padding: 6rem 1.5rem;
+    min-height: var(--parallax-height, 400px);
+    padding: 3rem 1.5rem;
+    display: flex;
+    align-items: center;
     background-color: var(--color-secondary);
 
     /* Effet parallax CSS */

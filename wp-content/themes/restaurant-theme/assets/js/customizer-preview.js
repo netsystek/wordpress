@@ -26,4 +26,10 @@
             document.documentElement.style.setProperty( '--footer-font-size', parseInt( newVal, 10 ) + 'px' );
         } );
     } );
+
+    wp.customize( 'parallax_height', function ( value ) {
+        value.bind( function ( newVal ) {
+            document.documentElement.style.setProperty( '--parallax-height', parseInt( newVal, 10 ) + 'px' );
+        } );
+    } );
 } )();
