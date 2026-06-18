@@ -158,7 +158,7 @@ img { max-width: 100%; height: auto; display: block; }
 .site-nav {
     display: flex;
     align-items: center;
-    width: 100%;
+    flex: 1 1 auto;
     justify-content: space-between;
 }
 
@@ -209,7 +209,54 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 /* ==========================================================================
-   5b. Bouton CTA dans le header
+   5b. Sélecteur de langue (IT / EN)
+   ========================================================================== */
+
+.lang-switcher {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-shrink: 0;
+    margin-left: 1.25rem;
+}
+
+.lang-btn {
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+    text-decoration: none;
+    padding: 0.25rem 0.45rem;
+    border-radius: 3px;
+    border: 1px solid transparent;
+    transition: color var(--transition), border-color var(--transition);
+    white-space: nowrap;
+}
+
+.lang-btn:hover {
+    color: var(--color-primary);
+}
+
+.lang-btn.active {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+@media (max-width: 767px) {
+    .lang-switcher {
+        margin-left: 0.6rem;
+        gap: 0.2rem;
+    }
+    .lang-btn {
+        font-size: 0.65rem;
+        padding: 0.2rem 0.35rem;
+    }
+}
+
+/* ==========================================================================
+   5c. Bouton CTA dans le header
    ========================================================================== */
 
 /* Variante bas : laisse de la place en dessous du header pour que le bouton

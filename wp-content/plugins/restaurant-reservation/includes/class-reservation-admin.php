@@ -305,7 +305,7 @@ class Reservation_Admin {
 
     /** Langues supportées */
     public static function get_supported_langs(): array {
-        return [ 'it' => '🇮🇹 Italiano', 'en' => '🇬🇧 English', 'fr' => '🇫🇷 Français' ];
+        return [ 'it' => '🇮🇹 Italiano', 'en' => '🇬🇧 English' ];
     }
 
     /**

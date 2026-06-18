@@ -26,6 +26,7 @@ wp_body_open();
 <?php
 $cta_label    = get_theme_mod( 'hero_cta_label', 'Réserver une table' );
 $cta_position = get_theme_mod( 'cta_position', 'bottom-right' );
+$site_lang    = ( isset( $_COOKIE['site_lang'] ) && $_COOKIE['site_lang'] === 'en' ) ? 'en' : 'it';
 ?>
 <header class="site-header<?php echo $cta_position !== 'hidden' && $cta_position !== 'top-right' ? ' site-header--has-bottom-cta' : ''; ?>" id="top">
     <?php
@@ -37,6 +38,11 @@ $cta_position = get_theme_mod( 'cta_position', 'bottom-right' );
         'fallback_cb'     => false,
     ] );
     ?>
+
+    <div class="lang-switcher">
+        <a href="#" class="lang-btn<?php echo $site_lang === 'it' ? ' active' : ''; ?>" data-lang="it" aria-label="Italiano">🇮🇹 IT</a>
+        <a href="#" class="lang-btn<?php echo $site_lang === 'en' ? ' active' : ''; ?>" data-lang="en" aria-label="English">🇬🇧 EN</a>
+    </div>
 
     <?php if ( $cta_position !== 'hidden' ) : ?>
         <a href="#reservation"

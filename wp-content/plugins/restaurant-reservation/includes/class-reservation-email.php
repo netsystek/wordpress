@@ -236,8 +236,9 @@ class Reservation_Email {
         $is_accepted = $new_status === Reservation_CPT::STATUS_ACCEPTED;
         $action_key  = $is_accepted ? 'accepted' : 'rejected';
 
-        $subject  = $settings[ "subject_{$action_key}" ] ?? '';
-        $template = $settings[ "email_{$action_key}" ]   ?? '';
+        $lang     = in_array( $reservation['lang'], [ 'it', 'en' ], true ) ? $reservation['lang'] : 'it';
+        $subject  = $settings[ "subject_{$action_key}_{$lang}" ] ?? $settings[ "subject_{$action_key}_it" ] ?? '';
+        $template = $settings[ "email_{$action_key}_{$lang}" ]   ?? $settings[ "email_{$action_key}_it" ]   ?? '';
 
         if ( empty( $subject ) || empty( $template ) ) {
             return;

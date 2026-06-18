@@ -143,7 +143,35 @@
 
 
 // =============================================================================
-// 5. Scroll fluide pour les ancres de navigation (polyfill pour Safari < 15.4)
+// 5. Sélecteur de langue IT / EN
+//    Stocke la langue choisie dans un cookie (30j) et recharge la page.
+//    Le champ caché #res-site-lang est aussi initialisé au chargement.
+// =============================================================================
+(function initLangSwitcher() {
+    // Synchronise le champ caché du formulaire avec la langue courante (injectée par PHP)
+    const langField = document.getElementById('res-site-lang');
+    if (langField && typeof resConfig !== 'undefined' && resConfig.currentLang) {
+        langField.value = resConfig.currentLang;
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            const lang = this.dataset.lang;
+            if (!lang) return;
+
+            // Cookie valable 30 jours sur tout le site
+            const expires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toUTCString();
+            document.cookie = `site_lang=${lang}; expires=${expires}; path=/; SameSite=Lax`;
+
+            window.location.reload();
+        });
+    });
+})();
+
+
+// =============================================================================
+// 6. Scroll fluide pour les ancres de navigation (polyfill pour Safari < 15.4)
 // =============================================================================
 (function initSmoothScroll() {
     // CSS scroll-behavior: smooth couvre les navigateurs modernes.

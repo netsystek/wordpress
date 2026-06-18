@@ -203,6 +203,7 @@ class Reservation_CPT {
         update_post_meta( $post_id, self::META_DATE,      sanitize_text_field( $data['date'] ) );
         update_post_meta( $post_id, self::META_HEURE,     sanitize_text_field( $data['heure'] ) );
         update_post_meta( $post_id, self::META_PERSONNES, absint( $data['personnes'] ) );
+        update_post_meta( $post_id, self::META_LANG,      sanitize_key( $data['lang'] ?? 'it' ) );
 
         // Déclenche l'événement "nouvelle réservation créée".
         // Parallèle Symfony : $dispatcher->dispatch(new ReservationCreatedEvent($postId))

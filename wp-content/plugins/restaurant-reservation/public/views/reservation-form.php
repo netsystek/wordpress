@@ -21,6 +21,8 @@ $l_personnes_placeholder = $settings['label_personnes_placeholder'] ?? '1';
 
     <form class="res-form" id="reservation-form" novalidate>
 
+        <input type="hidden" name="site_lang" id="res-site-lang" value="it">
+
         <div class="res-form-group">
             <label for="res-nom"><?php echo esc_html( $l_nom ); ?> <span aria-hidden="true">*</span></label>
             <input type="text"

@@ -61,16 +61,28 @@ class Reservation_Form {
         // Injecte les variables PHP → JS
         // Parallèle Symfony : équivalent à json_encode et output dans un <script> Twig
         $settings = get_option( 'restaurant_res_settings', [] );
+        $lang     = ( isset( $_COOKIE['site_lang'] ) && $_COOKIE['site_lang'] === 'en' ) ? 'en' : 'it';
+
+        $all_i18n = [
+            'it' => [
+                'sending'  => 'Invio in corso…',
+                'error'    => 'Si è verificato un errore. Riprova.',
+                'dayFerme' => 'Il ristorante è chiuso quel giorno. Scegli un\'altra data.',
+            ],
+            'en' => [
+                'sending'  => 'Sending…',
+                'error'    => 'An error occurred. Please try again.',
+                'dayFerme' => 'The restaurant is closed on that day. Please choose another date.',
+            ],
+        ];
+
         wp_localize_script( 'restaurant-res-form', 'resConfig', [
             'ajaxUrl'        => admin_url( 'admin-ajax.php' ),
             'nonce'          => wp_create_nonce( 'submit_reservation' ),
             'joursFermeture' => array_map( 'intval', $settings['jours_fermeture'] ?? [] ),
             'maxPersonnes'   => intval( $settings['max_personnes'] ?? 12 ),
-            'i18n'           => [
-                'sending'  => 'Invio in corso…',
-                'error'    => 'Si è verificato un errore. Riprova.',
-                'dayFerme' => 'Il ristorante è chiuso quel giorno. Scegli un\'altra data.',
-            ],
+            'currentLang'    => $lang,
+            'i18n'           => $all_i18n[ $lang ],
         ] );
     }
 
@@ -114,6 +126,7 @@ class Reservation_Form {
 
         // 2. VALIDATION DES DONNÉES REQUISES
         $required = [ 'nom', 'email', 'telephone', 'date', 'heure', 'personnes' ];
+        $lang     = ( isset( $_POST['site_lang'] ) && $_POST['site_lang'] === 'en' ) ? 'en' : 'it';
         $errors   = [];
 
         foreach ( $required as $field ) {
@@ -172,6 +185,7 @@ class Reservation_Form {
             'date'      => sanitize_text_field( wp_unslash( $_POST['date'] ) ),
             'heure'     => sanitize_text_field( wp_unslash( $_POST['heure'] ) ),
             'personnes' => $personnes,
+            'lang'      => $lang,
         ];
 
         // 4. CRÉATION DE LA RÉSERVATION
@@ -191,9 +205,19 @@ class Reservation_Form {
         }
 
         // 6. RÉPONSE JSON DE SUCCÈS
+        $success_messages = [
+            'it' => [
+                'confirmed' => 'La tua prenotazione è confermata! Ti è stata inviata un\'email di conferma.',
+                'pending'   => 'La tua richiesta è stata ricevuta. Ti confermeremo la prenotazione al più presto.',
+            ],
+            'en' => [
+                'confirmed' => 'Your reservation is confirmed! A confirmation email has been sent to you.',
+                'pending'   => 'Your request has been received. We will confirm your reservation as soon as possible.',
+            ],
+        ];
         $message = ! empty( $settings['auto_confirm'] )
-            ? 'La tua prenotazione è confermata! Ti è stata inviata un\'email di conferma.'
-            : 'La tua richiesta è stata ricevuta. Ti confermeremo la prenotazione al più presto.';
+            ? $success_messages[ $lang ]['confirmed']
+            : $success_messages[ $lang ]['pending'];
 
         wp_send_json_success( [
             'message' => $message,
