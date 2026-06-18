@@ -8,4 +8,22 @@
             document.documentElement.style.setProperty( '--header-logo-height-scrolled', hSm + 'px' );
         } );
     } );
+
+    wp.customize( 'header_bg_color', function ( value ) {
+        value.bind( function ( newVal ) {
+            document.documentElement.style.setProperty( '--header-bg-color', newVal );
+        } );
+    } );
+
+    wp.customize( 'footer_bg_color', function ( value ) {
+        value.bind( function ( newVal ) {
+            document.documentElement.style.setProperty( '--footer-bg-color', newVal );
+        } );
+    } );
+
+    wp.customize( 'footer_font_size', function ( value ) {
+        value.bind( function ( newVal ) {
+            document.documentElement.style.setProperty( '--footer-font-size', parseInt( newVal, 10 ) + 'px' );
+        } );
+    } );
 } )();

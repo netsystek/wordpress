@@ -42,6 +42,17 @@ function restaurant_customizer_register( WP_Customize_Manager $wp_customize ) {
         'priority' => 10,
     ] );
 
+    // Setting : couleur de fond du header
+    $wp_customize->add_setting( 'header_bg_color', [
+        'default'           => '#010101',
+        'sanitize_callback' => 'sanitize_hex_color',
+        'transport'         => 'postMessage',
+    ] );
+    $wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'header_bg_color', [
+        'label'   => __( 'Couleur de fond du header', 'restaurant-theme' ),
+        'section' => 'restaurant_header',
+    ] ) );
+
     // Setting : hauteur du logo dans le header (px)
     $wp_customize->add_setting( 'header_logo_height', [
         'default'           => 72,
@@ -519,6 +530,35 @@ function restaurant_customizer_register( WP_Customize_Manager $wp_customize ) {
         ] );
     }
 
+    // --- Taille de police ---
+    $wp_customize->add_setting( 'footer_font_size', [
+        'default'           => 14,
+        'sanitize_callback' => 'absint',
+        'transport'         => 'postMessage',
+    ] );
+    $wp_customize->add_control( 'footer_font_size', [
+        'label'       => __( 'Taille de police (px)', 'restaurant-theme' ),
+        'description' => __( 'Taille de base du texte dans le footer. Recommandé : entre 12 et 18px.', 'restaurant-theme' ),
+        'section'     => 'restaurant_footer',
+        'type'        => 'range',
+        'input_attrs' => [
+            'min'  => 10,
+            'max'  => 22,
+            'step' => 1,
+        ],
+    ] );
+
+    // --- Couleur de fond ---
+    $wp_customize->add_setting( 'footer_bg_color', [
+        'default'           => '#010101',
+        'sanitize_callback' => 'sanitize_hex_color',
+        'transport'         => 'postMessage',
+    ] );
+    $wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'footer_bg_color', [
+        'label'   => __( 'Couleur de fond du footer', 'restaurant-theme' ),
+        'section' => 'restaurant_footer',
+    ] ) );
+
     // --- Bas de footer ---
     $wp_customize->add_setting( 'footer_copyright', [
         'default'           => '© ' . date( 'Y' ) . ' Mon Restaurant. Tous droits réservés.',
@@ -553,14 +593,20 @@ function restaurant_customizer_css() {
     $color_primary   = get_theme_mod( 'color_primary', '#c8a96e' );
     $color_secondary = get_theme_mod( 'color_secondary', '#1a1a1a' );
     $logo_height     = absint( get_theme_mod( 'header_logo_height', 72 ) );
-    $logo_height_sm  = max( 30, intval( $logo_height * 0.75 ) ); // 75% au scroll
+    $logo_height_sm  = max( 30, intval( $logo_height * 0.75 ) );
+    $header_bg       = get_theme_mod( 'header_bg_color', '#010101' );
+    $footer_bg       = get_theme_mod( 'footer_bg_color', '#010101' );
+    $footer_font_size = absint( get_theme_mod( 'footer_font_size', 14 ) );
     ?>
     <style id="restaurant-customizer-css">
         :root {
-            --color-primary:      <?php echo sanitize_hex_color( $color_primary ); ?>;
-            --color-secondary:    <?php echo sanitize_hex_color( $color_secondary ); ?>;
-            --header-logo-height: <?php echo $logo_height; ?>px;
+            --color-primary:               <?php echo sanitize_hex_color( $color_primary ); ?>;
+            --color-secondary:             <?php echo sanitize_hex_color( $color_secondary ); ?>;
+            --header-logo-height:          <?php echo $logo_height; ?>px;
             --header-logo-height-scrolled: <?php echo $logo_height_sm; ?>px;
+            --header-bg-color:             <?php echo sanitize_hex_color( $header_bg ); ?>;
+            --footer-bg-color:             <?php echo sanitize_hex_color( $footer_bg ); ?>;
+            --footer-font-size:            <?php echo $footer_font_size; ?>px;
         }
     </style>
     <?php

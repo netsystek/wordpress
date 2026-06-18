@@ -13,6 +13,9 @@ $l_required    = $settings['label_required']    ?? '* Champs obligatoires';
 $l_submit      = $settings['label_submit']      ?? 'Demander une réservation';
 $l_heure_placeholder     = $settings['label_heure_placeholder']    ?? '-- Choisir --';
 $l_personnes_placeholder = $settings['label_personnes_placeholder'] ?? '1';
+$ph_nom        = $settings['placeholder_nom']       ?? 'Dupont';
+$ph_email      = $settings['placeholder_email']     ?? 'jean.dupont@email.com';
+$ph_telephone  = $settings['placeholder_telephone'] ?? '+39 06 12 34 56 78';
 ?>
 
 <div class="res-form-wrapper" id="reservation-form-wrapper">
@@ -30,7 +33,7 @@ $l_personnes_placeholder = $settings['label_personnes_placeholder'] ?? '1';
                    name="nom"
                    required
                    autocomplete="family-name"
-                   placeholder="Dupont">
+                   placeholder="<?php echo esc_attr( $ph_nom ); ?>">
             <span class="res-field-error" role="alert"></span>
         </div>
 
@@ -42,7 +45,7 @@ $l_personnes_placeholder = $settings['label_personnes_placeholder'] ?? '1';
                        name="email"
                        required
                        autocomplete="email"
-                       placeholder="jean.dupont@email.com">
+                       placeholder="<?php echo esc_attr( $ph_email ); ?>">
                 <span class="res-field-error" role="alert"></span>
             </div>
             <div class="res-form-group">
@@ -52,7 +55,7 @@ $l_personnes_placeholder = $settings['label_personnes_placeholder'] ?? '1';
                        name="telephone"
                        required
                        autocomplete="tel"
-                       placeholder="+39 06 12 34 56 78">
+                       placeholder="<?php echo esc_attr( $ph_telephone ); ?>">
                 <span class="res-field-error" role="alert"></span>
             </div>
         </div>

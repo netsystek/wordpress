@@ -246,8 +246,11 @@ class Reservation_Admin {
 
             $form_labels = [
                 'label_nom'                  => 'Nom',
+                'placeholder_nom'            => 'Placeholder — Nom',
                 'label_email'                => 'Email',
+                'placeholder_email'          => 'Placeholder — Email',
                 'label_telephone'            => 'Téléphone',
+                'placeholder_telephone'      => 'Placeholder — Téléphone',
                 'label_date'                 => 'Date',
                 'label_heure'                => 'Heure',
                 'label_heure_placeholder'    => 'Placeholder select Heure',
@@ -403,7 +406,7 @@ class Reservation_Admin {
         }
 
         // Labels du formulaire public
-        foreach ( [ 'label_nom', 'label_email', 'label_telephone', 'label_date', 'label_heure', 'label_heure_placeholder', 'label_personnes', 'label_personnes_placeholder', 'label_required', 'label_submit' ] as $key ) {
+        foreach ( [ 'label_nom', 'placeholder_nom', 'label_email', 'placeholder_email', 'label_telephone', 'placeholder_telephone', 'label_date', 'label_heure', 'label_heure_placeholder', 'label_personnes', 'label_personnes_placeholder', 'label_required', 'label_submit' ] as $key ) {
             if ( array_key_exists( $key, $input ) ) {
                 $sanitized[ $key ] = sanitize_text_field( $input[ $key ] );
             }

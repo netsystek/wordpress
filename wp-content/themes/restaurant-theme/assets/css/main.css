@@ -146,7 +146,7 @@ img { max-width: 100%; height: auto; display: block; }
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
     gap: 1rem;
-    background: #010101;
+    background: var(--header-bg-color, #010101);
     transition: padding var(--transition), box-shadow var(--transition);
 }
 
@@ -824,9 +824,10 @@ img { max-width: 100%; height: auto; display: block; }
    ========================================================================== */
 
 .site-footer {
-    background: #0d0d0d;
+    background: var(--footer-bg-color, #010101);
     color: rgba(255, 255, 255, 0.65);
     padding: 4rem 2rem 0;
+    font-size: var(--footer-font-size, 14px);
 }
 
 /* Grille 4 colonnes */
@@ -844,7 +845,7 @@ img { max-width: 100%; height: auto; display: block; }
 /* Titres de colonnes */
 .footer-col-title {
     font-family: var(--font-body);
-    font-size: 0.7rem;
+    font-size: 0.8em;
     font-weight: 700;
     letter-spacing: 0.18em;
     text-transform: uppercase;
@@ -868,7 +869,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 .footer-logo-text {
     font-family: var(--font-heading);
-    font-size: 1.4rem;
+    font-size: 1.6em;
     font-weight: 700;
     color: var(--color-white);
 }
@@ -876,7 +877,7 @@ img { max-width: 100%; height: auto; display: block; }
 /* --- Col 2 : Adresse --- */
 .footer-address-line {
     font-family: var(--font-body);
-    font-size: 0.875rem;
+    font-size: 1em;
     line-height: 1.8;
     margin-bottom: 0;
 }
@@ -887,13 +888,13 @@ img { max-width: 100%; height: auto; display: block; }
     align-items: center;
     gap: 0.6rem;
     font-family: var(--font-body);
-    font-size: 0.875rem;
+    font-size: 1em;
     margin-bottom: 0.6rem;
 }
 
 .footer-contact-item i {
     color: var(--color-primary);
-    font-size: 0.8rem;
+    font-size: 0.91em;
     flex-shrink: 0;
     width: 1rem;
     text-align: center;
@@ -922,7 +923,7 @@ img { max-width: 100%; height: auto; display: block; }
     align-items: center;
     justify-content: center;
     color: rgba(255, 255, 255, 0.65);
-    font-size: 0.8rem;
+    font-size: 0.91em;
     transition: all var(--transition);
 }
 
@@ -954,7 +955,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 .footer-hours-days {
     font-family: var(--font-body);
-    font-size: 0.8rem;
+    font-size: 0.91em;
     font-weight: 600;
     color: rgba(255, 255, 255, 0.85);
     white-space: nowrap;
@@ -962,7 +963,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 .footer-hours-time {
     font-family: var(--font-body);
-    font-size: 0.8rem;
+    font-size: 0.91em;
     color: rgba(255, 255, 255, 0.55);
     text-align: right;
 }
@@ -976,7 +977,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 .footer-copyright {
     font-family: var(--font-body);
-    font-size: 0.75rem;
+    font-size: 0.86em;
     color: rgba(255, 255, 255, 0.3);
     margin: 0;
     text-align: center;
