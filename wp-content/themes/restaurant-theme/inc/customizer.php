@@ -326,7 +326,7 @@ function restaurant_customizer_register( WP_Customize_Manager $wp_customize ) {
         'type'    => 'text',
     ] );
 
-    for ( $i = 1; $i <= 14; $i++ ) {
+    for ( $i = 1; $i <= 19; $i++ ) {
         $wp_customize->add_setting( "carousel_image_{$i}", [
             'default'           => '',
             'sanitize_callback' => 'esc_url_raw',
@@ -705,7 +705,7 @@ function restaurant_customizer_register( WP_Customize_Manager $wp_customize ) {
     }
 
     // Légendes des photos (carousel)
-    for ( $i = 1; $i <= 14; $i++ ) {
+    for ( $i = 1; $i <= 19; $i++ ) {
         $wp_customize->add_setting( "carousel_image_{$i}_caption_en", [
             'default'           => '',
             'sanitize_callback' => 'sanitize_text_field',
