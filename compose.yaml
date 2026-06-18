@@ -17,6 +17,7 @@ services:
       - ./wp-content/themes/restaurant-theme:/var/www/html/wp-content/themes/restaurant-theme
       - ./wp-content/plugins/restaurant-reservation:/var/www/html/wp-content/plugins/restaurant-reservation
       - ./wp-content/mu-plugins:/var/www/html/wp-content/mu-plugins
+      - ./php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini:ro
 
   db:
     image: mysql:8.0

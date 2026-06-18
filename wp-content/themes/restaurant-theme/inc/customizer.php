@@ -53,6 +53,20 @@ function restaurant_customizer_register( WP_Customize_Manager $wp_customize ) {
         'section' => 'restaurant_header',
     ] ) );
 
+    // Setting : vidéo de fond du hero (URL mp4)
+    $wp_customize->add_setting( 'hero_background_video', [
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+        'transport'         => 'refresh',
+    ] );
+    $wp_customize->add_control( 'hero_background_video', [
+        'label'       => __( 'Vidéo de fond du hero (URL .mp4)', 'restaurant-theme' ),
+        'description' => __( 'Coller l\'URL directe vers un fichier .mp4 (uploadé dans Médias). Si renseignée, la vidéo remplace l\'image de fond.', 'restaurant-theme' ),
+        'section'     => 'restaurant_header',
+        'type'        => 'url',
+        'input_attrs' => [ 'placeholder' => 'https://…/video.mp4' ],
+    ] );
+
     // Setting : texte du bouton CTA du hero
     $wp_customize->add_setting( 'hero_cta_label', [
         'default'           => 'Réserver une table',
