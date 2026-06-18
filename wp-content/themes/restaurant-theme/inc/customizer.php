@@ -42,6 +42,24 @@ function restaurant_customizer_register( WP_Customize_Manager $wp_customize ) {
         'priority' => 10,
     ] );
 
+    // Setting : hauteur du logo dans le header (px)
+    $wp_customize->add_setting( 'header_logo_height', [
+        'default'           => 72,
+        'sanitize_callback' => 'absint',
+        'transport'         => 'postMessage',
+    ] );
+    $wp_customize->add_control( 'header_logo_height', [
+        'label'       => __( 'Hauteur du logo (px)', 'restaurant-theme' ),
+        'description' => __( 'Taille du logo dans le header. Recommandé : entre 40 et 120px.', 'restaurant-theme' ),
+        'section'     => 'restaurant_header',
+        'type'        => 'range',
+        'input_attrs' => [
+            'min'  => 30,
+            'max'  => 150,
+            'step' => 2,
+        ],
+    ] );
+
     // Setting : image de fond du header
     $wp_customize->add_setting( 'header_background_image', [
         'default'           => '',
@@ -464,11 +482,15 @@ add_action( 'wp_head', 'restaurant_customizer_css' );
 function restaurant_customizer_css() {
     $color_primary   = get_theme_mod( 'color_primary', '#c8a96e' );
     $color_secondary = get_theme_mod( 'color_secondary', '#1a1a1a' );
+    $logo_height     = absint( get_theme_mod( 'header_logo_height', 72 ) );
+    $logo_height_sm  = max( 30, intval( $logo_height * 0.75 ) ); // 75% au scroll
     ?>
     <style id="restaurant-customizer-css">
         :root {
-            --color-primary:   <?php echo sanitize_hex_color( $color_primary ); ?>;
-            --color-secondary: <?php echo sanitize_hex_color( $color_secondary ); ?>;
+            --color-primary:      <?php echo sanitize_hex_color( $color_primary ); ?>;
+            --color-secondary:    <?php echo sanitize_hex_color( $color_secondary ); ?>;
+            --header-logo-height: <?php echo $logo_height; ?>px;
+            --header-logo-height-scrolled: <?php echo $logo_height_sm; ?>px;
         }
     </style>
     <?php

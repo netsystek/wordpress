@@ -17,6 +17,17 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Ne JAMAIS mettre de balises <link> ou <script> manuellement dans le HTML.
  */
 add_action( 'wp_enqueue_scripts', 'restaurant_enqueue_assets' );
+add_action( 'customize_preview_init', 'restaurant_customizer_preview_assets' );
+
+function restaurant_customizer_preview_assets() {
+    wp_enqueue_script(
+        'restaurant-customizer-preview',
+        RESTAURANT_THEME_URI . '/assets/js/customizer-preview.js',
+        [ 'customize-preview' ],
+        wp_get_theme()->get( 'Version' ),
+        true
+    );
+}
 
 function restaurant_enqueue_assets() {
     $theme_uri     = RESTAURANT_THEME_URI;
