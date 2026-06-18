@@ -30,7 +30,7 @@ $carousel_title = get_theme_mod( 'carousel_title', 'Notre galerie' );
              * image n'est configurée.
              */
             $carousel_images = [];
-            for ( $i = 1; $i <= 8; $i++ ) {
+            for ( $i = 1; $i <= 14; $i++ ) {
                 $url = get_theme_mod( "carousel_image_{$i}", '' );
                 if ( $url ) {
                     $carousel_images[] = $url;

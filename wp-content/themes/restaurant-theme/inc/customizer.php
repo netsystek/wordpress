@@ -316,7 +316,7 @@ function restaurant_customizer_register( WP_Customize_Manager $wp_customize ) {
         'type'    => 'text',
     ] );
 
-    for ( $i = 1; $i <= 8; $i++ ) {
+    for ( $i = 1; $i <= 14; $i++ ) {
         $wp_customize->add_setting( "carousel_image_{$i}", [
             'default'           => '',
             'sanitize_callback' => 'esc_url_raw',
