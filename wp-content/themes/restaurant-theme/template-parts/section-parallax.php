@@ -11,7 +11,7 @@
  */
 
 $parallax_image = get_theme_mod( 'parallax_image', '' );
-$parallax_quote = get_theme_mod( 'parallax_quote', '"La cuisine est l\'art de transformer les produits de la nature en plaisir."' );
+$parallax_quote = get_theme_text( 'parallax_quote', '"La cuisine est l\'art de transformer les produits de la nature en plaisir."' );
 
 $parallax_style = $parallax_image
     ? 'style="background-image: url(' . esc_url( $parallax_image ) . ');"'

@@ -9,7 +9,7 @@
 <?php wp_body_open(); ?>
 
 <?php
-$cta_label = get_theme_mod( 'hero_cta_label', 'Réserver une table' );
+$cta_label = get_theme_text( 'hero_cta_label', 'Réserver une table' );
 $cta_show  = get_theme_mod( 'cta_position', 'bottom-right' ) !== 'hidden';
 $site_lang = ( isset( $_COOKIE['site_lang'] ) && $_COOKIE['site_lang'] === 'en' ) ? 'en' : 'it';
 ?>

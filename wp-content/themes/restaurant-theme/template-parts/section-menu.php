@@ -11,8 +11,8 @@
  * Pour l'instant (avant l'étape 6), on affiche des données d'exemple.
  */
 
-$menu_title   = get_theme_mod( 'menu_section_title', 'Notre carte' );
-$menu_btn_label = get_theme_mod( 'menu_btn_label', '' );
+$menu_title     = get_theme_text( 'menu_section_title', 'Notre carte' );
+$menu_btn_label = get_theme_text( 'menu_btn_label', '' );
 $menu_btn_url   = get_theme_mod( 'menu_btn_url', '' );
 
 // WP_Query — l'ORM de WordPress pour interroger les posts/CPT
@@ -27,7 +27,7 @@ $plats_query = new WP_Query( [
 
 <section class="menu-section" id="menu">
     <div class="container">
-        <span class="section-label"><?php echo esc_html( get_theme_mod( 'menu_section_label', __( 'À table', 'restaurant-theme' ) ) ); ?></span>
+        <span class="section-label"><?php echo esc_html( get_theme_text( 'menu_section_label', __( 'À table', 'restaurant-theme' ) ) ); ?></span>
         <h2><?php echo esc_html( $menu_title ); ?></h2>
 
         <?php if ( $plats_query->have_posts() ) : ?>

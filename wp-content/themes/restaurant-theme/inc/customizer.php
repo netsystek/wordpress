@@ -606,6 +606,61 @@ function restaurant_customizer_register( WP_Customize_Manager $wp_customize ) {
     ] );
 
     // =========================================================================
+    // SECTION : Traductions — English
+    // =========================================================================
+    $wp_customize->add_section( 'restaurant_translations_en', [
+        'title'       => __( '🇬🇧 Traductions — English', 'restaurant-theme' ),
+        'description' => __( 'Textes affichés quand le visiteur choisit la langue anglaise. Laissez un champ vide pour conserver le texte italien.', 'restaurant-theme' ),
+        'panel'       => 'restaurant_panel',
+        'priority'    => 100,
+    ] );
+
+    $en_fields = [
+        // Hero
+        'hero_headline'        => [ 'label' => 'Hero — Titre principal',       'type' => 'text' ],
+        'hero_subheadline'     => [ 'label' => 'Hero — Sous-titre',            'type' => 'text' ],
+        'hero_cta_label'       => [ 'label' => 'Hero — Bouton CTA',            'type' => 'text' ],
+        // About
+        'about_label'          => [ 'label' => 'À propos — Label',             'type' => 'text' ],
+        'about_title'          => [ 'label' => 'À propos — Titre',             'type' => 'text' ],
+        'about_text'           => [ 'label' => 'À propos — Paragraphe 1',      'type' => 'textarea' ],
+        'about_text_2'         => [ 'label' => 'À propos — Paragraphe 2',      'type' => 'textarea' ],
+        // Events
+        'eventi_label'         => [ 'label' => 'Événements — Label',           'type' => 'text' ],
+        'eventi_title'         => [ 'label' => 'Événements — Titre',           'type' => 'text' ],
+        'eventi_text'          => [ 'label' => 'Événements — Description',     'type' => 'textarea' ],
+        // Parallax
+        'parallax_quote'       => [ 'label' => 'Parallax — Citation',          'type' => 'textarea' ],
+        // Menu
+        'menu_section_label'   => [ 'label' => 'Menu — Label',                 'type' => 'text' ],
+        'menu_section_title'   => [ 'label' => 'Menu — Titre',                 'type' => 'text' ],
+        'menu_btn_label'       => [ 'label' => 'Menu — Bouton',                'type' => 'text' ],
+        // Carousel
+        'carousel_title'       => [ 'label' => 'Galerie — Titre',              'type' => 'text' ],
+        // Reservation
+        'reservation_label'    => [ 'label' => 'Réservation — Label',          'type' => 'text' ],
+        'reservation_title'    => [ 'label' => 'Réservation — Titre',          'type' => 'text' ],
+        'reservation_text'     => [ 'label' => 'Réservation — Introduction',   'type' => 'textarea' ],
+        // Footer
+        'footer_col_address_title' => [ 'label' => 'Footer — Col. Adresse titre',  'type' => 'text' ],
+        'footer_col_contact_title' => [ 'label' => 'Footer — Col. Contact titre',  'type' => 'text' ],
+        'footer_col_hours_title'   => [ 'label' => 'Footer — Col. Horaires titre', 'type' => 'text' ],
+        'footer_copyright'         => [ 'label' => 'Footer — Copyright',           'type' => 'text' ],
+    ];
+
+    foreach ( $en_fields as $key => $args ) {
+        $wp_customize->add_setting( $key . '_en', [
+            'default'           => '',
+            'sanitize_callback' => $args['type'] === 'textarea' ? 'sanitize_textarea_field' : 'sanitize_text_field',
+        ] );
+        $wp_customize->add_control( $key . '_en', [
+            'label'   => __( $args['label'], 'restaurant-theme' ),
+            'section' => 'restaurant_translations_en',
+            'type'    => $args['type'],
+        ] );
+    }
+
+    // =========================================================================
     // CSS dynamique : inject les couleurs du Customizer comme CSS Variables
     // =========================================================================
     // transport: 'postMessage' + ce code JS permet la mise à jour en temps réel

@@ -89,6 +89,24 @@ require_once RESTAURANT_THEME_DIR . '/inc/enqueue.php';
 require_once RESTAURANT_THEME_DIR . '/inc/customizer.php';
 
 /**
+ * Retourne un texte du Customizer dans la langue active (cookie site_lang).
+ * Si la traduction EN est vide, retourne la valeur IT par défaut.
+ *
+ * @param string $key     Clé du setting Customizer (sans suffixe de langue)
+ * @param string $default Valeur par défaut si le setting n'est pas configuré
+ */
+function get_theme_text( string $key, string $default = '' ): string {
+    $lang = ( isset( $_COOKIE['site_lang'] ) && $_COOKIE['site_lang'] === 'en' ) ? 'en' : 'it';
+    if ( $lang === 'en' ) {
+        $en = get_theme_mod( $key . '_en', '' );
+        if ( $en !== '' ) {
+            return $en;
+        }
+    }
+    return get_theme_mod( $key, $default );
+}
+
+/**
  * Custom Post Type "plat" — La carte du restaurant
  *
  * Un Custom Post Type est un type de contenu personnalisé, distinct des

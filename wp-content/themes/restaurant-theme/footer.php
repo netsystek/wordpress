@@ -1,11 +1,11 @@
 <?php
-$col_address_title = get_theme_mod( 'footer_col_address_title', 'Dove siamo' );
-$col_contact_title = get_theme_mod( 'footer_col_contact_title', 'Contatti' );
-$col_hours_title   = get_theme_mod( 'footer_col_hours_title',   'Orari di apertura' );
+$col_address_title = get_theme_text( 'footer_col_address_title', 'Dove siamo' );
+$col_contact_title = get_theme_text( 'footer_col_contact_title', 'Contatti' );
+$col_hours_title   = get_theme_text( 'footer_col_hours_title',   'Orari di apertura' );
 $address           = get_theme_mod( 'footer_address', '' );
 $phone             = get_theme_mod( 'footer_phone', '' );
 $email             = get_theme_mod( 'footer_email', '' );
-$copyright         = get_theme_mod( 'footer_copyright', '© ' . date( 'Y' ) . ' Mon Restaurant.' );
+$copyright         = get_theme_text( 'footer_copyright', '© ' . date( 'Y' ) . ' Mon Restaurant.' );
 
 $social_networks = [
     'facebook'    => [ 'icon' => 'fa-brands fa-facebook-f',  'label' => 'Facebook' ],

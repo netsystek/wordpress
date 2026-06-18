@@ -9,7 +9,7 @@
  * Étape 5 du plan : on branchera le vrai Customizer avec upload multiple.
  */
 
-$carousel_title = get_theme_mod( 'carousel_title', 'Notre galerie' );
+$carousel_title = get_theme_text( 'carousel_title', 'Notre galerie' );
 ?>
 
 <section class="carousel-section" id="galerie">

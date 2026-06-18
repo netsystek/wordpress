@@ -1,7 +1,7 @@
 <?php
-$reservation_label = get_theme_mod( 'reservation_label', 'Réservation' );
-$reservation_title = get_theme_mod( 'reservation_title', 'Réserver une table' );
-$reservation_text  = get_theme_mod( 'reservation_text', 'Réservez votre table en quelques secondes. Nous vous confirmerons votre réservation dans les plus brefs délais.' );
+$reservation_label = get_theme_text( 'reservation_label', 'Réservation' );
+$reservation_title = get_theme_text( 'reservation_title', 'Réserver une table' );
+$reservation_text  = get_theme_text( 'reservation_text', 'Réservez votre table en quelques secondes. Nous vous confirmerons votre réservation dans les plus brefs délais.' );
 ?>
 
 <section class="reservation-section" id="reservation">

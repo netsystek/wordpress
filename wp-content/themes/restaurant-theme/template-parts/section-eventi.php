@@ -1,6 +1,6 @@
 <?php
-$eventi_title = get_theme_mod( 'eventi_title', 'Location per Eventi' );
-$eventi_text  = get_theme_mod( 'eventi_text', '' );
+$eventi_title = get_theme_text( 'eventi_title', 'Location per Eventi' );
+$eventi_text  = get_theme_text( 'eventi_text', '' );
 $eventi_image = get_theme_mod( 'eventi_image', '' );
 ?>
 
@@ -8,7 +8,7 @@ $eventi_image = get_theme_mod( 'eventi_image', '' );
     <div class="container">
         <div class="eventi-content<?php echo $eventi_image ? '' : ' eventi-content--no-image'; ?>">
             <div class="eventi-text">
-                <span class="section-label"><?php esc_html_e( 'Eventi', 'restaurant-theme' ); ?></span>
+                <span class="section-label"><?php echo esc_html( get_theme_text( 'eventi_label', 'Eventi' ) ); ?></span>
                 <h2><?php echo esc_html( $eventi_title ); ?></h2>
                 <?php if ( $eventi_text ) : ?>
                     <?php echo wpautop( esc_html( $eventi_text ) ); ?>
