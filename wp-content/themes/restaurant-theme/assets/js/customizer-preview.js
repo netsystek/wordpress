@@ -32,4 +32,10 @@
             document.documentElement.style.setProperty( '--parallax-height', parseInt( newVal, 10 ) + 'px' );
         } );
     } );
+
+    wp.customize( 'footer_logo_height', function ( value ) {
+        value.bind( function ( newVal ) {
+            document.documentElement.style.setProperty( '--footer-logo-height', parseInt( newVal, 10 ) + 'px' );
+        } );
+    } );
 } )();

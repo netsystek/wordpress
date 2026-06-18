@@ -565,6 +565,24 @@ function restaurant_customizer_register( WP_Customize_Manager $wp_customize ) {
         ],
     ] );
 
+    // --- Taille du logo ---
+    $wp_customize->add_setting( 'footer_logo_height', [
+        'default'           => 90,
+        'sanitize_callback' => 'absint',
+        'transport'         => 'postMessage',
+    ] );
+    $wp_customize->add_control( 'footer_logo_height', [
+        'label'       => __( 'Hauteur du logo (px)', 'restaurant-theme' ),
+        'description' => __( 'Recommandé : entre 40 et 200px.', 'restaurant-theme' ),
+        'section'     => 'restaurant_footer',
+        'type'        => 'range',
+        'input_attrs' => [
+            'min'  => 40,
+            'max'  => 200,
+            'step' => 2,
+        ],
+    ] );
+
     // --- Couleur de fond ---
     $wp_customize->add_setting( 'footer_bg_color', [
         'default'           => '#010101',
@@ -615,6 +633,7 @@ function restaurant_customizer_css() {
     $footer_bg        = get_theme_mod( 'footer_bg_color', '#010101' );
     $footer_font_size = absint( get_theme_mod( 'footer_font_size', 14 ) );
     $parallax_height  = absint( get_theme_mod( 'parallax_height', 400 ) );
+    $footer_logo_h    = absint( get_theme_mod( 'footer_logo_height', 90 ) );
     ?>
     <style id="restaurant-customizer-css">
         :root {
@@ -626,6 +645,7 @@ function restaurant_customizer_css() {
             --footer-bg-color:             <?php echo sanitize_hex_color( $footer_bg ); ?>;
             --footer-font-size:            <?php echo $footer_font_size; ?>px;
             --parallax-height:             <?php echo $parallax_height; ?>px;
+            --footer-logo-height:          <?php echo $footer_logo_h; ?>px;
         }
     </style>
     <?php

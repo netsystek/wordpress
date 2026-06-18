@@ -866,7 +866,7 @@ img { max-width: 100%; height: auto; display: block; }
 .footer-col--logo .custom-logo-link { display: block; line-height: 0; }
 .footer-col--logo .custom-logo,
 .footer-col--logo img {
-    max-height: 90px;
+    max-height: var(--footer-logo-height, 90px);
     width: auto;
 }
 
