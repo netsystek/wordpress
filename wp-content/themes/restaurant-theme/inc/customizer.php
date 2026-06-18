@@ -430,12 +430,34 @@ function restaurant_customizer_register( WP_Customize_Manager $wp_customize ) {
         'priority' => 50,
     ] );
 
-    $wp_customize->add_setting( 'footer_address', [
-        'default'           => '',
+    // --- Colonne 2 : Adresse ---
+    $wp_customize->add_setting( 'footer_col_address_title', [
+        'default'           => 'Dove siamo',
         'sanitize_callback' => 'sanitize_text_field',
     ] );
+    $wp_customize->add_control( 'footer_col_address_title', [
+        'label'   => __( 'Col. Adresse — titre', 'restaurant-theme' ),
+        'section' => 'restaurant_footer',
+        'type'    => 'text',
+    ] );
+
+    $wp_customize->add_setting( 'footer_address', [
+        'default'           => '',
+        'sanitize_callback' => 'sanitize_textarea_field',
+    ] );
     $wp_customize->add_control( 'footer_address', [
-        'label'   => __( 'Adresse', 'restaurant-theme' ),
+        'label'       => __( 'Adresse (une ligne par retour chariot)', 'restaurant-theme' ),
+        'section'     => 'restaurant_footer',
+        'type'        => 'textarea',
+    ] );
+
+    // --- Colonne 3 : Contact ---
+    $wp_customize->add_setting( 'footer_col_contact_title', [
+        'default'           => 'Contatti',
+        'sanitize_callback' => 'sanitize_text_field',
+    ] );
+    $wp_customize->add_control( 'footer_col_contact_title', [
+        'label'   => __( 'Col. Contact — titre', 'restaurant-theme' ),
         'section' => 'restaurant_footer',
         'type'    => 'text',
     ] );
@@ -450,6 +472,54 @@ function restaurant_customizer_register( WP_Customize_Manager $wp_customize ) {
         'type'    => 'tel',
     ] );
 
+    $wp_customize->add_setting( 'footer_email', [
+        'default'           => '',
+        'sanitize_callback' => 'sanitize_email',
+    ] );
+    $wp_customize->add_control( 'footer_email', [
+        'label'   => __( 'Email de contact', 'restaurant-theme' ),
+        'section' => 'restaurant_footer',
+        'type'    => 'email',
+    ] );
+
+    // --- Colonne 4 : Horaires ---
+    $wp_customize->add_setting( 'footer_col_hours_title', [
+        'default'           => 'Orari di apertura',
+        'sanitize_callback' => 'sanitize_text_field',
+    ] );
+    $wp_customize->add_control( 'footer_col_hours_title', [
+        'label'   => __( 'Col. Horaires — titre', 'restaurant-theme' ),
+        'section' => 'restaurant_footer',
+        'type'    => 'text',
+    ] );
+
+    for ( $i = 1; $i <= 5; $i++ ) {
+        $wp_customize->add_setting( "footer_hours_{$i}_days", [
+            'default'           => '',
+            'sanitize_callback' => 'sanitize_text_field',
+        ] );
+        $wp_customize->add_control( "footer_hours_{$i}_days", [
+            'label'       => sprintf( __( 'Ligne %d — Jours', 'restaurant-theme' ), $i ),
+            'description' => $i === 1 ? __( 'Ex : Lun - Mar', 'restaurant-theme' ) : '',
+            'section'     => 'restaurant_footer',
+            'type'        => 'text',
+            'input_attrs' => [ 'placeholder' => 'Lun - Ven' ],
+        ] );
+
+        $wp_customize->add_setting( "footer_hours_{$i}_time", [
+            'default'           => '',
+            'sanitize_callback' => 'sanitize_text_field',
+        ] );
+        $wp_customize->add_control( "footer_hours_{$i}_time", [
+            'label'       => sprintf( __( 'Ligne %d — Horaires', 'restaurant-theme' ), $i ),
+            'description' => $i === 1 ? __( 'Ex : 12:00 - 14:30 / 19:00 - 22:30 ou Chiuso', 'restaurant-theme' ) : '',
+            'section'     => 'restaurant_footer',
+            'type'        => 'text',
+            'input_attrs' => [ 'placeholder' => '12:00 - 14:30 / 19:00 - 22:30' ],
+        ] );
+    }
+
+    // --- Bas de footer ---
     $wp_customize->add_setting( 'footer_copyright', [
         'default'           => '© ' . date( 'Y' ) . ' Mon Restaurant. Tous droits réservés.',
         'sanitize_callback' => 'sanitize_text_field',
