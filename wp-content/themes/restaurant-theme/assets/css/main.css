@@ -518,11 +518,19 @@ img { max-width: 100%; height: auto; display: block; }
     align-items: center;
     background-color: var(--color-secondary);
 
-    /* Effet parallax CSS */
+    /* Effet parallax CSS — désactivé sur touch (iOS/Android ignorent fixed) */
     background-attachment: fixed;
     background-size: cover;
-    background-position: center;
+    background-position: center 50%;
     background-repeat: no-repeat;
+}
+
+/* Sur iOS/Android, background-attachment:fixed rend l'image invisible → bloc noir.
+   On bascule sur scroll ; le JS simule l'effet via background-position. */
+@media (hover: none) and (pointer: coarse) {
+    .parallax-section {
+        background-attachment: scroll;
+    }
 }
 
 .parallax-overlay {

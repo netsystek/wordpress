@@ -105,40 +105,39 @@
 
 
 // =============================================================================
-// 4. Parallax JS (fallback pour iOS qui ne supporte pas background-attachment: fixed)
-//    Utilise IntersectionObserver pour ne calculer que quand la section est visible.
+// 4. Parallax JS — simulation via background-position sur les appareils tactiles
+//    (iOS/Android ignorent background-attachment:fixed, ce qui produit un bloc noir)
 // =============================================================================
 (function initParallax() {
-    const parallaxSection = document.querySelector('.parallax-section');
-    if (!parallaxSection) return;
+    const section = document.querySelector('.parallax-section');
+    if (!section) return;
 
-    // Détecte iOS (où background-attachment: fixed ne fonctionne pas)
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    if (!isIOS) return; // Sur desktop, le CSS suffit
+    // Seuls les appareils tactiles ont besoin du fallback JS
+    const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+    if (!isTouchDevice) return;
 
-    // Sur iOS : on simule l'effet parallax avec transform
-    let isVisible = false;
+    let rafPending = false;
 
-    const observer = new IntersectionObserver(
-        entries => { isVisible = entries[0].isIntersecting; },
-        { threshold: 0 }
-    );
-    observer.observe(parallaxSection);
+    function update() {
+        rafPending = false;
+        const rect    = section.getBoundingClientRect();
+        const viewH   = window.innerHeight;
 
-    function updateParallax() {
-        if (!isVisible) return;
-
-        const rect   = parallaxSection.getBoundingClientRect();
-        const offset = rect.top * 0.3; // 0.3 = vitesse du parallax (30% de la vitesse de scroll)
-
-        // On déplace l'image de fond (pseudo-element ou l'image directement)
-        parallaxSection.style.setProperty('--parallax-offset', `${offset}px`);
-        requestAnimationFrame(updateParallax);
+        // Progression de la section dans le viewport : 0 (entre en bas) → 1 (sort en haut)
+        const progress = 1 - (rect.bottom / (viewH + rect.height));
+        // Déplace le fond de 20px entre l'entrée et la sortie du viewport
+        const offset   = 50 + progress * 20; // 50% = centre, ± 10%
+        section.style.backgroundPosition = `center ${offset}%`;
     }
 
-    window.addEventListener('scroll', () => {
-        if (isVisible) requestAnimationFrame(updateParallax);
+    window.addEventListener('scroll', function () {
+        if (!rafPending) {
+            rafPending = true;
+            requestAnimationFrame(update);
+        }
     }, { passive: true });
+
+    update(); // Position initiale au chargement
 })();
 
 
