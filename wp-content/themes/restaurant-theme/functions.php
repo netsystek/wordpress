@@ -87,6 +87,7 @@ function restaurant_theme_setup() {
 // Parallèle Symfony : équivalent aux imports dans services.yaml
 require_once RESTAURANT_THEME_DIR . '/inc/enqueue.php';
 require_once RESTAURANT_THEME_DIR . '/inc/customizer.php';
+require_once RESTAURANT_THEME_DIR . '/inc/seo.php';
 
 /**
  * Retourne un texte du Customizer dans la langue active (cookie site_lang).
