@@ -234,6 +234,43 @@ class Reservation_Admin {
                 'restaurant_res_capacity_section'
             );
 
+            // Section : Créneaux horaires bloqués
+            add_settings_section(
+                'restaurant_res_horaires_section',
+                'Créneaux horaires bloqués',
+                function() {
+                    echo '<p class="description">Plages horaires indisponibles à la réservation (format <code>HH:MM</code>). Ces créneaux sont masqués dans le formulaire et refusés côté serveur.</p>';
+                },
+                'restaurant-res-settings'
+            );
+
+            add_settings_field(
+                'restaurant_res_horaires_pause',
+                'Pause après-midi',
+                function() {
+                    $settings = get_option( 'restaurant_res_settings', [] );
+                    $debut    = esc_attr( $settings['heure_debut_pause'] ?? '15:30' );
+                    $fin      = esc_attr( $settings['heure_fin_pause']   ?? '17:30' );
+                    printf( '<label>De <input type="time" name="restaurant_res_settings[heure_debut_pause]" value="%s" step="1800"> à <input type="time" name="restaurant_res_settings[heure_fin_pause]" value="%s" step="1800"></label>', $debut, $fin );
+                    echo '<p class="description">Les créneaux compris dans cet intervalle (début inclus, fin exclue) seront supprimés du formulaire.</p>';
+                },
+                'restaurant-res-settings',
+                'restaurant_res_horaires_section'
+            );
+
+            add_settings_field(
+                'restaurant_res_heure_fermeture',
+                'Fermeture du soir',
+                function() {
+                    $settings = get_option( 'restaurant_res_settings', [] );
+                    $val      = esc_attr( $settings['heure_fermeture'] ?? '23:00' );
+                    printf( '<input type="time" name="restaurant_res_settings[heure_fermeture]" value="%s" step="1800">', $val );
+                    echo '<p class="description">Aucun créneau après cette heure ne sera proposé ni accepté.</p>';
+                },
+                'restaurant-res-settings',
+                'restaurant_res_horaires_section'
+            );
+
             // Section : Labels du formulaire — English (onglet EN)
             add_settings_section(
                 'restaurant_res_labels_en_section',
@@ -283,6 +320,7 @@ class Reservation_Admin {
                 'error_email_invalid_en'      => 'The email address is not valid.',
                 'error_date_past_en'          => 'The date must be in the future.',
                 'error_day_closed_en'         => 'The restaurant is closed that day. Please choose another date.',
+                'error_heure_bloquee_en'      => 'This time slot is not available. Please choose another time.',
             ];
             foreach ( $error_messages_en as $key => $default ) {
                 $this->add_settings_text_field( $key, $default, 'restaurant_res_errors_en_section', 'text', 'restaurant-res-settings-en' );
@@ -351,6 +389,7 @@ class Reservation_Admin {
                 'error_email_invalid'      => 'L\'indirizzo email non è valido.',
                 'error_date_past'          => 'La data deve essere futura.',
                 'error_day_closed'         => 'Il ristorante è chiuso quel giorno. Scegli un\'altra data.',
+                'error_heure_bloquee'      => 'Questo orario non è disponibile. Scegli un altro orario.',
             ];
             foreach ( $error_messages_it as $key => $default ) {
                 $this->add_settings_text_field( $key, $default, 'restaurant_res_errors_section' );
@@ -488,7 +527,7 @@ class Reservation_Admin {
          */
         $sanitized = get_option( 'restaurant_res_settings', [] );
 
-        // Capacité & jours de fermeture
+        // Capacité & jours de fermeture & créneaux bloqués
         if ( array_key_exists( 'max_personnes', $input ) ) {
             $max = absint( $input['max_personnes'] );
             $sanitized['max_personnes']   = $max >= 1 ? $max : 12;
@@ -496,6 +535,14 @@ class Reservation_Admin {
             $sanitized['jours_fermeture'] = isset( $input['jours_fermeture'] )
                 ? array_map( 'intval', (array) $input['jours_fermeture'] )
                 : [];
+
+            $validate_time = function( string $t, string $default ): string {
+                $t = sanitize_text_field( $t );
+                return preg_match( '/^([01]\d|2[0-3]):[0-5]\d$/', $t ) ? $t : $default;
+            };
+            $sanitized['heure_debut_pause'] = $validate_time( $input['heure_debut_pause'] ?? '', '15:30' );
+            $sanitized['heure_fin_pause']   = $validate_time( $input['heure_fin_pause']   ?? '', '17:30' );
+            $sanitized['heure_fermeture']   = $validate_time( $input['heure_fermeture']   ?? '', '23:00' );
         }
 
         // Template de notification propriétaire
@@ -507,7 +554,7 @@ class Reservation_Admin {
         }
 
         // Labels du formulaire public (IT + EN) + messages d'erreur (IT + EN)
-        foreach ( [ 'label_nom', 'placeholder_nom', 'label_email', 'placeholder_email', 'label_telephone', 'placeholder_telephone', 'label_date', 'label_heure', 'label_heure_placeholder', 'label_personnes', 'label_personnes_placeholder', 'label_required', 'label_submit', 'label_nom_en', 'placeholder_nom_en', 'label_email_en', 'placeholder_email_en', 'label_telephone_en', 'placeholder_telephone_en', 'label_date_en', 'label_heure_en', 'label_heure_placeholder_en', 'label_personnes_en', 'label_personnes_placeholder_en', 'label_required_en', 'label_submit_en', 'error_required_nom', 'error_required_email', 'error_required_telephone', 'error_required_date', 'error_required_heure', 'error_personnes_range', 'error_email_invalid', 'error_date_past', 'error_day_closed', 'error_required_nom_en', 'error_required_email_en', 'error_required_telephone_en', 'error_required_date_en', 'error_required_heure_en', 'error_personnes_range_en', 'error_email_invalid_en', 'error_date_past_en', 'error_day_closed_en' ] as $key ) {
+        foreach ( [ 'label_nom', 'placeholder_nom', 'label_email', 'placeholder_email', 'label_telephone', 'placeholder_telephone', 'label_date', 'label_heure', 'label_heure_placeholder', 'label_personnes', 'label_personnes_placeholder', 'label_required', 'label_submit', 'label_nom_en', 'placeholder_nom_en', 'label_email_en', 'placeholder_email_en', 'label_telephone_en', 'placeholder_telephone_en', 'label_date_en', 'label_heure_en', 'label_heure_placeholder_en', 'label_personnes_en', 'label_personnes_placeholder_en', 'label_required_en', 'label_submit_en', 'error_required_nom', 'error_required_email', 'error_required_telephone', 'error_required_date', 'error_required_heure', 'error_personnes_range', 'error_email_invalid', 'error_date_past', 'error_day_closed', 'error_heure_bloquee', 'error_required_nom_en', 'error_required_email_en', 'error_required_telephone_en', 'error_required_date_en', 'error_required_heure_en', 'error_personnes_range_en', 'error_email_invalid_en', 'error_date_past_en', 'error_day_closed_en', 'error_heure_bloquee_en' ] as $key ) {
             if ( array_key_exists( $key, $input ) ) {
                 $sanitized[ $key ] = sanitize_text_field( $input[ $key ] );
             }

@@ -177,6 +177,26 @@ class Reservation_Form {
             }
         }
 
+        // Validation heure (créneaux bloqués)
+        if ( ! empty( $_POST['heure'] ) ) {
+            $heure = sanitize_text_field( wp_unslash( $_POST['heure'] ) );
+            if ( preg_match( '/^\d{2}:\d{2}$/', $heure ) ) {
+                $to_min = function( string $t ): int {
+                    [ $h, $m ] = explode( ':', $t );
+                    $h = (int) $h;
+                    return ( $h < 6 ? $h + 24 : $h ) * 60 + (int) $m;
+                };
+                $min             = $to_min( $heure );
+                $min_pause_debut = $to_min( $settings['heure_debut_pause'] ?? '15:30' );
+                $min_pause_fin   = $to_min( $settings['heure_fin_pause']   ?? '17:30' );
+                $min_fermeture   = $to_min( $settings['heure_fermeture']   ?? '23:00' );
+
+                if ( ( $min >= $min_pause_debut && $min < $min_pause_fin ) || $min > $min_fermeture ) {
+                    $errors[] = $_e( 'error_heure_bloquee', 'Questo orario non è disponibile. Scegli un altro orario.' );
+                }
+            }
+        }
+
         // Validation nombre de personnes (range couvre aussi le cas "vide")
         $personnes = absint( $_POST['personnes'] ?? 0 );
         if ( $personnes < 1 || $personnes > $max_personnes ) {

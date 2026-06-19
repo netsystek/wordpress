@@ -85,10 +85,28 @@ $ph_telephone  = $_t( 'placeholder_telephone', '+39 06 12 34 56 78' );
                 <select id="res-heure" name="heure" required>
                     <option value=""><?php echo esc_html( $l_heure_placeholder ); ?></option>
                     <?php
+                    $heure_debut_pause = $settings['heure_debut_pause'] ?? '15:30';
+                    $heure_fin_pause   = $settings['heure_fin_pause']   ?? '17:30';
+                    $heure_fermeture   = $settings['heure_fermeture']   ?? '23:00';
+
+                    // Convertit HH:MM en minutes ; les heures < 6 (après minuit) sont traitées comme > 24h
+                    $to_min = function( string $t ): int {
+                        [ $h, $m ] = explode( ':', $t );
+                        $h = (int) $h;
+                        return ( $h < 6 ? $h + 24 : $h ) * 60 + (int) $m;
+                    };
+                    $min_pause_debut = $to_min( $heure_debut_pause );
+                    $min_pause_fin   = $to_min( $heure_fin_pause );
+                    $min_fermeture   = $to_min( $heure_fermeture );
+
                     $start = strtotime( 'today 12:00' );
                     $end   = strtotime( 'tomorrow 01:00' );
                     for ( $t = $start; $t <= $end; $t += 30 * 60 ) :
                         $time_str = date( 'H:i', $t );
+                        $min      = $to_min( $time_str );
+
+                        if ( $min >= $min_pause_debut && $min < $min_pause_fin ) continue; // pause après-midi
+                        if ( $min > $min_fermeture ) continue;                              // après fermeture
                         ?>
                         <option value="<?php echo esc_attr( $time_str ); ?>"><?php echo esc_html( $time_str ); ?></option>
                     <?php endfor; ?>

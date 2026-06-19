@@ -1,5 +1,5 @@
 services:
-  # S4MzaTXQnvlexn$8R7 - admin_nanou - nanoulounge@outlook.com
+  # Zxbs6xEpRCh0Cxv093 - admin 
   wordpress:
     image: wordpress
     restart: always
