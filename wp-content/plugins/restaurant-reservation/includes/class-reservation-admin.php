@@ -300,6 +300,17 @@ class Reservation_Admin {
                 $this->add_settings_text_field( $key, $default, 'restaurant_res_labels_en_section', 'text', 'restaurant-res-settings-en' );
             }
 
+            // Section : Message de confirmation (EN)
+            add_settings_section(
+                'restaurant_res_success_en_section',
+                '✅ Message de confirmation — English',
+                function() {
+                    echo '<p class="description">Message affiché sur le formulaire après une réservation confirmée. Laissez vide pour utiliser le message par défaut.</p>';
+                },
+                'restaurant-res-settings-en'
+            );
+            $this->add_settings_textarea_field( 'success_confirmed_en', 'Confirmation email message', 'restaurant_res_success_en_section', 'restaurant-res-settings-en' );
+
             // Section : Messages d'erreur (EN)
             add_settings_section(
                 'restaurant_res_errors_en_section',
@@ -368,6 +379,17 @@ class Reservation_Admin {
             foreach ( $form_labels as $key => $default ) {
                 $this->add_settings_text_field( $key, $default, 'restaurant_res_labels_section' );
             }
+
+            // Section : Message de confirmation (IT)
+            add_settings_section(
+                'restaurant_res_success_it_section',
+                '✅ Message de confirmation — Italiano',
+                function() {
+                    echo '<p class="description">Message affiché sur le formulaire après une réservation confirmée. Laissez vide pour utiliser le message par défaut.</p>';
+                },
+                'restaurant-res-settings'
+            );
+            $this->add_settings_textarea_field( 'success_confirmed_it', 'Message de confirmation d\'envoi de mail', 'restaurant_res_success_it_section' );
 
             // Section : Messages d'erreur (IT)
             add_settings_section(
@@ -543,6 +565,13 @@ class Reservation_Admin {
             $sanitized['heure_debut_pause'] = $validate_time( $input['heure_debut_pause'] ?? '', '15:30' );
             $sanitized['heure_fin_pause']   = $validate_time( $input['heure_fin_pause']   ?? '', '17:30' );
             $sanitized['heure_fermeture']   = $validate_time( $input['heure_fermeture']   ?? '', '23:00' );
+        }
+
+        // Messages de confirmation affichés sur le formulaire
+        foreach ( [ 'success_confirmed_it', 'success_confirmed_en' ] as $key ) {
+            if ( array_key_exists( $key, $input ) ) {
+                $sanitized[ $key ] = sanitize_textarea_field( $input[ $key ] );
+            }
         }
 
         // Template de notification propriétaire

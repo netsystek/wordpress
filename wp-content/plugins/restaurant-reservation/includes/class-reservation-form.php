@@ -253,9 +253,13 @@ class Reservation_Form {
                 'pending'   => 'Your request has been received. We will confirm your reservation as soon as possible.',
             ],
         ];
-        $message = ! empty( $settings['auto_confirm'] )
-            ? $success_messages[ $lang ]['confirmed']
-            : $success_messages[ $lang ]['pending'];
+        $status = ! empty( $settings['auto_confirm'] ) ? 'confirmed' : 'pending';
+        if ( $status === 'confirmed' ) {
+            $custom  = trim( $settings[ "success_confirmed_{$lang}" ] ?? '' );
+            $message = $custom !== '' ? $custom : $success_messages[ $lang ]['confirmed'];
+        } else {
+            $message = $success_messages[ $lang ]['pending'];
+        }
 
         wp_send_json_success( [
             'message' => $message,
