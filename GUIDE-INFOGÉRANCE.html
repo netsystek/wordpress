@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Guide Infogérance — Restaurant</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; font-size: 13px; color: #222; background: #fff; line-height: 1.5; }
+
+@media print {
+  .no-print { display: none !important; }
+  .page { page-break-after: always; padding: 20px; }
+  body { font-size: 11px; }
+}
+@page { size: A4; margin: 14mm 12mm; }
+
+.page { max-width: 800px; margin: 0 auto; padding: 30px 24px; }
+
+/* COVER */
+.cover { background: #111; color: white; padding: 80px 60px; text-align: center; min-height: 580px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+.cover h1 { font-size: 38px; font-weight: 900; margin-bottom: 10px; }
+.cover h1 span { color: #e03030; }
+.cover h2 { font-size: 16px; color: #aaa; margin-bottom: 30px; font-weight: 400; }
+.cover-bar { width: 60px; height: 4px; background: #e03030; margin: 0 auto 30px; }
+.cover p { color: #999; font-size: 13px; max-width: 480px; line-height: 1.7; }
+.cover-meta { margin-top: 50px; font-size: 11px; color: #555; border-top: 1px solid #222; padding-top: 20px; width: 100%; }
+
+/* CHAPTER */
+.ch { background: #111; color: white; padding: 13px 18px; display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+.ch-num { background: #e03030; color: white; width: 30px; height: 30px; border-radius: 50%; font-weight: 900; font-size: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ch h2 { font-size: 16px; font-weight: 700; }
+.ch p { font-size: 11px; color: #aaa; }
+
+/* RED BOXES */
+.func { border: 2px solid #e03030; border-radius: 4px; margin: 16px 0; overflow: hidden; }
+.func-header { background: #e03030; color: white; padding: 7px 14px; font-weight: 700; font-size: 11.5px; display: flex; align-items: center; gap: 8px; }
+.func-where { margin-left: auto; font-weight: 400; font-size: 10px; background: rgba(0,0,0,.25); padding: 2px 8px; border-radius: 10px; white-space: nowrap; }
+.func-body { padding: 14px 16px; }
+
+/* TABLE */
+.ft { width: 100%; border-collapse: collapse; font-size: 11.5px; margin-top: 8px; }
+.ft th { background: #f2f2f2; padding: 6px 10px; text-align: left; border: 1px solid #ddd; font-size: 10.5px; text-transform: uppercase; letter-spacing: .5px; color: #555; }
+.ft td { padding: 7px 10px; border: 1px solid #eee; vertical-align: top; }
+.ft tr:nth-child(even) td { background: #fafafa; }
+.ft .k { font-weight: 700; color: #e03030; white-space: nowrap; }
+
+/* STEPS */
+.steps { list-style: none; margin: 8px 0; }
+.steps li { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 8px; font-size: 12px; }
+.steps li .n { background: #e03030; color: white; width: 20px; height: 20px; border-radius: 50%; font-weight: 700; font-size: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+
+/* NOTE */
+.note { background: #fff5f5; border-left: 4px solid #e03030; padding: 10px 14px; font-size: 11.5px; margin: 10px 0; }
+.note strong { color: #e03030; }
+.tip { background: #f0f7ff; border-left: 4px solid #2271b1; padding: 10px 14px; font-size: 11.5px; margin: 10px 0; }
+
+/* SCREEN MOCK */
+.screen { border: 1px solid #ddd; border-radius: 5px; overflow: hidden; margin: 12px 0; font-size: 11px; }
+.screen-bar { background: #f0f0f0; padding: 6px 12px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #ddd; }
+.dots { display: flex; gap: 4px; }
+.dot { width: 9px; height: 9px; border-radius: 50%; }
+.dot.r { background: #ff5f57; } .dot.y { background: #ffbd2e; } .dot.g { background: #28c840; }
+.url { flex: 1; background: white; border: 1px solid #ccc; border-radius: 3px; padding: 3px 8px; color: #555; font-size: 10px; }
+.screen-body { background: white; padding: 14px; }
+
+/* ADMIN MOCK */
+.admin { display: flex; border: 1px solid #ddd; border-radius: 5px; overflow: hidden; margin: 12px 0; font-size: 11px; }
+.sidebar { width: 145px; background: #1d2327; color: #a7aaad; padding: 8px 0; flex-shrink: 0; }
+.sidebar .mi { padding: 7px 13px; font-size: 10.5px; }
+.sidebar .mi.hl { background: rgba(224,48,48,.25); color: #e03030; font-weight: 700; border-left: 3px solid #e03030; }
+.sidebar .mi.act { background: #2271b1; color: white; }
+.sidebar .sub { padding: 4px 20px; font-size: 10px; color: #666; }
+.content { flex: 1; background: #f0f0f1; padding: 13px; }
+.content h3 { font-size: 12px; font-weight: 700; color: #1d2327; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid #ddd; }
+
+/* PATH */
+.path { display: inline-flex; align-items: center; gap: 5px; background: #f8f8f8; border: 1px solid #e2e4e7; border-radius: 3px; padding: 5px 12px; font-size: 11px; color: #555; margin: 6px 0 10px; }
+.path .arr { color: #bbb; }
+.path .last { color: #e03030; font-weight: 700; }
+
+/* RESERVATION TABLE */
+.rt { width: 100%; border-collapse: collapse; font-size: 11px; }
+.rt th { background: #1d2327; color: white; padding: 7px 10px; text-align: left; font-size: 10.5px; }
+.rt td { padding: 8px 10px; border-bottom: 1px solid #eee; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 700; }
+.b-w { background: #fff3cd; color: #856404; border: 1px solid #f4a22d; }
+.b-ok { background: #d1e7dd; color: #0a3622; border: 1px solid #4caf50; }
+.b-no { background: #f8d7da; color: #58151c; border: 1px solid #e53935; }
+
+/* GRID */
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 10px 0; }
+.card { border: 1px solid #ddd; border-radius: 4px; padding: 12px; background: #fafafa; }
+.card h4 { font-size: 12px; font-weight: 700; margin-bottom: 4px; }
+.card p { font-size: 11px; color: #555; }
+
+/* TOC */
+.toc { list-style: none; }
+.toc li { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px dotted #ddd; font-size: 12px; }
+.tn { background: #e03030; color: white; font-weight: 700; font-size: 10px; padding: 2px 7px; border-radius: 10px; white-space: nowrap; }
+.ts { background: #eee; color: #555; font-size: 10px; padding: 2px 7px; border-radius: 10px; margin-left: 12px; white-space: nowrap; }
+
+code { background: #f0f0f0; padding: 1px 5px; border-radius: 3px; font-size: .88em; color: #c00; }
+hr { border: none; border-top: 1px solid #eee; margin: 14px 0; }
+p { margin-bottom: 8px; } p:last-child { margin-bottom: 0; }
+
+.print-btn { position: fixed; bottom: 20px; right: 20px; background: #e03030; color: white; border: none; border-radius: 30px; padding: 12px 22px; font-size: 13px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 14px rgba(220,0,0,.35); z-index: 999; }
+.print-btn:hover { background: #b00; }
+</style>
+</head>
+<body>
+
+<button class="print-btn no-print" onclick="window.print()">🖨️ Générer le PDF</button>
+
+<!-- ====== COUVERTURE ====== -->
+<div class="page">
+<div class="cover">
+  <div style="font-size:52px; margin-bottom:24px;">🍽️</div>
+  <h1>GUIDE <span>INFOGÉRANCE</span></h1>
+  <h2>Site Web Restaurant — Manuel de maintenance</h2>
+  <div class="cover-bar"></div>
+  <p>Ce guide vous explique comment modifier les textes, les images, les horaires, gérer les réservations et configurer les emails automatiques. Aucune connaissance technique n'est requise.</p>
+  <div style="display:flex; gap:40px; margin-top:40px; justify-content:center;">
+    <div style="text-align:center;"><div style="font-size:26px; font-weight:900; color:#e03030;">7</div><div style="font-size:10px; color:#666; text-transform:uppercase; letter-spacing:1px;">Chapitres</div></div>
+    <div style="text-align:center;"><div style="font-size:26px; font-weight:900; color:#e03030;">IT/EN</div><div style="font-size:10px; color:#666; text-transform:uppercase; letter-spacing:1px;">Bilingue</div></div>
+    <div style="text-align:center;"><div style="font-size:26px; font-weight:900; color:#e03030;">19</div><div style="font-size:10px; color:#666; text-transform:uppercase; letter-spacing:1px;">Photos galerie</div></div>
+  </div>
+  <div class="cover-meta">Guide réalisé en juin 2026 — WordPress + Plugin Restaurant Reservation</div>
+</div>
+</div>
+
+<!-- ====== TABLE DES MATIÈRES ====== -->
+<div class="page">
+<div class="ch"><div class="ch-num">📋</div><div><h2>Table des matières</h2></div></div>
+<ul class="toc">
+  <li><span class="tn">1</span> Connexion au panneau d'administration WordPress</li>
+  <li><span class="tn">2</span> Modifier les textes et le wording du site</li>
+  <li><span class="ts">2.1</span> Header — Titre, sous-titre, bouton CTA, image/vidéo de fond</li>
+  <li><span class="ts">2.2</span> Section "À propos"</li>
+  <li><span class="ts">2.3</span> Section Parallax — Citation &amp; image de fond</li>
+  <li><span class="ts">2.4</span> Section "Location per Eventi" — Événements</li>
+  <li><span class="ts">2.5</span> Section "Carte / Menu"</li>
+  <li><span class="ts">2.6</span> Section "Réservation" — Textes autour du formulaire</li>
+  <li><span class="ts">2.7</span> Réseaux sociaux — Facebook, Instagram, WhatsApp, TripAdvisor</li>
+  <li><span class="ts">2.8</span> Footer — Adresse, contact, horaires, copyright</li>
+  <li><span class="ts">2.9</span> Traductions anglaises de tout le site</li>
+  <li><span class="tn">3</span> Changer les images et photos</li>
+  <li><span class="ts">3.1</span> Uploader une image dans la bibliothèque</li>
+  <li><span class="ts">3.2</span> Changer le logo du restaurant</li>
+  <li><span class="ts">3.3</span> Galerie photos — carousel jusqu'à 19 images</li>
+  <li><span class="ts">3.4</span> Images de fond (header, parallax, à propos, événements)</li>
+  <li><span class="tn">4</span> Gérer les réservations</li>
+  <li><span class="ts">4.1</span> Consulter la liste des réservations</li>
+  <li><span class="ts">4.2</span> Accepter ou refuser une réservation</li>
+  <li><span class="ts">4.3</span> Actions groupées sur plusieurs réservations</li>
+  <li><span class="tn">5</span> Configuration des réservations</li>
+  <li><span class="ts">5.1</span> Capacité maximale, jours de fermeture, créneaux horaires</li>
+  <li><span class="ts">5.2</span> Emails — expéditeur, notification admin, templates IT/EN</li>
+  <li><span class="tn">6</span> Changer les horaires d'ouverture</li>
+  <li><span class="tn">7</span> Tableau récapitulatif &amp; résolution de problèmes</li>
+</ul>
+<div class="note" style="margin-top:22px;"><strong>🔴 Les encadrés rouges</strong> dans ce guide désignent précisément chaque fonctionnalité : le titre rouge indique de quoi il s'agit, et l'étiquette à droite indique <em>exactement où aller</em> dans WordPress.</div>
+</div>
+
+<!-- ====== CHAPITRE 1 : CONNEXION ====== -->
+<div class="page">
+<div class="ch"><div class="ch-num">1</div><div><h2>Connexion au panneau d'administration</h2><p>Accéder au back-office WordPress</p></div></div>
+
+<div class="func">
+  <div class="func-header">🔐 ACCÈS À L'ADMINISTRATION WORDPRESS <span class="func-where">Dans votre navigateur</span></div>
+  <div class="func-body">
+    <ul class="steps">
+      <li><span class="n">1</span><div>Ouvrez votre navigateur (Chrome, Firefox, Safari…)</div></li>
+      <li><span class="n">2</span><div>Tapez dans la barre d'adresse : <code>https://www.votre-site.it/wp-admin</code></div></li>
+      <li><span class="n">3</span><div>Saisissez votre <strong>identifiant</strong> et votre <strong>mot de passe</strong></div></li>
+      <li><span class="n">4</span><div>Cliquez sur <strong>"Se connecter"</strong> — vous arrivez sur le tableau de bord</div></li>
+    </ul>
+    <div class="screen" style="margin-top:12px;">
+      <div class="screen-bar">
+        <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+        <div class="url">https://www.votre-site.it/wp-admin</div>
+      </div>
+      <div class="screen-body" style="display:flex; justify-content:center; padding:24px 0;">
+        <div style="width:270px;">
+          <div style="text-align:center; font-size:20px; margin-bottom:14px;">🔒 <strong style="font-size:13px;">Connexion WordPress</strong></div>
+          <div style="margin-bottom:10px;">
+            <div style="font-size:11px; font-weight:600; margin-bottom:3px;">Identifiant</div>
+            <div style="border:1px solid #8c8f94; border-radius:3px; padding:6px 10px; font-size:11px; color:#aaa;">votre_identifiant</div>
+          </div>
+          <div style="margin-bottom:14px;">
+            <div style="font-size:11px; font-weight:600; margin-bottom:3px;">Mot de passe</div>
+            <div style="border:1px solid #8c8f94; border-radius:3px; padding:6px 10px; font-size:11px; color:#aaa;">••••••••••</div>
+          </div>
+          <div style="background:#2271b1; color:white; padding:8px; text-align:center; border-radius:3px; font-size:12px; font-weight:700;">Se connecter</div>
+          <div style="text-align:center; margin-top:10px; font-size:10.5px; color:#2271b1;">Mot de passe oublié ?</div>
+        </div>
+      </div>
+    </div>
+    <div class="note">En cas de mot de passe oublié, cliquez sur "Mot de passe oublié ?" — un email de réinitialisation est envoyé à l'adresse de l'administrateur.</div>
+  </div>
+</div>
+
+<div class="func">
+  <div class="func-header">🏠 MENU DE NAVIGATION — LES 3 SECTIONS ESSENTIELLES <span class="func-where">Menu noir à gauche</span></div>
+  <div class="func-body">
+    <div class="admin">
+      <div class="sidebar">
+        <div class="mi" style="font-size:11px; font-weight:700; color:white; border-bottom:1px solid #333; padding-bottom:8px; margin-bottom:4px;">WordPress</div>
+        <div class="mi">🏠 Tableau de bord</div>
+        <div class="mi">📄 Pages</div>
+        <div class="mi hl">🖼️ Médias</div>
+        <div class="mi hl">📅 Réservations</div>
+        <div class="sub">› Toutes les rés.</div>
+        <div class="sub">› Configuration</div>
+        <div class="mi hl">🎨 Apparence</div>
+        <div class="sub">› Personnaliser</div>
+        <div class="mi">⚙️ Réglages</div>
+      </div>
+      <div class="content">
+        <h3>Les 3 sections que vous utiliserez</h3>
+        <div class="g2">
+          <div class="card" style="border-left:3px solid #e03030;"><h4>🖼️ Médias</h4><p>Uploader et gérer toutes vos photos et images.</p></div>
+          <div class="card" style="border-left:3px solid #e03030;"><h4>📅 Réservations</h4><p>Voir, accepter ou refuser les demandes de table.</p></div>
+        </div>
+        <div class="card" style="border-left:3px solid #e03030; margin-top:10px;"><h4>🎨 Apparence › Personnaliser</h4><p>Modifier tous les textes, images, couleurs, horaires et informations du site avec aperçu en direct.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ====== CHAPITRE 2 : PERSONNALISATEUR ====== -->
+<div class="page">
+<div class="ch"><div class="ch-num">2</div><div><h2>Modifier les textes et le wording du site</h2><p>Via le Personnalisateur WordPress (aperçu en temps réel)</p></div></div>
+
+<div class="func">
+  <div class="func-header">🎨 ACCÉDER AU PERSONNALISATEUR <span class="func-where">Apparence › Personnaliser</span></div>
+  <div class="func-body">
+    <div class="path">Menu gauche <span class="arr">›</span> Apparence <span class="arr">›</span> <span class="last">Personnaliser</span></div>
+    <p>Le Personnalisateur vous permet de modifier textes, images et couleurs du site avec un <strong>aperçu instantané</strong> à droite.</p>
+    <div style="border:2px solid #e03030; border-radius:4px; display:flex; overflow:hidden; margin-top:12px;">
+      <div style="width:195px; background:#fff; border-right:1px solid #ddd; flex-shrink:0; font-size:11px;">
+        <div style="background:#1e1e1e; color:white; padding:9px 12px; font-weight:700;">🎨 Restaurant Theme</div>
+        <div style="padding:8px 14px; border-bottom:1px solid #eee; background:#fff5f5; border-left:3px solid #e03030; color:#e03030; font-weight:700;">▶ Header</div>
+        <div style="padding:7px 14px; border-bottom:1px solid #eee; color:#555;">▶ Couleurs</div>
+        <div style="padding:7px 14px; border-bottom:1px solid #eee; color:#555;">▶ À propos</div>
+        <div style="padding:7px 14px; border-bottom:1px solid #eee; color:#555;">▶ Section Parallax</div>
+        <div style="padding:7px 14px; border-bottom:1px solid #eee; color:#555;">▶ Location per Eventi</div>
+        <div style="padding:7px 14px; border-bottom:1px solid #eee; color:#555;">▶ Carousel / Galerie</div>
+        <div style="padding:7px 14px; border-bottom:1px solid #eee; color:#555;">▶ Section Carte / Menu</div>
+        <div style="padding:7px 14px; border-bottom:1px solid #eee; color:#555;">▶ Section Réservation</div>
+        <div style="padding:7px 14px; border-bottom:1px solid #eee; color:#555;">▶ Réseaux sociaux</div>
+        <div style="padding:7px 14px; border-bottom:1px solid #eee; color:#555;">▶ Footer</div>
+        <div style="padding:7px 14px; color:#555;">▶ 🇬🇧 Traductions English</div>
+      </div>
+      <div style="flex:1; background:#f4f4f4; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; gap:10px;">
+        <div style="background:#2271b1; color:white; padding:7px 18px; border-radius:3px; font-size:11px; font-weight:700;">Publier</div>
+        <div style="font-size:28px;">👁️</div>
+        <div style="font-size:10.5px; color:#888; text-align:center;">Aperçu du site<br>visible ici en direct</div>
+      </div>
+    </div>
+    <div class="note" style="margin-top:10px;"><strong>⚠️ IMPORTANT :</strong> après chaque modification, cliquez obligatoirement sur le bouton bleu <strong>"Publier"</strong> en haut du panneau. Sans ce clic, rien n'est sauvegardé.</div>
+  </div>
+</div>
+
+<div class="func">
+  <div class="func-header">📌 2.1 — HEADER : TITRE, SOUS-TITRE, BOUTON CTA, IMAGE/VIDÉO <span class="func-where">Personnaliser › Header</span></div>
+  <div class="func-body">
+    <table class="ft">
+      <thead><tr><th style="width:38%">Champ</th><th>Ce que ça change sur le site</th><th style="width:26%">Exemple</th></tr></thead>
+      <tbody>
+        <tr><td class="k">Titre principal (hero)</td><td>Grand texte affiché au centre de l'image d'accueil plein écran</td><td><em>Benvenuti da Nanou</em></td></tr>
+        <tr><td class="k">Sous-titre (hero)</td><td>Texte plus petit sous le titre, décrit le restaurant</td><td><em>Cucina italiana autentica</em></td></tr>
+        <tr><td class="k">Texte du bouton CTA</td><td>Label du bouton de réservation dans le header</td><td><em>Prenota un tavolo</em></td></tr>
+        <tr><td class="k">Position du bouton CTA</td><td>Emplacement du bouton : haut-droite, bas-droite, bas-gauche, masqué</td><td><em>En bas à droite</em></td></tr>
+        <tr><td class="k">Image de fond du header</td><td>Photo affichée derrière le grand titre. Cliquez "Sélectionner image".</td><td>Photo restaurant</td></tr>
+        <tr><td class="k">Vidéo de fond (.mp4)</td><td>Si renseignée, une vidéo remplace l'image. Laissez vide pour garder la photo.</td><td>Laisser vide</td></tr>
+        <tr><td class="k">Couleur de fond header</td><td>Couleur de la barre de navigation (noir par défaut)</td><td><code>#010101</code></td></tr>
+        <tr><td class="k">Hauteur du logo (px)</td><td>Taille du logo dans la barre de navigation. Glissez le curseur.</td><td>72 px</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="func">
+  <div class="func-header">📌 2.2 — SECTION "À PROPOS" <span class="func-where">Personnaliser › À propos</span></div>
+  <div class="func-body">
+    <table class="ft">
+      <thead><tr><th style="width:38%">Champ</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td class="k">Label</td><td>Petit texte en majuscules au-dessus du titre — ex : <em>La nostra storia</em></td></tr>
+        <tr><td class="k">Titre de la section</td><td>Grand titre de la section de présentation du restaurant</td></tr>
+        <tr><td class="k">Paragraphe 1</td><td>Premier bloc de texte : histoire, valeurs, philosophie du restaurant</td></tr>
+        <tr><td class="k">Paragraphe 2</td><td>Deuxième bloc de texte : ambiance, localisation, équipe…</td></tr>
+        <tr><td class="k">Photo de la section</td><td>Image affichée à côté du texte (chef, salle, cuisine…)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<!-- ====== PAGE : SUITE SECTIONS ====== -->
+<div class="page">
+
+<div class="func">
+  <div class="func-header">📌 2.3 — SECTION PARALLAX — CITATION &amp; IMAGE DE FOND <span class="func-where">Personnaliser › Section Parallax</span></div>
+  <div class="func-body">
+    <p>Bande visuelle avec une image de fond qui défile lentement et un texte centré par-dessus.</p>
+    <table class="ft" style="margin-top:8px;">
+      <thead><tr><th style="width:38%">Champ</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td class="k">Image de fond (parallax)</td><td>Photo en fond de cette bande — idéalement un beau plan d'un plat ou du restaurant</td></tr>
+        <tr><td class="k">Citation / texte</td><td>Texte affiché par-dessus l'image — slogan ou citation culinaire</td></tr>
+        <tr><td class="k">Hauteur de la section (px)</td><td>Taille verticale de la bande. Glissez le curseur (recommandé : 400 px, entre 150 et 700)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="func">
+  <div class="func-header">📌 2.4 — SECTION "LOCATION PER EVENTI" <span class="func-where">Personnaliser › Location per Eventi</span></div>
+  <div class="func-body">
+    <p>Section dédiée à la location de salle pour événements privés (anniversaires, mariages, séminaires…).</p>
+    <table class="ft" style="margin-top:8px;">
+      <thead><tr><th style="width:38%">Champ</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td class="k">Titre de la section</td><td>Titre visible par les visiteurs — ex : <em>Location per Eventi</em></td></tr>
+        <tr><td class="k">Description</td><td>Texte de présentation. Laissez une ligne vide entre chaque paragraphe.</td></tr>
+        <tr><td class="k">Image</td><td>Photo illustrant la salle ou un événement passé</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="func">
+  <div class="func-header">📌 2.5 — SECTION "CARTE / MENU" <span class="func-where">Personnaliser › Section Carte / Menu</span></div>
+  <div class="func-body">
+    <table class="ft">
+      <thead><tr><th style="width:38%">Champ</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td class="k">Label</td><td>Petit texte en majuscules au-dessus du titre — ex : <em>A tavola</em></td></tr>
+        <tr><td class="k">Titre de la section</td><td>Grand titre — ex : <em>La nostra carta</em></td></tr>
+        <tr><td class="k">Texte du bouton</td><td>Label du bouton "Voir la carte". <strong>Laissez vide</strong> pour ne pas afficher de bouton.</td></tr>
+        <tr><td class="k">URL du bouton</td><td>Lien vers le fichier PDF de la carte ou une page externe</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="func">
+  <div class="func-header">📌 2.6 — SECTION "RÉSERVATION" — TEXTES DU FORMULAIRE <span class="func-where">Personnaliser › Section Réservation</span></div>
+  <div class="func-body">
+    <p>Ces champs contrôlent les textes qui <em>entourent</em> le formulaire de réservation — pas le formulaire lui-même.</p>
+    <table class="ft" style="margin-top:8px;">
+      <thead><tr><th style="width:38%">Champ</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td class="k">Label</td><td>Petit texte au-dessus du titre — ex : <em>Prenotazione</em></td></tr>
+        <tr><td class="k">Titre de la section</td><td>Grand titre — ex : <em>Prenota un tavolo</em></td></tr>
+        <tr><td class="k">Texte d'introduction</td><td>Phrase explicative sous le titre — ex : <em>Prenota il tuo tavolo in pochi secondi…</em></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="func">
+  <div class="func-header">📌 2.7 — RÉSEAUX SOCIAUX <span class="func-where">Personnaliser › Réseaux sociaux</span></div>
+  <div class="func-body">
+    <p>Collez ici les liens vers vos pages. Les icônes apparaissent automatiquement. Laissez vide pour masquer une icône.</p>
+    <table class="ft" style="margin-top:8px;">
+      <thead><tr><th style="width:22%">Réseau</th><th>Format du lien à coller</th></tr></thead>
+      <tbody>
+        <tr><td class="k">Facebook</td><td><code>https://www.facebook.com/nomdevotrerestaurant</code></td></tr>
+        <tr><td class="k">Instagram</td><td><code>https://www.instagram.com/nomdevotrerestaurant</code></td></tr>
+        <tr><td class="k">WhatsApp</td><td><code>https://wa.me/393331234567</code> (indicatif international sans le +)</td></tr>
+        <tr><td class="k">TripAdvisor</td><td>Copiez l'URL de votre page TripAdvisor depuis votre navigateur</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<!-- ====== PAGE : FOOTER + TRADUCTIONS ====== -->
+<div class="page">
+
+<div class="func">
+  <div class="func-header">📌 2.8 — FOOTER : ADRESSE, CONTACT, HORAIRES, COPYRIGHT <span class="func-where">Personnaliser › Footer</span></div>
+  <div class="func-body">
+    <p>Le footer est le bas de page visible sur toutes les pages du site.</p>
+    <table class="ft" style="margin-top:8px;">
+      <thead><tr><th style="width:38%">Champ</th><th>Description &amp; exemple</th></tr></thead>
+      <tbody>
+        <tr><td class="k">Col. Adresse — titre</td><td>Titre de la colonne adresse — ex : <em>Dove siamo</em></td></tr>
+        <tr><td class="k">Adresse</td><td>Adresse complète. Tapez Entrée pour passer à la ligne.</td></tr>
+        <tr><td class="k">Col. Contact — titre</td><td>Titre de la colonne contact — ex : <em>Contatti</em></td></tr>
+        <tr><td class="k">Téléphone</td><td>Numéro de téléphone affiché et cliquable sur mobile</td></tr>
+        <tr><td class="k">Email de contact</td><td>Email affiché en bas de page pour les visiteurs</td></tr>
+        <tr><td class="k">Col. Horaires — titre</td><td>Titre de la colonne horaires — ex : <em>Orari di apertura</em></td></tr>
+        <tr><td class="k">Ligne 1 à 5 — Jours</td><td>Jours de la semaine — ex : <em>Lun - Ven</em> ou <em>Sabato</em></td></tr>
+        <tr><td class="k">Ligne 1 à 5 — Horaires</td><td>Heures — ex : <em>12:00 - 14:30 / 19:30 - 22:30</em> ou <em>Chiuso</em></td></tr>
+        <tr><td class="k">Texte copyright</td><td>Bas de page — ex : <em>© 2026 Ristorante Nanou. Tutti i diritti riservati.</em></td></tr>
+        <tr><td class="k">Hauteur du logo (px)</td><td>Taille du logo dans le footer. Glissez le curseur (recommandé : 90 px)</td></tr>
+      </tbody>
+    </table>
+    <div class="tip" style="margin-top:10px;">
+      <strong>💡 Exemple d'horaires sur 3 lignes :</strong><br>
+      Ligne 1 → Jours : <code>Lun - Ven</code> | Horaires : <code>12:00 - 14:30 / 19:30 - 22:30</code><br>
+      Ligne 2 → Jours : <code>Sabato</code> | Horaires : <code>12:00 - 15:00 / 19:30 - 23:00</code><br>
+      Ligne 3 → Jours : <code>Domenica</code> | Horaires : <code>Chiuso</code>
+    </div>
+  </div>
+</div>
+
+<div class="func">
+  <div class="func-header">📌 2.9 — TRADUCTIONS ANGLAISES DE TOUT LE SITE <span class="func-where">Personnaliser › 🇬🇧 Traductions — English</span></div>
+  <div class="func-body">
+    <p>Le site est <strong>bilingue italien / anglais</strong>. Les visiteurs peuvent choisir la langue. Cette section contient les versions anglaises de tous les textes.</p>
+    <div class="tip"><strong>Règle :</strong> si un champ anglais est laissé <em>vide</em>, le texte italien est utilisé par défaut. Vous n'êtes pas obligé de tout traduire.</div>
+    <p style="margin-top:10px;">On y trouve les traductions de :</p>
+    <div class="g2" style="margin-top:8px;">
+      <ul style="font-size:11px; padding-left:16px; line-height:2;">
+        <li>Hero — Titre, sous-titre, bouton CTA</li>
+        <li>Section À propos — Label, titre, 2 paragraphes</li>
+        <li>Section Événements — Label, titre, description</li>
+        <li>Section Parallax — Citation</li>
+        <li>Section Menu — Label, titre, bouton</li>
+      </ul>
+      <ul style="font-size:11px; padding-left:16px; line-height:2;">
+        <li>Galerie — Label, titre, 19 légendes de photos</li>
+        <li>Section Réservation — Label, titre, introduction</li>
+        <li>Footer — Titres des colonnes, copyright</li>
+        <li>Footer — 5 lignes d'horaires</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ====== CHAPITRE 3 : IMAGES ====== -->
+<div class="page">
+<div class="ch"><div class="ch-num">3</div><div><h2>Changer les images et photos</h2><p>Bibliothèque de médias, logo, galerie et fonds de page</p></div></div>
+
+<div class="func">
+  <div class="func-header">🖼️ 3.1 — UPLOADER UNE NOUVELLE IMAGE <span class="func-where">Médias › Ajouter</span></div>
+  <div class="func-body">
+    <p>Avant d'utiliser une image dans le site, vous devez d'abord l'uploader dans la bibliothèque WordPress.</p>
+    <ul class="steps">
+      <li><span class="n">1</span><div>Dans le menu gauche, cliquez sur <strong>Médias</strong></div></li>
+      <li><span class="n">2</span><div>Cliquez sur <strong>"Ajouter"</strong></div></li>
+      <li><span class="n">3</span><div>Faites glisser votre photo dans la zone pointillée, <strong>ou</strong> cliquez "Sélectionner des fichiers"</div></li>
+      <li><span class="n">4</span><div>Attendez la fin du chargement (barre à 100 %) → l'image est disponible</div></li>
+    </ul>
+    <div style="border:2px dashed #e03030; border-radius:5px; padding:28px; text-align:center; background:#fff5f5; margin-top:10px;">
+      <div style="font-size:26px; margin-bottom:8px;">📸</div>
+      <div style="font-weight:700; font-size:12px; margin-bottom:6px;">Déposez vos fichiers ici</div>
+      <div style="font-size:11px; color:#aaa; margin-bottom:12px;">ou</div>
+      <div style="background:#2271b1; color:white; display:inline-block; padding:7px 16px; border-radius:3px; font-size:11px; font-weight:700;">Sélectionner des fichiers</div>
+      <div style="font-size:10px; color:#aaa; margin-top:10px;">Formats : JPG, PNG, WEBP — Taille max recommandée : 2 Mo</div>
+    </div>
+    <div class="note" style="margin-top:10px;"><strong>Conseils :</strong> photos en format paysage, résolution minimale <strong>1920×1080 px</strong> pour les grandes zones. Compressez avant upload pour garder un site rapide.</div>
+  </div>
+</div>
+
+<div class="func">
+  <div class="func-header">🏷️ 3.2 — CHANGER LE LOGO DU RESTAURANT <span class="func-where">Personnaliser › Identité du site › Logo</span></div>
+  <div class="func-body">
+    <ul class="steps">
+      <li><span class="n">1</span><div>Allez dans <strong>Apparence › Personnaliser</strong></div></li>
+      <li><span class="n">2</span><div>Cliquez sur <strong>"Identité du site"</strong> (tout en haut de la liste, avant "Restaurant Theme")</div></li>
+      <li><span class="n">3</span><div>Cliquez sur <strong>"Sélectionner le logo"</strong></div></li>
+      <li><span class="n">4</span><div>Choisissez une image dans la bibliothèque ou uploadez un nouveau fichier</div></li>
+      <li><span class="n">5</span><div>Cliquez sur <strong>"Publier"</strong></div></li>
+    </ul>
+    <div class="tip"><strong>Format idéal :</strong> PNG avec fond transparent, hauteur entre 150 et 300 px. La taille d'affichage se règle dans Personnaliser › Header › "Hauteur du logo (px)".</div>
+  </div>
+</div>
+
+<div class="func">
+  <div class="func-header">🖼️ 3.3 — GALERIE PHOTOS (CAROUSEL — JUSQU'À 19 IMAGES) <span class="func-where">Personnaliser › Carousel / Galerie</span></div>
+  <div class="func-body">
+    <ul class="steps">
+      <li><span class="n">1</span><div>Allez dans <strong>Apparence › Personnaliser › Carousel / Galerie</strong></div></li>
+      <li><span class="n">2</span><div>Modifiez le <strong>Label</strong> et le <strong>Titre de la section</strong> si besoin</div></li>
+      <li><span class="n">3</span><div>Pour chaque emplacement (Image 1 à 19) : cliquez <strong>"Sélectionner image"</strong></div></li>
+      <li><span class="n">4</span><div>Optionnellement, renseignez une <strong>légende</strong> dans "Légende image X" (texte affiché sur la photo)</div></li>
+      <li><span class="n">5</span><div>Cliquez sur <strong>"Publier"</strong></div></li>
+    </ul>
+    <div class="tip">Seules les images renseignées s'affichent — inutile de remplir les 19 emplacements.</div>
+  </div>
+</div>
+
+<div class="func">
+  <div class="func-header">🖼️ 3.4 — IMAGES DE FOND (HEADER, PARALLAX, À PROPOS, ÉVÉNEMENTS) <span class="func-where">Personnaliser › section correspondante</span></div>
+  <div class="func-body">
+    <table class="ft">
+      <thead><tr><th>Image à changer</th><th>Où aller dans le Personnalisateur</th></tr></thead>
+      <tbody>
+        <tr><td class="k">Image d'accueil (hero)</td><td>Header → champ "Image de fond du header" → Sélectionner image</td></tr>
+        <tr><td class="k">Image parallax</td><td>Section Parallax → champ "Image de fond (parallax)" → Sélectionner image</td></tr>
+        <tr><td class="k">Photo À propos</td><td>À propos → champ "Photo de la section À propos" → Sélectionner image</td></tr>
+        <tr><td class="k">Photo Événements</td><td>Location per Eventi → champ "Image" → Sélectionner image</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<!-- ====== CHAPITRE 4 : RÉSERVATIONS ====== -->
+<div class="page">
+<div class="ch"><div class="ch-num">4</div><div><h2>Gérer les réservations</h2><p>Consulter, accepter et refuser les demandes de table</p></div></div>
+
+<div class="func">
+  <div class="func-header">⚙️ FONCTIONNEMENT DU SYSTÈME</div>
+  <div class="func-body">
+    <div class="g2">
+      <div class="card"><div style="font-size:20px; margin-bottom:6px;">👤</div><h4>1. Client remplit le formulaire</h4><p>Nom, email, téléphone, date, heure, nombre de couverts</p></div>
+      <div class="card"><div style="font-size:20px; margin-bottom:6px;">📧</div><h4>2. Vous recevez un email</h4><p>Notification automatique sur votre email admin</p></div>
+      <div class="card" style="border:2px solid #e03030;"><div style="font-size:20px; margin-bottom:6px;">✅❌</div><h4 style="color:#e03030;">3. Vous acceptez ou refusez</h4><p>Dans WordPress › Réservations</p></div>
+      <div class="card"><div style="font-size:20px; margin-bottom:6px;">📨</div><h4>4. Client reçoit l'email</h4><p>Confirmation ou refus envoyé automatiquement</p></div>
+    </div>
+  </div>
+</div>
+
+<div class="func">
+  <div class="func-header">📅 4.1 — CONSULTER LA LISTE DES RÉSERVATIONS <span class="func-where">Réservations › Toutes les réservations</span></div>
+  <div class="func-body">
+    <div class="path">Menu gauche <span class="arr">›</span> <span class="last">Réservations</span> <span class="arr">›</span> Toutes les réservations</div>
+    <div class="screen">
+      <div class="screen-bar">
+        <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+        <div class="url">Réservations › Toutes les réservations</div>
+      </div>
+      <div class="screen-body">
+        <div style="display:flex; gap:8px; margin-bottom:10px; font-size:11px;">
+          <span style="color:#2271b1; font-weight:700;">Toutes (15)</span>
+          <span style="color:#aaa;">|</span>
+          <span style="color:#856404;">⏳ En attente (3)</span>
+          <span style="color:#aaa;">|</span>
+          <span style="color:#0a3622;">✅ Acceptées (10)</span>
+          <span style="color:#aaa;">|</span>
+          <span style="color:#58151c;">❌ Refusées (2)</span>
+        </div>
+        <table class="rt">
+          <thead><tr><th>☐</th><th>Client</th><th>Date</th><th>Heure</th><th>Couverts</th><th>Statut</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>☐</td>
+              <td><strong>Bianchi Marco</strong><br><span style="color:#777; font-size:10px;">marco@gmail.com · +39 340 123 456</span></td>
+              <td>25/06/2026</td><td>19:30</td>
+              <td style="text-align:center; font-weight:700; font-size:14px;">4</td>
+              <td><span class="badge b-w">⏳ En attente</span></td>
+              <td><span style="color:#2271b1; text-decoration:underline; cursor:default; font-size:11px;">Voir</span></td>
+            </tr>
+            <tr>
+              <td>☐</td>
+              <td><strong>Rossi Anna</strong><br><span style="color:#777; font-size:10px;">anna@email.com · +39 347 987 654</span></td>
+              <td>28/06/2026</td><td>12:30</td>
+              <td style="text-align:center; font-weight:700; font-size:14px;">2</td>
+              <td><span class="badge b-ok">✅ Acceptée</span></td>
+              <td><span style="color:#2271b1; text-decoration:underline; cursor:default; font-size:11px;">Voir</span></td>
+            </tr>
+            <tr>
+              <td>☐</td>
+              <td><strong>Ferrari Luigi</strong><br><span style="color:#777; font-size:10px;">luigi@email.com · +39 338 555 111</span></td>
+              <td>30/06/2026</td><td>20:00</td>
+              <td style="text-align:center; font-weight:700; font-size:14px;">8</td>
+              <td><span class="badge b-w">⏳ En attente</span></td>
+              <td><span style="color:#2271b1; text-decoration:underline; cursor:default; font-size:11px;">Voir</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="g2" style="margin-top:10px;">
+      <div class="card"><h4>🟡 En attente</h4><p>Demande reçue, vous n'avez pas encore répondu. Cliquez "Voir" pour la traiter.</p></div>
+      <div class="card"><h4>🟢 Acceptée</h4><p>Confirmée. Email de confirmation envoyé au client automatiquement.</p></div>
+      <div class="card"><h4>🔴 Refusée</h4><p>Refusée. Email de refus envoyé au client automatiquement.</p></div>
+      <div class="card"><h4>🔍 Filtre rapide</h4><p>Cliquez "En attente" pour voir uniquement les demandes à traiter.</p></div>
+    </div>
+  </div>
+</div>
+
+<div class="func">
+  <div class="func-header">✅❌ 4.2 — ACCEPTER OU REFUSER UNE RÉSERVATION <span class="func-where">Réservations › cliquer "Voir"</span></div>
+  <div class="func-body">
+    <ul class="steps">
+      <li><span class="n">1</span><div>Dans la liste, cliquez sur <strong>"Voir"</strong> à droite de la réservation</div></li>
+      <li><span class="n">2</span><div>Vérifiez : nom, email, téléphone, date, heure, nombre de couverts</div></li>
+      <li><span class="n">3</span><div>Cliquez sur <strong>"✓ Accepter"</strong> (vert) ou <strong>"✗ Refuser"</strong> (rouge)</div></li>
+      <li><span class="n">4</span><div>Un email est envoyé <strong>automatiquement</strong> au client — rien d'autre à faire</div></li>
+    </ul>
+    <div class="screen" style="margin-top:10px;">
+      <div class="screen-bar">
+        <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+        <div class="url">Réservations › Détail — Bianchi Marco</div>
+      </div>
+      <div class="screen-body">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;">
+          <div style="border:1px solid #e2e4e7; border-radius:3px; padding:11px; font-size:11px; line-height:1.9;">
+            <div style="font-weight:700; margin-bottom:6px; border-bottom:1px solid #eee; padding-bottom:4px;">Informations client</div>
+            <strong>Nom :</strong> Bianchi Marco<br>
+            <strong>Email :</strong> <span style="color:#2271b1;">marco@gmail.com</span><br>
+            <strong>Tél :</strong> +39 340 123 456
+          </div>
+          <div style="border:1px solid #e2e4e7; border-radius:3px; padding:11px; font-size:11px; line-height:1.9;">
+            <div style="font-weight:700; margin-bottom:6px; border-bottom:1px solid #eee; padding-bottom:4px;">Détails réservation</div>
+            <strong>Date :</strong> jeudi 25 juin 2026<br>
+            <strong>Heure :</strong> 19:30<br>
+            <strong>Couverts :</strong> <span style="font-size:16px; font-weight:900;">4</span><br>
+            <strong>Langue :</strong> 🇮🇹 Italiano
+          </div>
+        </div>
+        <div style="border:2px solid #e03030; border-radius:3px; padding:12px; background:#fff5f5;">
+          <div style="font-weight:700; font-size:12px; color:#e03030; margin-bottom:6px;">Traiter cette réservation</div>
+          <p style="font-size:11px; color:#555; margin-bottom:10px;">Un email sera automatiquement envoyé au client selon le template configuré.</p>
+          <div style="display:flex; gap:10px;">
+            <div style="background:#00a32a; color:white; padding:8px 16px; border-radius:3px; font-size:11px; font-weight:700;">✓ Accepter la réservation</div>
+            <div style="background:#b32d2e; color:white; padding:8px 16px; border-radius:3px; font-size:11px; font-weight:700;">✗ Refuser la réservation</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="func">
+  <div class="func-header">⚡ 4.3 — ACTIONS GROUPÉES SUR PLUSIEURS RÉSERVATIONS <span class="func-where">Réservations › liste</span></div>
+  <div class="func-body">
+    <ul class="steps">
+      <li><span class="n">1</span><div>Cochez les cases ☐ à gauche des réservations à traiter</div></li>
+      <li><span class="n">2</span><div>Ouvrez le menu déroulant <strong>"Actions groupées"</strong> en haut de la liste</div></li>
+      <li><span class="n">3</span><div>Choisissez <strong>"Accepter"</strong> ou <strong>"Refuser"</strong> puis cliquez <strong>"Appliquer"</strong></div></li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- ====== CHAPITRE 5 : CONFIGURATION ====== -->
+<div class="page">
+<div class="ch"><div class="ch-num">5</div><div><h2>Configuration des réservations</h2><p>Capacité, fermeture, horaires et emails automatiques</p></div></div>
+
+<div class="path">Menu gauche <span class="arr">›</span> Réservations <span class="arr">›</span> <span class="last">Configuration</span></div>
+<div class="tip" style="margin-bottom:12px;">La page de configuration a <strong>deux onglets</strong> : 🇮🇹 Italiano et 🇬🇧 English. Les paramètres généraux (capacité, jours, emails expéditeur) sont sur l'onglet IT. Les templates d'emails se configurent sur chaque onglet séparément.</div>
+
+<div class="func">
+  <div class="func-header">⚙️ 5.1 — CAPACITÉ, JOURS DE FERMETURE &amp; CRÉNEAUX BLOQUÉS <span class="func-where">Config. › Onglet 🇮🇹</span></div>
+  <div class="func-body">
+    <div class="screen">
+      <div class="screen-bar">
+        <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+        <div class="url">Réservations › Configuration</div>
+      </div>
+      <div class="screen-body">
+        <div style="display:flex; gap:0; margin-bottom:14px; border-bottom:1px solid #ddd;">
+          <div style="padding:7px 14px; background:#2271b1; color:white; border-radius:3px 3px 0 0; font-size:11px; font-weight:700; margin-bottom:-1px; border-bottom:2px solid #2271b1;">🇮🇹 Italiano</div>
+          <div style="padding:7px 14px; color:#555; font-size:11px; margin-bottom:-1px;">🇬🇧 English</div>
+        </div>
+        <div style="border:1px solid #ddd; border-radius:3px; padding:13px; margin-bottom:11px;">
+          <div style="font-weight:700; font-size:12px; margin-bottom:10px;">Capacité &amp; Jours d'ouverture</div>
+          <div style="display:flex; align-items:center; gap:10px; padding:7px 0; border-bottom:1px solid #f0f0f0; font-size:11px;">
+            <div style="width:210px; font-weight:600; color:#555;">Confirmation automatique</div>
+            <span><input type="checkbox" checked disabled> Confirmer et envoyer l'email dès la soumission</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px; padding:7px 0; border-bottom:1px solid #f0f0f0; font-size:11px;">
+            <div style="width:210px; font-weight:600; color:#555;">Nombre max. de couverts</div>
+            <div style="border:1px solid #8c8f94; border-radius:3px; padding:4px 8px; width:55px; font-size:11px; text-align:center;">12</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px; padding:7px 0; font-size:11px;">
+            <div style="width:210px; font-weight:600; color:#555; flex-shrink:0;">Jours de fermeture</div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <label style="font-size:11px;"><input type="checkbox" disabled> Dim</label>
+              <label style="font-size:11px;"><input type="checkbox" disabled> Lun</label>
+              <label style="font-size:11px;"><input type="checkbox" disabled> Mar</label>
+              <label style="font-size:11px;"><input type="checkbox" checked disabled> Mer</label>
+              <label style="font-size:11px;"><input type="checkbox" disabled> Jeu</label>
+              <label style="font-size:11px;"><input type="checkbox" disabled> Ven</label>
+              <label style="font-size:11px;"><input type="checkbox" disabled> Sam</label>
+            </div>
+          </div>
+        </div>
+        <div style="border:2px solid #e03030; border-radius:3px; padding:13px;">
+          <div style="font-weight:700; font-size:12px; margin-bottom:10px; color:#e03030;">Créneaux horaires bloqués</div>
+          <div style="display:flex; align-items:center; gap:10px; padding:7px 0; border-bottom:1px solid #f0f0f0; font-size:11px;">
+            <div style="width:210px; font-weight:600; color:#555;">Pause après-midi</div>
+            <span>De <input type="time" value="15:30" style="border:1px solid #ccc; padding:3px 5px; border-radius:3px; font-size:11px; width:65px;"> à <input type="time" value="17:30" style="border:1px solid #ccc; padding:3px 5px; border-radius:3px; font-size:11px; width:65px;"></span>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px; padding:7px 0; font-size:11px;">
+            <div style="width:210px; font-weight:600; color:#555;">Fermeture du soir</div>
+            <input type="time" value="23:00" style="border:1px solid #ccc; padding:3px 5px; border-radius:3px; font-size:11px; width:65px;">
+          </div>
+        </div>
+      </div>
+    </div>
+    <table class="ft" style="margin-top:10px;">
+      <thead><tr><th style="width:33%">Paramètre</th><th>Ce que ça fait</th></tr></thead>
+      <tbody>
+        <tr><td class="k">Confirmation automatique</td><td><strong>Coché</strong> = réservation confirmée dès réception, email envoyé immédiatement. <strong>Décoché</strong> = reste "En attente" jusqu'à votre validation manuelle.</td></tr>
+        <tr><td class="k">Nombre max. de couverts</td><td>Le formulaire n'accepte pas un nombre supérieur à cette valeur. Maximum possible : 12.</td></tr>
+        <tr><td class="k">Jours de fermeture</td><td>Les jours cochés sont bloqués dans le calendrier — les clients ne peuvent pas les sélectionner.</td></tr>
+        <tr><td class="k">Pause après-midi</td><td>Les créneaux entre ces deux heures sont masqués dans le formulaire (ex : 15:30–17:30).</td></tr>
+        <tr><td class="k">Fermeture du soir</td><td>Aucun créneau proposé après cette heure. Dernier créneau disponible = cette heure - 30 min.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<!-- ====== PAGE : EMAILS ====== -->
+<div class="page">
+
+<div class="func">
+  <div class="func-header">📧 5.2 — EMAILS : EXPÉDITEUR, NOTIFICATION &amp; TEMPLATES <span class="func-where">Config. › Onglets IT / EN</span></div>
+  <div class="func-body">
+    <div style="font-weight:700; font-size:11.5px; color:#555; text-transform:uppercase; letter-spacing:.5px; margin-bottom:8px;">Expéditeur des emails</div>
+    <table class="ft">
+      <thead><tr><th style="width:38%">Champ</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td class="k">Nom de l'expéditeur</td><td>Nom affiché dans la boîte mail du client — ex : <em>Ristorante Nanou</em></td></tr>
+        <tr><td class="k">Email de l'expéditeur</td><td>Adresse apparaissant comme "De :" dans les emails — ex : <em>info@nanou.it</em></td></tr>
+        <tr><td class="k">Email de notification (admin)</td><td>Votre adresse qui reçoit une alerte à chaque nouvelle réservation</td></tr>
+        <tr><td class="k">Email de contact restaurant</td><td>Email affiché dans le corps des emails envoyés aux clients</td></tr>
+        <tr><td class="k">Téléphone du restaurant</td><td>Téléphone affiché dans les emails de confirmation envoyés aux clients</td></tr>
+        <tr><td class="k">Adresse du restaurant</td><td>Adresse physique affichée dans les emails de confirmation</td></tr>
+      </tbody>
+    </table>
+
+    <div style="font-weight:700; font-size:11.5px; color:#555; text-transform:uppercase; letter-spacing:.5px; margin:14px 0 8px;">Templates d'emails (onglets 🇮🇹 / 🇬🇧)</div>
+    <div class="g2">
+      <div class="card" style="border-left:4px solid #00a32a;"><h4>✅ Email de confirmation</h4><p>Objet + corps envoyé au client quand vous <strong>acceptez</strong> sa réservation.</p></div>
+      <div class="card" style="border-left:4px solid #b32d2e;"><h4>❌ Email de refus</h4><p>Objet + corps envoyé au client quand vous <strong>refusez</strong> sa réservation.</p></div>
+    </div>
+
+    <div class="note" style="margin-top:12px;">
+      <strong>Variables dynamiques dans les templates :</strong> ces codes sont remplacés automatiquement lors de l'envoi.
+      <div style="display:flex; flex-wrap:wrap; gap:5px; margin-top:6px;">
+        <code>{{client_nom}}</code> <code>{{reservation_date}}</code> <code>{{reservation_heure}}</code>
+        <code>{{reservation_personnes}}</code> <code>{{restaurant_nom}}</code>
+        <code>{{restaurant_contact_email}}</code> <code>{{restaurant_contact_phone}}</code> <code>{{restaurant_address}}</code>
+      </div>
+    </div>
+
+    <div style="border:1px solid #ddd; border-radius:4px; padding:12px; background:#f9f9f9; margin-top:12px; font-size:11px;">
+      <div style="font-weight:700; margin-bottom:8px;">Exemple d'email de confirmation 🇮🇹 :</div>
+      <div style="font-style:italic; color:#444; line-height:1.9; white-space:pre-line;">Gentile {{client_nom}},
+
+La tua prenotazione per {{reservation_personnes}} persona/e
+il {{reservation_date}} alle {{reservation_heure}} è confermata.
+
+Per qualsiasi informazione:
+{{restaurant_contact_email}} — {{restaurant_contact_phone}}
+{{restaurant_address}}
+
+A presto!
+{{restaurant_nom}}</div>
+    </div>
+
+    <div style="border:2px solid #e03030; border-radius:4px; padding:12px; margin-top:12px;">
+      <div style="font-weight:700; font-size:12px; color:#e03030; margin-bottom:5px;">🧪 Tester l'envoi d'emails</div>
+      <p style="font-size:11px;">En bas de la page Configuration (onglet 🇮🇹), un bouton <strong>"Envoyer un email de test"</strong> vérifie que les emails partent correctement. Un email de test est envoyé à l'adresse de l'expéditeur.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ====== CHAPITRE 6 : HORAIRES ====== -->
+<div class="page">
+<div class="ch"><div class="ch-num">6</div><div><h2>Changer les horaires d'ouverture</h2><p>Footer affiché sur le site + logique du formulaire de réservation</p></div></div>
+
+<div class="func">
+  <div class="func-header">⚠️ DEUX ENDROITS INDÉPENDANTS À METTRE À JOUR</div>
+  <div class="func-body">
+    <div class="note"><strong>Important :</strong> les horaires existent en deux endroits. Il faut les mettre à jour <em>ensemble</em> lors de chaque changement.</div>
+    <div class="g2" style="margin-top:12px;">
+      <div class="card" style="border:2px solid #e03030;">
+        <h4 style="color:#e03030;">1️⃣ Affichage dans le footer</h4>
+        <p><strong>Où :</strong> Apparence › Personnaliser › Footer<br><br>Contrôle les horaires <em>visibles</em> en bas de chaque page.</p>
+      </div>
+      <div class="card" style="border:2px solid #e03030;">
+        <h4 style="color:#e03030;">2️⃣ Logique du formulaire</h4>
+        <p><strong>Où :</strong> Réservations › Configuration<br><br>Contrôle les jours et heures <em>bloqués</em> dans le formulaire de réservation.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="func">
+  <div class="func-header">🕐 MODIFIER LES HORAIRES DANS LE FOOTER <span class="func-where">Personnaliser › Footer</span></div>
+  <div class="func-body">
+    <ul class="steps">
+      <li><span class="n">1</span><div>Allez dans <strong>Apparence › Personnaliser › Footer</strong></div></li>
+      <li><span class="n">2</span><div>Faites défiler jusqu'aux champs <strong>"Ligne X — Jours"</strong> et <strong>"Ligne X — Horaires"</strong> (5 lignes disponibles)</div></li>
+      <li><span class="n">3</span><div>Modifiez les jours et les heures selon les nouveaux horaires</div></li>
+      <li><span class="n">4</span><div>Cliquez sur <strong>"Publier"</strong></div></li>
+    </ul>
+    <div style="border:1px solid #ddd; border-radius:4px; display:flex; overflow:hidden; margin-top:12px;">
+      <div style="width:200px; background:#fff; border-right:1px solid #ddd; font-size:11px; flex-shrink:0;">
+        <div style="background:#1e1e1e; color:white; padding:8px 12px; font-weight:700; font-size:11px;">▶ Footer</div>
+        <div style="padding:10px 13px; border-bottom:1px solid #eee;">
+          <div style="font-size:10px; color:#999; text-transform:uppercase; letter-spacing:.5px; margin-bottom:6px;">Horaires</div>
+          <div style="background:#fff5f5; border:2px solid #e03030; border-radius:3px; padding:8px;">
+            <div style="font-size:10px; font-weight:700; margin-bottom:5px;">Ligne 1</div>
+            <div style="margin-bottom:4px;"><div style="font-size:9.5px; color:#555;">Jours</div><input value="Lun - Ven" style="width:100%; border:1px solid #ccc; padding:3px 5px; border-radius:2px; font-size:10px;" readonly></div>
+            <div><div style="font-size:9.5px; color:#555;">Horaires</div><input value="12:00 - 14:30 / 19:30 - 22:30" style="width:100%; border:1px solid #ccc; padding:3px 5px; border-radius:2px; font-size:9.5px;" readonly></div>
+          </div>
+          <div style="margin-top:6px; padding:6px; border:1px solid #eee; border-radius:3px;">
+            <div style="font-size:10px; font-weight:700; margin-bottom:4px;">Ligne 2</div>
+            <div style="margin-bottom:3px;"><input value="Sabato" style="width:100%; border:1px solid #ccc; padding:3px 5px; border-radius:2px; font-size:10px;" readonly></div>
+            <div><input value="12:00 - 15:00 / 19:30 - 23:00" style="width:100%; border:1px solid #ccc; padding:3px 5px; border-radius:2px; font-size:9.5px;" readonly></div>
+          </div>
+          <div style="margin-top:6px; padding:6px; border:1px solid #eee; border-radius:3px;">
+            <div style="font-size:10px; font-weight:700; margin-bottom:4px;">Ligne 3</div>
+            <div style="margin-bottom:3px;"><input value="Domenica" style="width:100%; border:1px solid #ccc; padding:3px 5px; border-radius:2px; font-size:10px;" readonly></div>
+            <div><input value="Chiuso" style="width:100%; border:1px solid #ccc; padding:3px 5px; border-radius:2px; font-size:10px;" readonly></div>
+          </div>
+        </div>
+      </div>
+      <div style="flex:1; padding:14px; display:flex; align-items:center; justify-content:center;">
+        <div style="font-size:11px; line-height:2;">
+          <div style="font-weight:700; margin-bottom:8px; font-size:12px;">Aperçu footer :</div>
+          <div style="font-weight:700; margin-bottom:6px; color:#aaa; font-size:10px; text-transform:uppercase;">Orari di apertura</div>
+          <div style="display:flex; justify-content:space-between; gap:24px;"><span>Lun - Ven</span><span>12:00–14:30 / 19:30–22:30</span></div>
+          <div style="display:flex; justify-content:space-between; gap:24px;"><span>Sabato</span><span>12:00–15:00 / 19:30–23:00</span></div>
+          <div style="display:flex; justify-content:space-between; gap:24px;"><span>Domenica</span><span style="color:#e03030; font-weight:700;">Chiuso</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="func">
+  <div class="func-header">🕐 BLOQUER LES CRÉNEAUX DANS LE FORMULAIRE <span class="func-where">Réservations › Configuration</span></div>
+  <div class="func-body">
+    <ul class="steps">
+      <li><span class="n">1</span><div>Allez dans <strong>Réservations › Configuration</strong></div></li>
+      <li><span class="n">2</span><div>"Jours de fermeture" → <strong>cochez</strong> les jours où le restaurant est fermé</div></li>
+      <li><span class="n">3</span><div>"Pause après-midi" → ajustez les heures de fermeture entre les deux services</div></li>
+      <li><span class="n">4</span><div>"Fermeture du soir" → indiquez l'heure limite de réservation</div></li>
+      <li><span class="n">5</span><div>Cliquez sur <strong>"Enregistrer les modifications"</strong></div></li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- ====== CHAPITRE 7 : RÉSUMÉ ====== -->
+<div class="page">
+<div class="ch"><div class="ch-num">7</div><div><h2>Tableau récapitulatif &amp; résolution de problèmes</h2></div></div>
+
+<div class="func">
+  <div class="func-header">🗺️ OÙ TROUVER QUOI — TABLEAU DE NAVIGATION RAPIDE</div>
+  <div class="func-body">
+    <table class="ft">
+      <thead><tr><th>Je veux…</th><th>Je vais dans…</th></tr></thead>
+      <tbody>
+        <tr><td>Changer un texte du site</td><td><strong>Apparence › Personnaliser › Restaurant Theme</strong> (section correspondante)</td></tr>
+        <tr><td>Changer le logo</td><td><strong>Apparence › Personnaliser › Identité du site</strong></td></tr>
+        <tr><td>Uploader une photo</td><td><strong>Médias › Ajouter</strong></td></tr>
+        <tr><td>Changer une image de fond</td><td><strong>Apparence › Personnaliser</strong> → section concernée → "Sélectionner image"</td></tr>
+        <tr><td>Modifier la galerie photos</td><td><strong>Apparence › Personnaliser › Carousel / Galerie</strong></td></tr>
+        <tr><td>Voir toutes les réservations</td><td><strong>Réservations › Toutes les réservations</strong></td></tr>
+        <tr><td>Accepter / refuser une réservation</td><td><strong>Réservations › liste</strong> → cliquer "Voir"</td></tr>
+        <tr><td>Changer les jours de fermeture</td><td><strong>Réservations › Configuration</strong> → Jours de fermeture</td></tr>
+        <tr><td>Changer les horaires du formulaire</td><td><strong>Réservations › Configuration</strong> → Créneaux bloqués</td></tr>
+        <tr><td>Changer les horaires du footer</td><td><strong>Apparence › Personnaliser › Footer</strong> → Lignes horaires</td></tr>
+        <tr><td>Changer l'email de l'expéditeur</td><td><strong>Réservations › Configuration</strong> → Expéditeur des emails</td></tr>
+        <tr><td>Modifier les templates d'email</td><td><strong>Réservations › Configuration</strong> → Onglets 🇮🇹 / 🇬🇧</td></tr>
+        <tr><td>Changer les liens réseaux sociaux</td><td><strong>Apparence › Personnaliser › Réseaux sociaux</strong></td></tr>
+        <tr><td>Changer les couleurs du site</td><td><strong>Apparence › Personnaliser › Couleurs</strong></td></tr>
+        <tr><td>Changer adresse / téléphone / email</td><td><strong>Apparence › Personnaliser › Footer</strong></td></tr>
+        <tr><td>Gérer les traductions anglaises</td><td><strong>Apparence › Personnaliser › 🇬🇧 Traductions English</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="func">
+  <div class="func-header">🔧 RÉSOLUTION DE PROBLÈMES FRÉQUENTS</div>
+  <div class="func-body">
+    <table class="ft">
+      <thead><tr><th style="width:40%">Problème</th><th>Solution</th></tr></thead>
+      <tbody>
+        <tr><td>Je ne reçois plus les emails de notification</td><td>Vérifiez l'email admin dans Réservations › Configuration. Vérifiez aussi vos spams.</td></tr>
+        <tr><td>Les clients ne reçoivent pas les emails</td><td>Allez dans Config. et cliquez "Envoyer un email de test". Si ça échoue, contactez votre hébergeur.</td></tr>
+        <tr><td>J'ai cliqué "Publier" mais rien ne change</td><td>Videz le cache du navigateur : <code>Ctrl + Maj + R</code> (Windows) ou <code>Cmd + Maj + R</code> (Mac).</td></tr>
+        <tr><td>Les horaires du footer ne se mettent pas à jour</td><td>N'oubliez pas de cliquer "Publier" dans le Personnalisateur après modification.</td></tr>
+        <tr><td>Une image ne s'affiche pas</td><td>L'image est peut-être trop petite. Utilisez au minimum 1920×1080 px pour les grands fonds.</td></tr>
+        <tr><td>Je veux supprimer une photo de la galerie</td><td>Dans Personnaliser › Carousel / Galerie, cliquez sur l'image concernée puis "Supprimer". Publiez.</td></tr>
+        <tr><td>Je ne retrouve pas un réglage</td><td>Textes/images : <strong>Apparence › Personnaliser</strong>. Réservations : <strong>Réservations › Configuration</strong>.</td></tr>
+      </tbody>
+    </table>
+    <div class="note" style="margin-top:14px;"><strong>🚫 À ne jamais faire :</strong> ne jamais supprimer ni désactiver le thème "restaurant-theme" ni le plugin "Restaurant Reservation". Ne pas modifier les fichiers via "Apparence › Éditeur de fichiers" sans contacter votre développeur.</div>
+  </div>
+</div>
+
+<div style="text-align:center; margin-top:28px; padding:18px 0; color:#bbb; border-top:1px solid #eee; font-size:11px;">
+  🍽️ Guide d'infogérance — Site Restaurant — Version 1.0 — Juin 2026
+</div>
+</div>
+
+</body>
+</html>
